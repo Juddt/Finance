@@ -79,24 +79,16 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **32 notions publiées de bout en bout**, couvrant les modules M01 (Banques,
-  marchés et fondamentaux, complet — 8/8), M02 (Forwards, futures & matières
-  premières, complet — 7/7), M03 (Obligations, taux & crédit, complet —
-  8/8), M04 (FRA & swaps de taux, complet — 5/5) et M05 (Options vanilles &
-  stratégies, complet — 4/4) — les catégories Taux et crédit (M03+M04) sont
-  donc désormais 100% publiées : `m01-organisation-banque`,
-  `m01-banques-centrales`, `m01-classes-actifs`, `m01-arbitrage`,
-  `m01-vente-decouvert`, `m01-taux-change`, `m01-parite-taux`,
-  `m01-microstructure-rappels`, `m02-forward-future-definitions`,
-  `m02-prix-forward-non-arbitrage`, `m02-forward-vs-future`,
-  `m02-forward-contract-value`, `m02-couverture-forward`,
-  `m02-matieres-premieres`, `m02-contango-backwardation`,
-  `m03-definition-obligations`, `m03-pricing-obligation`, `m03-duration`,
-  `m03-convexite`, `m03-risque-credit`, `m03-cds`, `m03-taux-sans-risque`,
-  `m03-dv01`, `m04-fra`, `m04-swap-fixe-variable`, `m04-pricing-swap`,
-  `m04-mono-multi-courbe`, `m04-dv01-swap`, `m05-call-put`,
-  `m05-itm-atm-otm`, `m05-parite-call-put`, `m05-strategies-classiques`.
-  Chaque cours (`content/lessons/`) respecte la structure
+- **45 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+  des IDs dans `lib/content-registry.ts`), couvrant sept modules désormais
+  complets : M01 Banques/marchés/fondamentaux (8/8), M02 Forwards/futures/
+  matières premières (7/7), M03 Obligations/taux/crédit (8/8), M04 FRA &
+  swaps de taux (5/5), M05 Options vanilles & stratégies (4/4), M06 Brownien
+  & Black-Scholes (7/7), M07 Greeks & couverture dynamique (6/6). Les
+  catégories **Taux et crédit** (M03+M04) et **Fondamentaux → chapitre M01**
+  sont publiées à 100% ; la catégorie **Produits dérivés** (M02+M05+M09+
+  M10+M11) et **Modèles quantitatifs** (M06+M07+M08) sont bien avancées.
+  Chaque cours respecte la structure
   imposée — objectif → intuition → **rappel de prérequis** → **vocabulaire**
   défini avant usage → définition → utilité → exemple → **explication
   alternative** (pour un lecteur bloqué) → formule (KaTeX, variables/unités/
@@ -105,7 +97,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   niveaux de lecture (essentiel toujours visible, démonstration technique
   dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 132
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 184
   templates génèrent des exercices avec des paramètres tirés au hasard
   (montants, taux, dates, scénarios) et **recalculent systématiquement** la
   bonne réponse et l'explication à partir de ces paramètres — changer
@@ -222,7 +214,7 @@ Repris du document de cadrage (section E), toujours vrai pour ce scaffold :
      d'Avellaneda à préciser, à ne pas confondre avec Avellaneda-Stoikov
      (market making).
 2. Les cours/annales de l'utilisateur et les sources autorisées pour aligner
-   exemples, conventions et démonstrations des 65 notions restantes.
+   exemples, conventions et démonstrations des 52 notions restantes.
 3. La stack d'un éventuel site existant à faire évoluer : aucun dépôt de ce
    type n'a été trouvé/inspecté (ce dépôt a été créé vide pour ce projet).
 4. Revue technique et pédagogique de chaque cours rédigé (le contenu de
@@ -274,8 +266,8 @@ components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/Stati
 components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
-content/lessons/              contenu bilingue des 32 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   132 templates de questions à variantes (32 notions), serveur uniquement — sauf build GitHub Pages
+content/lessons/              contenu bilingue des 45 cours publiés (prérequis, vocabulaire, explication alternative)
+content/question-templates/   184 templates de questions à variantes (45 notions), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
