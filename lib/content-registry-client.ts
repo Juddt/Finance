@@ -56,6 +56,17 @@ import { m07GreeksStrategies } from "@/content/lessons/m07-greeks-strategies";
 import { m07DeltaHedging } from "@/content/lessons/m07-delta-hedging";
 import { m07PnlDeltaHedging } from "@/content/lessons/m07-pnl-delta-hedging";
 import { m07VolTargetCppi } from "@/content/lessons/m07-vol-target-cppi";
+import { m08VolatiliteRealisee } from "@/content/lessons/m08-volatilite-realisee";
+import { m08VolatiliteImplicite } from "@/content/lessons/m08-volatilite-implicite";
+import { m08SkewSmileSurface } from "@/content/lessons/m08-skew-smile-surface";
+import { m08FormesSkewSmile } from "@/content/lessons/m08-formes-skew-smile";
+import { m08VarianceSwap } from "@/content/lessons/m08-variance-swap";
+import { m08VolLocaleStochastique } from "@/content/lessons/m08-vol-locale-stochastique";
+import { m09CorrelationRealisee } from "@/content/lessons/m09-correlation-realisee";
+import { m09CorrelationImplicite } from "@/content/lessons/m09-correlation-implicite";
+import { m09Dispersion } from "@/content/lessons/m09-dispersion";
+import { m09PanierWorstBestOf } from "@/content/lessons/m09-panier-worst-best-of";
+import { m09SensibilitesPayoff } from "@/content/lessons/m09-sensibilites-payoff";
 import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
 import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
 import { templates as m02ForwardFutureDefinitionsTemplates } from "@/content/question-templates/m02-forward-future-definitions";
@@ -101,6 +112,17 @@ import { templates as m07GreeksStrategiesTemplates } from "@/content/question-te
 import { templates as m07DeltaHedgingTemplates } from "@/content/question-templates/m07-delta-hedging";
 import { templates as m07PnlDeltaHedgingTemplates } from "@/content/question-templates/m07-pnl-delta-hedging";
 import { templates as m07VolTargetCppiTemplates } from "@/content/question-templates/m07-vol-target-cppi";
+import { templates as m08VolatiliteRealiseeTemplates } from "@/content/question-templates/m08-volatilite-realisee";
+import { templates as m08VolatiliteImpliciteTemplates } from "@/content/question-templates/m08-volatilite-implicite";
+import { templates as m08SkewSmileSurfaceTemplates } from "@/content/question-templates/m08-skew-smile-surface";
+import { templates as m08FormesSkewSmileTemplates } from "@/content/question-templates/m08-formes-skew-smile";
+import { templates as m08VarianceSwapTemplates } from "@/content/question-templates/m08-variance-swap";
+import { templates as m08VolLocaleStochastiqueTemplates } from "@/content/question-templates/m08-vol-locale-stochastique";
+import { templates as m09CorrelationRealiseeTemplates } from "@/content/question-templates/m09-correlation-realisee";
+import { templates as m09CorrelationImpliciteTemplates } from "@/content/question-templates/m09-correlation-implicite";
+import { templates as m09DispersionTemplates } from "@/content/question-templates/m09-dispersion";
+import { templates as m09PanierWorstBestOfTemplates } from "@/content/question-templates/m09-panier-worst-best-of";
+import { templates as m09SensibilitesPayoffTemplates } from "@/content/question-templates/m09-sensibilites-payoff";
 
 export const lessonsByConceptId: Record<string, LessonContent> = {
   "m02-forward-future-definitions": m02ForwardFutureDefinitions,
@@ -148,6 +170,17 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m07-delta-hedging": m07DeltaHedging,
   "m07-pnl-delta-hedging": m07PnlDeltaHedging,
   "m07-vol-target-cppi": m07VolTargetCppi,
+  "m08-volatilite-realisee": m08VolatiliteRealisee,
+  "m08-volatilite-implicite": m08VolatiliteImplicite,
+  "m08-skew-smile-surface": m08SkewSmileSurface,
+  "m08-formes-skew-smile": m08FormesSkewSmile,
+  "m08-variance-swap": m08VarianceSwap,
+  "m08-vol-locale-stochastique": m08VolLocaleStochastique,
+  "m09-correlation-realisee": m09CorrelationRealisee,
+  "m09-correlation-implicite": m09CorrelationImplicite,
+  "m09-dispersion": m09Dispersion,
+  "m09-panier-worst-best-of": m09PanierWorstBestOf,
+  "m09-sensibilites-payoff": m09SensibilitesPayoff,
 };
 
 export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
@@ -196,6 +229,17 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m07-delta-hedging": m07DeltaHedgingTemplates,
   "m07-pnl-delta-hedging": m07PnlDeltaHedgingTemplates,
   "m07-vol-target-cppi": m07VolTargetCppiTemplates,
+  "m08-volatilite-realisee": m08VolatiliteRealiseeTemplates,
+  "m08-volatilite-implicite": m08VolatiliteImpliciteTemplates,
+  "m08-skew-smile-surface": m08SkewSmileSurfaceTemplates,
+  "m08-formes-skew-smile": m08FormesSkewSmileTemplates,
+  "m08-variance-swap": m08VarianceSwapTemplates,
+  "m08-vol-locale-stochastique": m08VolLocaleStochastiqueTemplates,
+  "m09-correlation-realisee": m09CorrelationRealiseeTemplates,
+  "m09-correlation-implicite": m09CorrelationImpliciteTemplates,
+  "m09-dispersion": m09DispersionTemplates,
+  "m09-panier-worst-best-of": m09PanierWorstBestOfTemplates,
+  "m09-sensibilites-payoff": m09SensibilitesPayoffTemplates,
 };
 
 const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();

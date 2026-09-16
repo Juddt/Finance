@@ -7,7 +7,7 @@ export const m09: ConceptDef[] = [
     sourceRef: "M09-1",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Corrélation réalisée", en: "Realized correlation" },
     objective: {
       fr: "Définir et calculer la corrélation réalisée, et en connaître les limites.",
@@ -20,7 +20,7 @@ export const m09: ConceptDef[] = [
     sourceRef: "M09-2",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Corrélation implicite", en: "Implied correlation" },
     objective: {
       fr: "Calculer une corrélation implicite sous hypothèses explicites et l'interpréter.",
@@ -33,7 +33,7 @@ export const m09: ConceptDef[] = [
     sourceRef: "M09-3",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Dispersion", en: "Dispersion" },
     objective: {
       fr: "Définir la dispersion et son lien avec les volatilités et la corrélation.",
@@ -46,7 +46,7 @@ export const m09: ConceptDef[] = [
     sourceRef: "M09-4",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Panier, Worst-Of et Best-Of", en: "Basket, Worst-Of & Best-Of" },
     objective: {
       fr: "Décrire les mécanismes d'un panier, d'un Worst-Of et d'un Best-Of avec des exemples.",
@@ -59,7 +59,7 @@ export const m09: ConceptDef[] = [
     sourceRef: "M09-5",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Sensibilités selon le payoff", en: "Sensitivities by payoff type" },
     objective: {
       fr: "Analyser les sensibilités à la volatilité, la corrélation et la dispersion selon le payoff, sans généraliser les signes.",

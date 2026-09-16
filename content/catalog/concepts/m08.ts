@@ -7,7 +7,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-1",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Volatilité réalisée", en: "Realized volatility" },
     objective: {
       fr: "Calculer la volatilité réalisée : rendements simples/logarithmiques, fréquence, annualisation.",
@@ -20,7 +20,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-2",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Volatilité implicite", en: "Implied volatility" },
     objective: {
       fr: "Extraire une volatilité implicite d'un prix et en connaître les propriétés.",
@@ -33,7 +33,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-3",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Skew, smile et surface de volatilité", en: "Skew, smile & volatility surface" },
     objective: {
       fr: "Décrire skew, smile, structure par terme et surface/nappe de volatilité.",
@@ -46,7 +46,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-4",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Formes courantes du skew equity et du smile FX", en: "Common shapes of equity skew & FX smile" },
     objective: {
       fr: "Étudier les formes courantes du skew equity et du smile FX, en précisant leur dépendance au marché et à la date.",
@@ -59,7 +59,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-5",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Variance swap", en: "Variance swap" },
     objective: {
       fr: "Définir le payoff d'un variance swap, son utilisation, sa réplication et son pricing.",
@@ -86,7 +86,7 @@ export const m08: ConceptDef[] = [
     sourceRef: "M08-7",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Volatilité locale et volatilité stochastique", en: "Local volatility & stochastic volatility" },
     objective: {
       fr: "Comparer principes, calibration, différences, usages et limites des modèles de vol locale et vol stochastique.",
