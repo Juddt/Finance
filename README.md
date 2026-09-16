@@ -105,13 +105,18 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   dépliable avec démonstration — et deux niveaux de lecture (essentiel
   toujours visible, démonstration technique dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 383
-  templates génèrent des exercices avec des paramètres tirés au hasard
-  (montants, taux, dates, scénarios) et **recalculent systématiquement** la
-  bonne réponse et l'explication à partir de ces paramètres — changer
-  l'ordre des réponses ne suffit jamais à faire une nouvelle question. 5
-  formats : QCM, vrai/faux, calcul numérique (tolérance explicite), texte à
-  trous (mots-clés/variantes, jamais une égalité stricte de chaîne) et
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`, fabriques
+  mutualisées dans `lib/question-template-kit.ts` pour les familles
+  qualitatives) : 423 templates (en cours d'enrichissement vers ≥ 12
+  familles réellement distinctes par notion — compréhension, comparaison,
+  raisonnement conditionnel, calcul, erreur fréquente, mises en situation —
+  plutôt qu'une simple variation de chiffres) génèrent des exercices avec
+  des paramètres tirés au hasard (montants, taux, dates, scénarios) et
+  **recalculent systématiquement** la bonne réponse et l'explication à
+  partir de ces paramètres — changer l'ordre des réponses ne suffit jamais
+  à faire une nouvelle question. 5 formats : QCM, vrai/faux, calcul
+  numérique (tolérance explicite), texte à trous (mots-clés/variantes,
+  jamais une égalité stricte de chaîne) et
   lecture de graphique (`components/PayoffChart.tsx`, SVG généré des
   paramètres réels, pas une image décorative). 48 tests vérifient la
   structure et la reproductibilité de chaque template sur 30 seeds.
@@ -271,7 +276,7 @@ components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scr
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   383 templates de questions à variantes (95 notions), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   423 templates de questions à variantes (95 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
