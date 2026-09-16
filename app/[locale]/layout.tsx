@@ -41,18 +41,12 @@ export default async function LocaleLayout({
             </Link>
             <nav className="hidden items-center gap-5 text-sm font-medium text-neutral-600 dark:text-neutral-300 sm:flex">
               <Link href={`/${locale}`}>{dict.nav.courses}</Link>
-              <span aria-disabled="true" className="cursor-not-allowed opacity-50">
-                {dict.nav.revisions}
-              </span>
-              <span aria-disabled="true" className="cursor-not-allowed opacity-50">
-                {dict.nav.quiz}
-              </span>
+              <Link href={`/${locale}/revisions`}>{dict.nav.revisions}</Link>
+              <Link href={`/${locale}/quiz`}>{dict.nav.quiz}</Link>
               <span aria-disabled="true" className="cursor-not-allowed opacity-50">
                 {dict.nav.formulas}
               </span>
-              <span aria-disabled="true" className="cursor-not-allowed opacity-50">
-                {dict.nav.progress}
-              </span>
+              <Link href={`/${locale}/progress`}>{dict.nav.progress}</Link>
             </nav>
             <Suspense fallback={null}>
               <LanguageToggle locale={locale as Locale} label={dict.languageToggle} />

@@ -1,10 +1,14 @@
 import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { chapters, concepts, getConceptById } from "@/content/catalog";
-import { getPublishedConceptIds, questionById, questionsByConceptId, solutionByQuestionId } from "./content-registry";
+import { categories, chapters, concepts, getConceptById } from "@/content/catalog";
+import { templateById, templatesByConceptId } from "./content-registry";
 import { gradeAnswer } from "./grading";
-import type { QuestionPublic, SubmittedAnswer } from "./question-types";
+import { pickNextTemplate, resolveTargetDifficulty, detectDifficultyShift, type SessionAnswerRecord, type DifficultyShift } from "./adaptive-quiz";
+import { mulberry32, randomSeed } from "./prng";
+import { instantiateTemplate, toGeneratedQuestionView, toSolution, type GeneratedQuestion, type GeneratedQuestionView, type Difficulty } from "./question-templates";
+import type { SubmittedAnswer } from "./question-types";
+import { resolveConceptIdsForSpec, sessionLengthToNumber, type SessionSpec } from "./session-spec";
 import { deriveConceptStatus, scheduleReview, type ConceptStatus, type ReviewState } from "./srs";
 
 /**
@@ -24,22 +28,35 @@ interface Profile {
   dailyMinutes: number;
 }
 
+interface AnsweredEntry {
+  templateId: string;
+  isCorrect: boolean;
+  difficulty: Difficulty;
+  /** false pour un "exercice similaire" immédiat : ne compte pas dans la longueur de session. */
+  counted: boolean;
+  answeredAt: string;
+}
+
 interface StudySession {
   id: string;
   userId: string;
-  mode: "course" | "training" | "exam";
   locale: "fr" | "en";
+  spec: SessionSpec;
+  length: number | null;
+  templatePoolIds: string[];
+  answered: AnsweredEntry[];
+  recentTemplateIds: string[];
+  currentInstance: GeneratedQuestion | null;
   startedAt: string;
   completedAt: string | null;
-  questionIds: string[];
 }
 
 interface AttemptRecord {
   id: string;
   userId: string;
   sessionId: string;
-  questionId: string;
-  answer: SubmittedAnswer;
+  instanceId: string;
+  templateId: string;
   isCorrect: boolean;
   score: number;
   answeredAt: string;
@@ -48,7 +65,7 @@ interface AttemptRecord {
 
 interface ReviewCardRecord extends ReviewState {
   userId: string;
-  questionId: string;
+  templateId: string;
   conceptId: string;
 }
 
@@ -63,8 +80,8 @@ interface PersistedData {
   profiles: Record<string, Profile>;
   studySessions: Record<string, StudySession>;
   attempts: Record<string, AttemptRecord>;
-  attemptIdempotency: Record<string, string>; // `${userId}:${clientAttemptKey}` -> attempt id
-  reviewCards: Record<string, ReviewCardRecord>; // `${userId}:${questionId}`
+  attemptIdempotency: Record<string, string>; // `${userId}:${instanceId}` -> attempt id
+  reviewCards: Record<string, ReviewCardRecord>; // `${userId}:${templateId}`
   conceptProgress: Record<string, ConceptProgressRecord>; // `${userId}:${conceptId}`
   bookmarks: Record<string, true>; // `${userId}:${conceptId}`
 }
@@ -169,67 +186,182 @@ function getCategoryIdForConcept(chapterId: string): string | null {
 function progressKey(userId: string, conceptId: string) {
   return `${userId}:${conceptId}`;
 }
-function reviewKey(userId: string, questionId: string) {
-  return `${userId}:${questionId}`;
+function reviewKey(userId: string, templateId: string) {
+  return `${userId}:${templateId}`;
 }
 
-export interface CreateSessionInput {
-  userId: string;
-  mode: "course" | "training" | "exam";
-  locale: "fr" | "en";
-  conceptIds?: string[];
+export interface SessionProgress {
+  index: number;
+  total: number | null;
+  correctCount: number;
 }
 
-export async function createStudySession(input: CreateSessionInput): Promise<{ sessionId: string; questionCount: number }> {
-  const conceptIds = input.conceptIds && input.conceptIds.length > 0 ? input.conceptIds : getPublishedConceptIds();
-  const questionIds = conceptIds.flatMap((id) => (questionsByConceptId[id] ?? []).map((q) => q.id));
-  if (questionIds.length === 0) {
-    throw new RangeError("No published questions for the requested concepts");
-  }
+function computeProgress(session: StudySession): SessionProgress {
+  const counted = session.answered.filter((a) => a.counted);
+  return {
+    index: counted.length,
+    total: session.length,
+    correctCount: counted.filter((a) => a.isCorrect).length,
+  };
+}
+
+function isSessionDone(session: StudySession): boolean {
+  const { index, total } = computeProgress(session);
+  return total !== null && index >= total;
+}
+
+/** Cartes de révision "en échec récent" (au moins un lapse) pour le mode "Revoir mes erreurs". */
+function resolveMistakeTemplateIds(userId: string, data: PersistedData): string[] {
+  return Object.values(data.reviewCards)
+    .filter((c) => c.userId === userId && c.lapses > 0 && templateById[c.templateId])
+    .map((c) => c.templateId);
+}
+
+function resolveTemplatePool(spec: SessionSpec, userId: string, data: PersistedData): string[] {
+  if (spec.mode === "review-mistakes") return resolveMistakeTemplateIds(userId, data);
+  const conceptIds = resolveConceptIdsForSpec(spec, { categories, chapters, concepts });
+  return conceptIds.flatMap((id) => (templatesByConceptId[id] ?? []).map((t) => t.id));
+}
+
+function generateNextQuestion(
+  session: StudySession
+): { instance: GeneratedQuestion; difficultyShift: DifficultyShift } {
+  const pool = session.templatePoolIds.map((id) => templateById[id]).filter(Boolean);
+  if (pool.length === 0) throw new RangeError("Empty template pool for session");
+
+  const history: SessionAnswerRecord[] = session.answered.map((a) => ({
+    templateId: a.templateId,
+    isCorrect: a.isCorrect,
+    difficulty: a.difficulty,
+  }));
+  const previousDifficulty = resolveTargetDifficulty(history);
+
+  const rng = mulberry32(randomSeed());
+  const template = pickNextTemplate(pool, history, rng, session.recentTemplateIds);
+  const instance = instantiateTemplate(template, rng, randomUUID());
+  const difficultyShift = detectDifficultyShift(previousDifficulty, instance.difficulty);
+
+  return { instance, difficultyShift };
+}
+
+export interface CreateSessionResult {
+  sessionId: string;
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  empty: boolean;
+}
+
+export async function createStudySession(userId: string, locale: "fr" | "en", spec: SessionSpec): Promise<CreateSessionResult> {
   return withWriteLock((data) => {
+    const templatePoolIds = resolveTemplatePool(spec, userId, data);
     const id = randomUUID();
-    data.studySessions[id] = {
+
+    if (templatePoolIds.length === 0) {
+      const session: StudySession = {
+        id,
+        userId,
+        locale,
+        spec,
+        length: 0,
+        templatePoolIds: [],
+        answered: [],
+        recentTemplateIds: [],
+        currentInstance: null,
+        startedAt: new Date().toISOString(),
+        completedAt: new Date().toISOString(),
+      };
+      data.studySessions[id] = session;
+      return { sessionId: id, question: null, progress: { index: 0, total: 0, correctCount: 0 }, empty: true };
+    }
+
+    const length = spec.mode === "concept" ? templatePoolIds.length : sessionLengthToNumber(spec.length);
+    const session: StudySession = {
       id,
-      userId: input.userId,
-      mode: input.mode,
-      locale: input.locale,
+      userId,
+      locale,
+      spec,
+      length,
+      templatePoolIds,
+      answered: [],
+      recentTemplateIds: [],
+      currentInstance: null,
       startedAt: new Date().toISOString(),
       completedAt: null,
-      questionIds,
     };
-    return { sessionId: id, questionCount: questionIds.length };
+
+    const { instance } = generateNextQuestion(session);
+    session.currentInstance = instance;
+    session.recentTemplateIds = [instance.templateId, ...session.recentTemplateIds].slice(0, 2);
+    data.studySessions[id] = session;
+
+    return {
+      sessionId: id,
+      question: toGeneratedQuestionView(instance, locale),
+      progress: computeProgress(session),
+      empty: false,
+    };
   });
 }
 
-export interface SessionItemView {
-  questionId: string;
-  question: QuestionPublic;
+export interface NextQuestionResult {
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  done: boolean;
+  difficultyShift: DifficultyShift;
 }
 
-export async function getSessionItems(userId: string, sessionId: string): Promise<SessionItemView[]> {
-  const data = await readData();
-  const session = data.studySessions[sessionId];
-  if (!session || session.userId !== userId) {
-    throw new RangeError("Session not found for this user");
-  }
-  return session.questionIds
-    .map((qid) => questionById[qid])
-    .filter((q): q is QuestionPublic => Boolean(q))
-    .map((question) => ({ questionId: question.id, question: stripToLocale(question) }));
+export async function getNextQuestion(userId: string, sessionId: string): Promise<NextQuestionResult> {
+  return withWriteLock((data) => {
+    const session = data.studySessions[sessionId];
+    if (!session || session.userId !== userId) throw new RangeError("Session not found for this user");
+
+    if (isSessionDone(session)) {
+      session.completedAt = session.completedAt ?? new Date().toISOString();
+      return { question: null, progress: computeProgress(session), done: true, difficultyShift: null };
+    }
+
+    const { instance, difficultyShift } = generateNextQuestion(session);
+    session.currentInstance = instance;
+    session.recentTemplateIds = [instance.templateId, ...session.recentTemplateIds].slice(0, 2);
+
+    return {
+      question: toGeneratedQuestionView(instance, session.locale),
+      progress: computeProgress(session),
+      done: false,
+      difficultyShift,
+    };
+  });
 }
 
-function stripToLocale(q: QuestionPublic): QuestionPublic {
-  // Les deux langues sont déjà présentes dans Bi ; le tri par locale se fait à l'affichage.
-  return q;
+export interface SimilarQuestionResult {
+  question: GeneratedQuestionView;
+}
+
+/** Regénère une variante du même template que la question courante — l'"exercice similaire" après correction. */
+export async function getSimilarQuestion(userId: string, sessionId: string): Promise<SimilarQuestionResult> {
+  return withWriteLock((data) => {
+    const session = data.studySessions[sessionId];
+    if (!session || session.userId !== userId) throw new RangeError("Session not found for this user");
+    if (!session.currentInstance) throw new RangeError("No current question to build a similar exercise from");
+
+    const template = templateById[session.currentInstance.templateId];
+    if (!template) throw new RangeError("Unknown template");
+
+    const rng = mulberry32(randomSeed());
+    const instance = instantiateTemplate(template, rng, randomUUID());
+    session.currentInstance = instance;
+
+    return { question: toGeneratedQuestionView(instance, session.locale) };
+  });
 }
 
 export interface AttemptInput {
   userId: string;
   sessionId: string;
-  questionId: string;
-  clientAttemptKey: string;
+  instanceId: string;
   answer: SubmittedAnswer;
   durationMs: number;
+  counted: boolean;
   timezone: string;
 }
 
@@ -241,6 +373,8 @@ export interface AttemptResult {
   conceptStatus: ConceptStatus;
   nextDueAt: string | null;
   requeueAtSessionEnd: boolean;
+  progress: SessionProgress;
+  done: boolean;
 }
 
 export async function submitAttempt(input: AttemptInput): Promise<AttemptResult> {
@@ -249,27 +383,28 @@ export async function submitAttempt(input: AttemptInput): Promise<AttemptResult>
     if (!session || session.userId !== input.userId) {
       throw new RangeError("Session not found for this user");
     }
-    if (!session.questionIds.includes(input.questionId)) {
-      throw new RangeError("Question does not belong to this session");
+    if (!session.currentInstance || session.currentInstance.instanceId !== input.instanceId) {
+      throw new RangeError("This question is not the session's current question");
     }
+    const instance = session.currentInstance;
 
-    const idempotencyKey = `${input.userId}:${input.clientAttemptKey}`;
+    const idempotencyKey = `${input.userId}:${input.instanceId}`;
     const existingAttemptId = data.attemptIdempotency[idempotencyKey];
-    const question = questionById[input.questionId];
-    const solution = solutionByQuestionId[input.questionId];
-    if (!question || !solution) throw new RangeError("Unknown question");
+    const solution = toSolution(instance);
 
     let attempt: AttemptRecord;
+    let alreadyAnswered = false;
     if (existingAttemptId && data.attempts[existingAttemptId]) {
       attempt = data.attempts[existingAttemptId];
+      alreadyAnswered = true;
     } else {
       const graded = gradeAnswer(solution, input.answer);
       attempt = {
         id: randomUUID(),
         userId: input.userId,
         sessionId: input.sessionId,
-        questionId: input.questionId,
-        answer: input.answer,
+        instanceId: input.instanceId,
+        templateId: instance.templateId,
         isCorrect: graded.isCorrect,
         score: graded.score,
         answeredAt: new Date().toISOString(),
@@ -279,32 +414,51 @@ export async function submitAttempt(input: AttemptInput): Promise<AttemptResult>
       data.attemptIdempotency[idempotencyKey] = attempt.id;
     }
 
-    const rKey = reviewKey(input.userId, input.questionId);
-    const previousCard = data.reviewCards[rKey] ?? null;
-    const { progress, requeueAtSessionEnd } = scheduleReview(
-      previousCard,
-      attempt.isCorrect,
-      new Date(attempt.answeredAt),
-      input.timezone
-    );
-    data.reviewCards[rKey] = {
-      ...progress,
-      userId: input.userId,
-      questionId: input.questionId,
-      conceptId: question.conceptId,
-    };
+    // Idempotence : une même instanceId ne doit être notée (SRS, progression, longueur de
+    // session) qu'une seule fois, même si submitAttempt est rappelée (double-clic, retry réseau).
+    let status: ConceptStatus;
+    let nextDueAt: string | null;
+    let requeueAtSessionEnd: boolean;
 
-    const conceptQuestionIds = (questionsByConceptId[question.conceptId] ?? []).map((q) => q.id);
-    const cardsForConcept = conceptQuestionIds
-      .map((qid) => data.reviewCards[reviewKey(input.userId, qid)])
-      .filter((c): c is ReviewCardRecord => Boolean(c));
-    const status = deriveConceptStatus(cardsForConcept, new Date(attempt.answeredAt));
-    data.conceptProgress[progressKey(input.userId, question.conceptId)] = {
-      userId: input.userId,
-      conceptId: question.conceptId,
-      status,
-      lastStudiedAt: attempt.answeredAt,
-    };
+    if (!alreadyAnswered) {
+      const rKey = reviewKey(input.userId, instance.templateId);
+      const previousCard = data.reviewCards[rKey] ?? null;
+      const scheduled = scheduleReview(previousCard, attempt.isCorrect, new Date(attempt.answeredAt), input.timezone);
+      data.reviewCards[rKey] = {
+        ...scheduled.progress,
+        userId: input.userId,
+        templateId: instance.templateId,
+        conceptId: instance.conceptId,
+      };
+      nextDueAt = scheduled.progress.dueAt;
+      requeueAtSessionEnd = scheduled.requeueAtSessionEnd;
+
+      const conceptTemplateIds = (templatesByConceptId[instance.conceptId] ?? []).map((t) => t.id);
+      const cardsForConcept = conceptTemplateIds
+        .map((tid) => data.reviewCards[reviewKey(input.userId, tid)])
+        .filter((c): c is ReviewCardRecord => Boolean(c));
+      status = deriveConceptStatus(cardsForConcept, new Date(attempt.answeredAt));
+      data.conceptProgress[progressKey(input.userId, instance.conceptId)] = {
+        userId: input.userId,
+        conceptId: instance.conceptId,
+        status,
+        lastStudiedAt: attempt.answeredAt,
+      };
+
+      session.answered.push({
+        templateId: instance.templateId,
+        isCorrect: attempt.isCorrect,
+        difficulty: instance.difficulty,
+        counted: input.counted,
+        answeredAt: attempt.answeredAt,
+      });
+    } else {
+      status = data.conceptProgress[progressKey(input.userId, instance.conceptId)]?.status ?? "to-discover";
+      nextDueAt = data.reviewCards[reviewKey(input.userId, instance.templateId)]?.dueAt ?? null;
+      requeueAtSessionEnd = false;
+    }
+    const done = isSessionDone(session);
+    if (done) session.completedAt = session.completedAt ?? new Date().toISOString();
 
     return {
       isCorrect: attempt.isCorrect,
@@ -312,8 +466,10 @@ export async function submitAttempt(input: AttemptInput): Promise<AttemptResult>
       calculation: solution.calculation?.[session.locale],
       commonMistake: solution.commonMistake[session.locale],
       conceptStatus: status,
-      nextDueAt: progress.dueAt,
+      nextDueAt,
       requeueAtSessionEnd,
+      progress: computeProgress(session),
+      done,
     };
   });
 }
@@ -335,6 +491,22 @@ export async function getDueReviews(userId: string, now: Date): Promise<DueRevie
     result.push({ conceptId: card.conceptId, dueAt: card.dueAt });
   }
   return result.sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt));
+}
+
+export async function hasMistakesToReview(userId: string): Promise<boolean> {
+  const data = await readData();
+  return resolveMistakeTemplateIds(userId, data).length > 0;
+}
+
+/** Statut par notion (à découvrir/en cours/fragile/maîtrisée/à réactiver) — voir doc section 5. */
+export async function getConceptProgressMap(userId: string): Promise<Record<string, ConceptStatus>> {
+  const data = await readData();
+  const result: Record<string, ConceptStatus> = {};
+  for (const [key, record] of Object.entries(data.conceptProgress)) {
+    if (!key.startsWith(`${userId}:`)) continue;
+    result[record.conceptId] = record.status;
+  }
+  return result;
 }
 
 export async function toggleBookmark(userId: string, conceptId: string): Promise<boolean> {

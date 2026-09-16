@@ -1,41 +1,50 @@
 "use client";
 
 import type { Locale } from "@/i18n/config";
-import type { QuestionView } from "@/lib/question-types";
-import { QuizShell, type AttemptResponse, type QuizBackend, type QuizDict } from "./QuizShell";
+import type { SessionSpec } from "@/lib/session-spec";
+import { QuizShell, type QuizBackend, type QuizDict } from "./QuizShell";
 
 /** Build normal (npm run dev / npm run build) : correction via les route handlers serveur. */
 export function QuizRunner({
-  conceptId,
+  spec,
   locale,
-  questions,
   dict,
+  emptyMessage,
 }: {
-  conceptId: string;
+  spec: SessionSpec;
   locale: Locale;
-  questions: QuestionView[];
   dict: QuizDict;
+  emptyMessage?: string;
 }) {
   const backend: QuizBackend = {
-    async createSession() {
+    async start() {
       const res = await fetch("/api/study-sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "course", locale, conceptIds: [conceptId] }),
+        body: JSON.stringify({ spec, locale }),
       });
-      const data = await res.json();
-      return data.sessionId as string;
+      return res.json();
     },
-    async submitAttempt({ sessionId, questionId, clientAttemptKey, answer, durationMs }) {
+    async submitAttempt({ sessionId, instanceId, answer, durationMs, counted }) {
       const res = await fetch(`/api/study-sessions/${sessionId}/attempts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questionId, clientAttemptKey, answer, durationMs }),
+        body: JSON.stringify({ instanceId, answer, durationMs, counted }),
       });
       if (!res.ok) throw new Error("attempt_failed");
-      return (await res.json()) as AttemptResponse;
+      return res.json();
+    },
+    async next(sessionId) {
+      const res = await fetch(`/api/study-sessions/${sessionId}/next`, { method: "POST" });
+      if (!res.ok) throw new Error("next_failed");
+      return res.json();
+    },
+    async similar(sessionId) {
+      const res = await fetch(`/api/study-sessions/${sessionId}/similar`, { method: "POST" });
+      if (!res.ok) throw new Error("similar_failed");
+      return res.json();
     },
   };
 
-  return <QuizShell locale={locale} questions={questions} dict={dict} backend={backend} />;
+  return <QuizShell locale={locale} dict={dict} backend={backend} emptyMessage={emptyMessage} />;
 }

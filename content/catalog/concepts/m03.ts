@@ -33,7 +33,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-3",
     level: "essential",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Duration de Macaulay et duration modifiée", en: "Macaulay duration & modified duration" },
     objective: {
       fr: "Calculer et interpréter la duration de Macaulay et la duration modifiée d'une obligation.",
@@ -59,7 +59,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-5",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Risque de crédit et notation", en: "Credit risk & ratings" },
     objective: {
       fr: "Expliquer le risque de crédit, le rôle des agences de notation et les limites des notations.",

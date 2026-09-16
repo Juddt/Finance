@@ -18,6 +18,10 @@ function parseAnswer(body: unknown): SubmittedAnswer {
     }
     return { kind: "numeric", value: answer.value };
   }
+  if (answer.kind === "fill_blank") {
+    if (typeof answer.text !== "string") throw new RangeError("Missing text");
+    return { kind: "fill_blank", text: answer.text };
+  }
   throw new RangeError("Unsupported answer kind");
 }
 
@@ -27,7 +31,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!userId) return NextResponse.json({ error: "no_session" }, { status: 401 });
 
   const body = await request.json().catch(() => null);
-  if (!body || typeof body.questionId !== "string" || typeof body.clientAttemptKey !== "string") {
+  if (!body || typeof body.instanceId !== "string") {
     return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
 
@@ -39,16 +43,17 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   }
 
   const durationMs = typeof body.durationMs === "number" && body.durationMs >= 0 ? body.durationMs : 0;
+  const counted = body.counted !== false;
   const profile = await getProfile(userId);
 
   try {
     const result = await submitAttempt({
       userId,
       sessionId,
-      questionId: body.questionId,
-      clientAttemptKey: body.clientAttemptKey,
+      instanceId: body.instanceId,
       answer,
       durationMs,
+      counted,
       timezone: profile.timezone,
     });
     return NextResponse.json(result);

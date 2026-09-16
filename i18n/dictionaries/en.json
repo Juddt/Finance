@@ -30,6 +30,9 @@
     "definition": "Definition",
     "utility": "Why it matters",
     "example": "Worked example",
+    "prerequisiteReminder": "Before you continue",
+    "glossary": "Vocabulary",
+    "alternativeExplanation": "Still stuck? Another way to see it",
     "formula": "Key formula",
     "variables": "Variables, units and assumptions",
     "calculation": "Detailed calculation",
@@ -37,12 +40,20 @@
     "pitfalls": "Pitfalls",
     "keyPoints": "Three takeaways",
     "advanced": "Go deeper / proof",
-    "startQuiz": "Start the mini-quiz",
+    "startQuiz": "This concept's mini-quiz",
     "essential": "Essential",
-    "minutes": "min"
+    "minutes": "min",
+    "chapterQuizLink": "Chapter quiz",
+    "categoryQuizLink": "Category quiz"
   },
   "quiz": {
     "questionOf": "Question {current} of {total}",
+    "questionCount": "Question {current}",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
     "validate": "Submit",
     "next": "Next question",
     "finish": "Finish",
@@ -52,10 +63,57 @@
     "calculation": "Calculation",
     "commonMistake": "Common mistake",
     "hint": "Hint",
+    "showHint": "Show hint",
+    "showSolution": "Show solution",
+    "similarExercise": "Try a similar exercise",
     "numericPlaceholder": "Your answer",
+    "fillBlankPlaceholder": "Your answer",
     "backToLesson": "Back to the lesson",
+    "backToQuizHub": "Back to quizzes",
     "sessionDone": "Session complete",
-    "nextReview": "Next review"
+    "sessionDoneSummary": "{correct} / {total} correct",
+    "nextReview": "Next review",
+    "continueSession": "Next question",
+    "endSession": "Stop here",
+    "difficultyAdjustedUp": "You're doing well: harder questions from now on.",
+    "difficultyAdjustedDown": "Let's slow down a bit on this concept.",
+    "reviewChartLabel": "Underlying at maturity"
+  },
+  "quizHub": {
+    "title": "Practice",
+    "subtitle": "Mini-quiz, chapter or category quiz, custom mix, or revisit your mistakes. Unlimited sessions.",
+    "chooseLength": "Session length",
+    "length5": "5 questions",
+    "length10": "10 questions",
+    "length20": "20 questions",
+    "lengthContinuous": "Continuous",
+    "startButton": "Start",
+    "chapterQuiz": "Quiz by chapter",
+    "categoryQuiz": "Full category quiz",
+    "customQuiz": "Custom quiz",
+    "customQuizDescription": "Pick which categories to mix.",
+    "reviewMistakes": "Review my mistakes",
+    "reviewMistakesDescription": "Only concepts you recently got wrong.",
+    "reviewMistakesEmpty": "No recent mistakes to review — well done. Come back after a few sessions.",
+    "noQuestionsYet": "No published questions here yet.",
+    "selectCategories": "Categories to include",
+    "questionsAvailable": "{count} questions available"
+  },
+  "revisionsPage": {
+    "title": "Reviews due",
+    "subtitle": "Concepts due for review now, based on spaced repetition.",
+    "empty": "Nothing due right now. Come back after studying a few concepts.",
+    "dueSince": "due since {date}",
+    "reviewNow": "Review now"
+  },
+  "progressPage": {
+    "title": "My progress",
+    "subtitle": "By category: concepts studied and mastered.",
+    "statusToDiscover": "To discover",
+    "statusInProgress": "In progress",
+    "statusFragile": "Fragile",
+    "statusMastered": "Mastered",
+    "statusToReactivate": "To reactivate"
   },
   "footer": {
     "notAppRealSite": "Educational prototype — see README for current status."

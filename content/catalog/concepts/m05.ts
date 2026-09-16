@@ -7,7 +7,7 @@ export const m05: ConceptDef[] = [
     sourceRef: "M05-1",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Call et put : propriétés et payoff", en: "Call & put: properties and payoff" },
     objective: {
       fr: "Décrire droits/obligations, positions longues/courtes, payoff et profit net de prime d'un call et d'un put.",

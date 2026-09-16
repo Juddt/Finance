@@ -8,6 +8,29 @@ import type { LessonContent } from "@/lib/lesson-types";
  */
 export const m02ForwardContractValue: LessonContent = {
   conceptId: "m02-forward-contract-value",
+  prerequisiteReminder: {
+    text: {
+      fr: "Il faut déjà savoir ce qu'est un forward (position longue/courte, prix de livraison, payoff) avant d'aborder sa valeur en cours de vie.",
+      en: "You should already know what a forward is (long/short position, delivery price, payoff) before tackling its value mid-life.",
+    },
+    conceptIds: ["m02-forward-future-definitions"],
+  },
+  glossary: [
+    {
+      term: { fr: "Actualiser", en: "Discount" },
+      definition: {
+        fr: "Convertir une somme future en sa valeur équivalente aujourd'hui, en tenant compte du taux d'intérêt : 100€ dans un an valent moins de 100€ aujourd'hui.",
+        en: "Converting a future amount into its equivalent value today, accounting for interest: €100 in a year is worth less than €100 today.",
+      },
+    },
+    {
+      term: { fr: "Absence d'arbitrage", en: "No-arbitrage" },
+      definition: {
+        fr: "L'hypothèse qu'on ne peut pas gagner de l'argent sans risque et sans mise de fonds initiale — deux portefeuilles qui donnent le même résultat futur doivent avoir la même valeur aujourd'hui.",
+        en: "The assumption that you cannot make risk-free money with no initial investment — two portfolios giving the same future outcome must have the same value today.",
+      },
+    },
+  ],
   intuition: {
     fr: "Le prix de livraison est figé pour toute la vie du contrat, mais le prix forward de marché bouge : leur écart, actualisé, donne la valeur du contrat.",
     en: "The delivery price is frozen for the life of the contract, but the market forward price moves: their discounted gap is the contract's value.",
@@ -23,6 +46,10 @@ export const m02ForwardContractValue: LessonContent = {
   example: {
     fr: "Un exportateur conclut aujourd'hui (t = 0) un forward de vente d'EUR/USD à 3 mois, prix de livraison K = 1,0800 (égal au prix forward de marché F(0) à cette date : la valeur initiale est donc nulle, hors frais). Un mois plus tard, le prix forward de marché à 2 mois est passé à F(t) = 1,1000 : son contrat, lui, reste fixé à K = 1,0800. Sa position (vendeuse à terme) a perdu de la valeur car le marché est prêt à vendre plus cher que son prix contractuel.",
     en: "An exporter enters today (t = 0) into a 3-month EUR/USD sell forward, delivery price K = 1.0800 (equal to the market forward price F(0) on that date: the initial value is therefore zero, ignoring fees). One month later, the 2-month market forward price has moved to F(t) = 1.1000: their contract, however, stays fixed at K = 1.0800. Their (short forward) position has lost value because the market is now willing to sell at a higher price than their contractual price.",
+  },
+  alternativeExplanation: {
+    fr: "Imaginez deux amis qui ont réservé le même modèle de voiture chez le même concessionnaire, livraison dans 2 mois : l'un a signé le contrat il y a 3 mois à 20 000 €, l'autre le signe aujourd'hui au prix actuel de 21 000 €. Le contrat du premier « vaut » maintenant 1 000 € de plus que celui du second (actualisés), même si personne n'a encore payé ni livré la voiture : c'est exactement la logique de V_t.",
+    en: "Picture two friends who both reserved the same car model at the same dealer, delivery in 2 months: one signed the contract 3 months ago at €20,000, the other signs today at the current price of €21,000. The first contract is now \"worth\" €1,000 more than the second (discounted), even though no one has paid or delivered the car yet: that's exactly the logic behind V_t.",
   },
   formula: {
     latex: "V_t^{\\text{long}} = \\left(F_t - K\\right) e^{-r(T-t)}",

@@ -1,19 +1,31 @@
 /**
  * Moteur de quiz 100% client, utilisé uniquement par le build statique
  * GitHub Pages (voir lib/content-registry-client.ts et README). Rejoue en
- * local, dans le navigateur, exactement la même logique que le serveur
- * (lib/store.ts) : gradeAnswer + scheduleReview + deriveConceptStatus, mais
- * persiste dans localStorage au lieu d'une base de données — donc par
- * navigateur, sans synchronisation entre appareils, et effacé si le visiteur
- * vide ses données de site.
+ * local, dans le navigateur, la même logique que le serveur (lib/store.ts) :
+ * sélection adaptative + gradeAnswer + scheduleReview + deriveConceptStatus,
+ * mais persiste la progression durable (cartes de révision, statut des
+ * notions) dans localStorage — par navigateur, sans synchronisation entre
+ * appareils. Les sessions de quiz elles-mêmes sont éphémères (en mémoire,
+ * le temps de la page), comme côté serveur.
  */
-import { concepts } from "@/content/catalog";
+import { categories, chapters, concepts } from "@/content/catalog";
+import { detectDifficultyShift, pickNextTemplate, resolveTargetDifficulty, type DifficultyShift, type SessionAnswerRecord } from "./adaptive-quiz";
+import { templateById, templatesByConceptId } from "./content-registry-client";
 import { gradeAnswer } from "./grading";
-import { questionById, questionsByConceptId, solutionByQuestionId } from "./content-registry-client";
+import { mulberry32, randomSeed } from "./prng";
+import {
+  instantiateTemplate,
+  toGeneratedQuestionView,
+  toSolution,
+  type Difficulty,
+  type GeneratedQuestion,
+  type GeneratedQuestionView,
+} from "./question-templates";
 import type { SubmittedAnswer } from "./question-types";
+import { resolveConceptIdsForSpec, sessionLengthToNumber, type SessionSpec } from "./session-spec";
 import { deriveConceptStatus, scheduleReview, type ConceptStatus, type ReviewState } from "./srs";
 
-const STORAGE_KEY = "finance-academy:progress:v1";
+const STORAGE_KEY = "finance-academy:progress:v2";
 
 interface LocalReviewCard extends ReviewState {
   conceptId: string;
@@ -27,9 +39,9 @@ interface CachedAttempt {
 }
 
 interface LocalData {
-  reviewCards: Record<string, LocalReviewCard>; // questionId -> card
+  reviewCards: Record<string, LocalReviewCard>; // templateId -> card
   conceptProgress: Record<string, ConceptStatus>; // conceptId -> status
-  attemptCache: Record<string, CachedAttempt>; // clientAttemptKey -> résultat (idempotence)
+  attemptCache: Record<string, CachedAttempt>; // instanceId -> résultat (idempotence)
 }
 
 function emptyData(): LocalData {
@@ -56,18 +68,157 @@ function saveData(data: LocalData): void {
   }
 }
 
+interface AnsweredEntry {
+  templateId: string;
+  isCorrect: boolean;
+  difficulty: Difficulty;
+  counted: boolean;
+}
+
+interface LocalSession {
+  id: string;
+  locale: "fr" | "en";
+  length: number | null;
+  templatePoolIds: string[];
+  answered: AnsweredEntry[];
+  recentTemplateIds: string[];
+  currentInstance: GeneratedQuestion | null;
+}
+
+// Sessions éphémères, en mémoire pour la durée de la page (pas de backend à interroger).
+const sessions = new Map<string, LocalSession>();
+
 export function createLocalSessionId(): string {
   return typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
     : `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
+export interface SessionProgress {
+  index: number;
+  total: number | null;
+  correctCount: number;
+}
+
+function computeProgress(session: LocalSession): SessionProgress {
+  const counted = session.answered.filter((a) => a.counted);
+  return { index: counted.length, total: session.length, correctCount: counted.filter((a) => a.isCorrect).length };
+}
+
+function isSessionDone(session: LocalSession): boolean {
+  const { index, total } = computeProgress(session);
+  return total !== null && index >= total;
+}
+
+function resolveMistakeTemplateIds(data: LocalData): string[] {
+  return Object.entries(data.reviewCards)
+    .filter(([templateId, card]) => card.lapses > 0 && templateById[templateId])
+    .map(([templateId]) => templateId);
+}
+
+function resolveTemplatePool(spec: SessionSpec, data: LocalData): string[] {
+  if (spec.mode === "review-mistakes") return resolveMistakeTemplateIds(data);
+  const conceptIds = resolveConceptIdsForSpec(spec, { categories, chapters, concepts });
+  return conceptIds.flatMap((id) => (templatesByConceptId[id] ?? []).map((t) => t.id));
+}
+
+function generateNextQuestion(session: LocalSession): { instance: GeneratedQuestion; difficultyShift: DifficultyShift } {
+  const pool = session.templatePoolIds.map((id) => templateById[id]).filter(Boolean);
+  if (pool.length === 0) throw new RangeError("Empty template pool for session");
+
+  const history: SessionAnswerRecord[] = session.answered.map((a) => ({
+    templateId: a.templateId,
+    isCorrect: a.isCorrect,
+    difficulty: a.difficulty,
+  }));
+  const previousDifficulty = resolveTargetDifficulty(history);
+
+  const rng = mulberry32(randomSeed());
+  const template = pickNextTemplate(pool, history, rng, session.recentTemplateIds);
+  const instance = instantiateTemplate(template, rng, createLocalSessionId());
+  const difficultyShift = detectDifficultyShift(previousDifficulty, instance.difficulty);
+
+  return { instance, difficultyShift };
+}
+
+export interface CreateSessionResult {
+  sessionId: string;
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  empty: boolean;
+}
+
+export function createLocalSession(locale: "fr" | "en", spec: SessionSpec): CreateSessionResult {
+  const data = loadData();
+  const templatePoolIds = resolveTemplatePool(spec, data);
+  const id = createLocalSessionId();
+
+  if (templatePoolIds.length === 0) {
+    sessions.set(id, { id, locale, length: 0, templatePoolIds: [], answered: [], recentTemplateIds: [], currentInstance: null });
+    return { sessionId: id, question: null, progress: { index: 0, total: 0, correctCount: 0 }, empty: true };
+  }
+
+  const length = spec.mode === "concept" ? templatePoolIds.length : sessionLengthToNumber(spec.length);
+  const session: LocalSession = {
+    id,
+    locale,
+    length,
+    templatePoolIds,
+    answered: [],
+    recentTemplateIds: [],
+    currentInstance: null,
+  };
+  const { instance } = generateNextQuestion(session);
+  session.currentInstance = instance;
+  session.recentTemplateIds = [instance.templateId, ...session.recentTemplateIds].slice(0, 2);
+  sessions.set(id, session);
+
+  return { sessionId: id, question: toGeneratedQuestionView(instance, locale), progress: computeProgress(session), empty: false };
+}
+
+export interface NextQuestionResult {
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  done: boolean;
+  difficultyShift: DifficultyShift;
+}
+
+export function getLocalNextQuestion(sessionId: string): NextQuestionResult {
+  const session = sessions.get(sessionId);
+  if (!session) throw new RangeError("Unknown session");
+
+  if (isSessionDone(session)) {
+    return { question: null, progress: computeProgress(session), done: true, difficultyShift: null };
+  }
+
+  const { instance, difficultyShift } = generateNextQuestion(session);
+  session.currentInstance = instance;
+  session.recentTemplateIds = [instance.templateId, ...session.recentTemplateIds].slice(0, 2);
+
+  return { question: toGeneratedQuestionView(instance, session.locale), progress: computeProgress(session), done: false, difficultyShift };
+}
+
+export function getLocalSimilarQuestion(sessionId: string): { question: GeneratedQuestionView } {
+  const session = sessions.get(sessionId);
+  if (!session) throw new RangeError("Unknown session");
+  if (!session.currentInstance) throw new RangeError("No current question to build a similar exercise from");
+
+  const template = templateById[session.currentInstance.templateId];
+  if (!template) throw new RangeError("Unknown template");
+
+  const rng = mulberry32(randomSeed());
+  const instance = instantiateTemplate(template, rng, createLocalSessionId());
+  session.currentInstance = instance;
+
+  return { question: toGeneratedQuestionView(instance, session.locale) };
+}
+
 export interface LocalAttemptInput {
-  questionId: string;
-  clientAttemptKey: string;
+  sessionId: string;
+  instanceId: string;
   answer: SubmittedAnswer;
-  locale: "fr" | "en";
   timezone: string;
+  counted: boolean;
 }
 
 export interface LocalAttemptResult {
@@ -78,55 +229,104 @@ export interface LocalAttemptResult {
   conceptStatus: ConceptStatus;
   nextDueAt: string | null;
   requeueAtSessionEnd: boolean;
+  progress: SessionProgress;
+  done: boolean;
 }
 
 export function submitLocalAttempt(input: LocalAttemptInput): LocalAttemptResult {
+  const session = sessions.get(input.sessionId);
+  if (!session) throw new RangeError("Unknown session");
+  if (!session.currentInstance || session.currentInstance.instanceId !== input.instanceId) {
+    throw new RangeError("This question is not the session's current question");
+  }
+  const instance = session.currentInstance;
   const data = loadData();
-  const question = questionById[input.questionId];
-  const solution = solutionByQuestionId[input.questionId];
-  if (!question || !solution) throw new RangeError("Unknown question");
 
-  let cached = data.attemptCache[input.clientAttemptKey];
-  if (!cached) {
+  // Idempotence : une même instanceId ne doit être notée (SRS, progression, longueur de
+  // session) qu'une seule fois, même si submitLocalAttempt est rappelée (double-clic, retry).
+  const existingCache = data.attemptCache[input.instanceId];
+  const isFirstSubmission = !existingCache;
+
+  let cached: CachedAttempt;
+  if (existingCache) {
+    cached = existingCache;
+  } else {
+    const solution = toSolution(instance);
     const graded = gradeAnswer(solution, input.answer);
     cached = {
       isCorrect: graded.isCorrect,
-      explanation: solution.explanation[input.locale],
-      calculation: solution.calculation?.[input.locale],
-      commonMistake: solution.commonMistake[input.locale],
+      explanation: solution.explanation[session.locale],
+      calculation: solution.calculation?.[session.locale],
+      commonMistake: solution.commonMistake[session.locale],
     };
-    data.attemptCache[input.clientAttemptKey] = cached;
+    data.attemptCache[input.instanceId] = cached;
+  }
+  const isCorrect = cached.isCorrect;
+
+  let status: ConceptStatus;
+  let nextDueAt: string | null;
+  let requeueAtSessionEnd: boolean;
+
+  if (isFirstSubmission) {
+    const now = new Date();
+    const previousCard: ReviewState | null = data.reviewCards[instance.templateId] ?? null;
+    const scheduled = scheduleReview(previousCard, isCorrect, now, input.timezone);
+    data.reviewCards[instance.templateId] = { ...scheduled.progress, conceptId: instance.conceptId };
+    nextDueAt = scheduled.progress.dueAt;
+    requeueAtSessionEnd = scheduled.requeueAtSessionEnd;
+
+    const conceptTemplateIds = (templatesByConceptId[instance.conceptId] ?? []).map((t) => t.id);
+    const cardsForConcept = conceptTemplateIds
+      .map((tid) => data.reviewCards[tid])
+      .filter((c): c is LocalReviewCard => Boolean(c));
+    status = deriveConceptStatus(cardsForConcept, now);
+    data.conceptProgress[instance.conceptId] = status;
+    saveData(data);
+
+    session.answered.push({ templateId: instance.templateId, isCorrect, difficulty: instance.difficulty, counted: input.counted });
+  } else {
+    status = data.conceptProgress[instance.conceptId] ?? "to-discover";
+    const existingCard = data.reviewCards[instance.templateId];
+    nextDueAt = existingCard?.dueAt ?? null;
+    requeueAtSessionEnd = false;
   }
 
-  const previousCard: ReviewState | null = data.reviewCards[input.questionId] ?? null;
-  const now = new Date();
-  const { progress, requeueAtSessionEnd } = scheduleReview(previousCard, cached.isCorrect, now, input.timezone);
-  data.reviewCards[input.questionId] = { ...progress, conceptId: question.conceptId };
-
-  const conceptQuestionIds = (questionsByConceptId[question.conceptId] ?? []).map((q) => q.id);
-  const cardsForConcept = conceptQuestionIds
-    .map((qid) => data.reviewCards[qid])
-    .filter((c): c is LocalReviewCard => Boolean(c));
-  const status = deriveConceptStatus(cardsForConcept, now);
-  data.conceptProgress[question.conceptId] = status;
-
-  saveData(data);
+  const done = isSessionDone(session);
 
   return {
-    isCorrect: cached.isCorrect,
+    isCorrect,
     explanation: cached.explanation,
     calculation: cached.calculation,
     commonMistake: cached.commonMistake,
     conceptStatus: status,
-    nextDueAt: progress.dueAt,
+    nextDueAt,
     requeueAtSessionEnd,
+    progress: computeProgress(session),
+    done,
   };
 }
 
-export interface LocalCategoryStats {
-  categoryId: string;
-  studiedConcepts: number;
-  masteredConcepts: number;
+export interface DueReviewView {
+  conceptId: string;
+  dueAt: string;
+}
+
+export function getLocalDueReviews(now: Date): DueReviewView[] {
+  const data = loadData();
+  const conceptIds = new Set<string>();
+  const result: DueReviewView[] = [];
+  for (const card of Object.values(data.reviewCards)) {
+    if (!card.dueAt) continue;
+    if (Date.parse(card.dueAt) > now.getTime()) continue;
+    if (conceptIds.has(card.conceptId)) continue;
+    conceptIds.add(card.conceptId);
+    result.push({ conceptId: card.conceptId, dueAt: card.dueAt });
+  }
+  return result.sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt));
+}
+
+export function hasLocalMistakesToReview(): boolean {
+  return resolveMistakeTemplateIds(loadData()).length > 0;
 }
 
 /** Lu côté client après montage (localStorage n'existe pas pendant le rendu statique). */

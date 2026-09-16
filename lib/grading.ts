@@ -24,6 +24,22 @@ export function parseLocaleNumber(raw: string): number {
   return isPercent ? value / 100 : value;
 }
 
+/**
+ * Normalise un texte libre pour comparaison : minuscules, accents retirés,
+ * ponctuation/espaces superflus supprimés. Ne juge jamais par égalité stricte
+ * de chaîne brute (voir doc section 4) : la comparaison se fait sur cette
+ * forme normalisée, contre une liste de réponses acceptées (mots-clés/variantes).
+ */
+export function normalizeText(raw: string): string {
+  return raw
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[.,;:!?'"()]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /** Correction strictement côté serveur : jamais un booléen envoyé par le client (voir doc section 7). */
 export function gradeAnswer(solution: QuestionSolution, answer: SubmittedAnswer): GradingResult {
   if (solution.kind !== answer.kind) {
@@ -37,6 +53,14 @@ export function gradeAnswer(solution: QuestionSolution, answer: SubmittedAnswer)
     if (!solution.numeric) throw new RangeError("Missing numeric answer spec");
     if (!Number.isFinite(answer.value)) throw new TypeError("Invalid numeric answer");
     const isCorrect = Math.abs(answer.value - solution.numeric.value) <= solution.numeric.tolerance;
+    return { isCorrect, score: isCorrect ? 1 : 0 };
+  }
+  if (answer.kind === "fill_blank") {
+    if (!solution.acceptedAnswers || solution.acceptedAnswers.length === 0) {
+      throw new RangeError("Missing accepted answers for fill_blank");
+    }
+    const normalized = normalizeText(answer.text);
+    const isCorrect = solution.acceptedAnswers.some((accepted) => normalizeText(accepted) === normalized);
     return { isCorrect, score: isCorrect ? 1 : 0 };
   }
   throw new RangeError(`Unsupported answer kind`);

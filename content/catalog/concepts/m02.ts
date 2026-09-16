@@ -59,7 +59,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-5",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Couvertures avec des forwards", en: "Hedging with forwards" },
     objective: {
       fr: "Mettre en place une couverture chiffrée avec un forward et évaluer le risque de base et ses limites.",

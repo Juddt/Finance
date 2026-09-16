@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getConceptById } from "@/content/catalog";
-import { lessonsByConceptId, questionsByConceptId } from "@/lib/content-registry";
+import { lessonsByConceptId, templatesByConceptId } from "@/lib/content-registry";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,15 +12,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const questions = (questionsByConceptId[id] ?? []).map((q) => ({
-    id: q.id,
-    kind: q.kind,
-    prompt: q.prompt[locale],
-    choices: q.choices?.map((c) => ({ id: c.id, label: c.label[locale] })),
-    numericUnit: q.numericUnit?.[locale],
-    numericTolerance: q.numericTolerance,
-    hint: q.hint?.[locale],
-  }));
+  // Métadonnées seules : les questions elles-mêmes sont générées à la volée par
+  // /api/study-sessions (templates à variantes, voir lib/question-templates.ts).
+  const questionTemplates = (templatesByConceptId[id] ?? []).map((t) => ({ id: t.id, kind: t.kind, difficulty: t.difficulty }));
 
   return NextResponse.json({
     conceptId: id,
@@ -47,6 +41,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       units: lesson.formula.units[locale],
       example: lesson.formula.example[locale],
     },
-    questions,
+    questionTemplates,
   });
 }

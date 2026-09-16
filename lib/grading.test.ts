@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { gradeAnswer, parseLocaleNumber } from "./grading";
+import { gradeAnswer, normalizeText, parseLocaleNumber } from "./grading";
 import type { QuestionSolution } from "./question-types";
 
 describe("parseLocaleNumber", () => {
@@ -51,5 +51,25 @@ describe("gradeAnswer", () => {
 
   it("rejects mismatched answer/question kinds", () => {
     expect(() => gradeAnswer(mcqSolution, { kind: "numeric", value: 1 })).toThrow(RangeError);
+  });
+
+  const fillBlankSolution: QuestionSolution = {
+    questionId: "q3",
+    kind: "fill_blank",
+    acceptedAnswers: ["duration", "duration de macaulay"],
+    explanation: { fr: "", en: "" },
+    commonMistake: { fr: "", en: "" },
+  };
+
+  it("grades fill_blank on normalized text, not strict equality", () => {
+    expect(gradeAnswer(fillBlankSolution, { kind: "fill_blank", text: "Duration" }).isCorrect).toBe(true);
+    expect(gradeAnswer(fillBlankSolution, { kind: "fill_blank", text: "  DURATION." }).isCorrect).toBe(true);
+    expect(gradeAnswer(fillBlankSolution, { kind: "fill_blank", text: "convexité" }).isCorrect).toBe(false);
+  });
+});
+
+describe("normalizeText", () => {
+  it("strips accents, case and punctuation", () => {
+    expect(normalizeText("Été, à Paris !")).toBe("ete a paris");
   });
 });

@@ -1,13 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import type { Locale } from "@/i18n/config";
 import { parseLocaleNumber } from "@/lib/grading";
-import type { QuestionView, SubmittedAnswer } from "@/lib/question-types";
+import type { GeneratedQuestionView } from "@/lib/question-templates";
+import type { SubmittedAnswer } from "@/lib/question-types";
+import type { AttemptResponse, DifficultyShift, SessionProgress } from "@/lib/quiz-session-types";
+import { PayoffChart } from "./PayoffChart";
 
 export interface QuizDict {
   questionOf: string;
+  questionCount: string;
+  difficulty: { easy: string; medium: string; hard: string };
   validate: string;
   next: string;
   finish: string;
@@ -17,88 +22,110 @@ export interface QuizDict {
   calculation: string;
   commonMistake: string;
   hint: string;
+  showHint: string;
+  showSolution: string;
+  similarExercise: string;
   numericPlaceholder: string;
+  fillBlankPlaceholder: string;
   sessionDone: string;
+  sessionDoneSummary: string;
   nextReview: string;
+  continueSession: string;
+  endSession: string;
+  difficultyAdjustedUp: string;
+  difficultyAdjustedDown: string;
+  reviewChartLabel: string;
 }
 
-export interface AttemptResponse {
-  isCorrect: boolean;
-  explanation: string;
-  calculation?: string;
-  commonMistake: string;
-  conceptStatus: string;
-  nextDueAt: string | null;
+export interface StartResult {
+  sessionId: string;
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  empty: boolean;
+}
+
+export interface NextResult {
+  question: GeneratedQuestionView | null;
+  progress: SessionProgress;
+  done: boolean;
+  difficultyShift: DifficultyShift;
 }
 
 export interface QuizBackend {
-  createSession(): Promise<string>;
+  start(): Promise<StartResult>;
   submitAttempt(params: {
     sessionId: string;
-    questionId: string;
-    clientAttemptKey: string;
+    instanceId: string;
     answer: SubmittedAnswer;
     durationMs: number;
+    counted: boolean;
   }): Promise<AttemptResponse>;
+  next(sessionId: string): Promise<NextResult>;
+  similar(sessionId: string): Promise<{ question: GeneratedQuestionView }>;
 }
 
-/**
- * UI et logique de déroulé du quiz, indépendantes de l'origine de la
- * correction. `backend` fournit soit des appels serveur (components/
- * QuizRunner.tsx, build normal), soit un moteur local localStorage
- * (components/StaticQuizRunner.tsx, build GitHub Pages) — voir README.
- */
+function conceptLabel(locale: Locale, conceptId: string): string {
+  // Résolu côté serveur normalement ; ici on affiche juste un lien vers le cours.
+  void conceptId;
+  return locale === "fr" ? "Voir le cours de cette notion" : "See this concept's lesson";
+}
+
 export function QuizShell({
   locale,
-  questions,
   dict,
   backend,
+  emptyMessage,
 }: {
   locale: Locale;
-  questions: QuestionView[];
   dict: QuizDict;
   backend: QuizBackend;
+  emptyMessage?: string;
 }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialIndex = Math.min(Math.max(Number(searchParams.get("q") ?? 0) || 0, 0), questions.length - 1);
-
+  const [phase, setPhase] = useState<"loading" | "question" | "empty" | "finished">("loading");
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [index, setIndex] = useState(initialIndex);
-  const [selected, setSelected] = useState<string>("");
-  const [numericValue, setNumericValue] = useState<string>("");
+  const [question, setQuestion] = useState<GeneratedQuestionView | null>(null);
+  const [progress, setProgress] = useState<SessionProgress>({ index: 0, total: null, correctCount: 0 });
+  const [isSimilar, setIsSimilar] = useState(false);
+
+  const [selected, setSelected] = useState("");
+  const [numericValue, setNumericValue] = useState("");
+  const [textValue, setTextValue] = useState("");
+  const [showHint, setShowHint] = useState(false);
   const [result, setResult] = useState<AttemptResponse | null>(null);
+  const [difficultyShift, setDifficultyShift] = useState<DifficultyShift>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const startedAtRef = useRef<number>(0);
-  const sessionCreated = useRef(false);
+  const startedAtRef = useRef(0);
+  const started = useRef(false);
 
   useEffect(() => {
+    if (started.current) return;
+    started.current = true;
     startedAtRef.current = Date.now();
-  }, []);
-
-  useEffect(() => {
-    if (sessionCreated.current) return;
-    sessionCreated.current = true;
     backend
-      .createSession()
-      .then((id) => setSessionId(id))
+      .start()
+      .then((res) => {
+        setSessionId(res.sessionId);
+        setProgress(res.progress);
+        if (res.empty || !res.question) {
+          setPhase("empty");
+        } else {
+          setQuestion(res.question);
+          setPhase("question");
+        }
+      })
       .catch(() => setError("session_error"));
-    // backend identity is stable per mount (conceptId/locale change remounts the whole subtree via key).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const question = questions[index];
-
-  function goTo(nextIndex: number) {
-    setIndex(nextIndex);
+  function resetAnswerState() {
     setSelected("");
     setNumericValue("");
+    setTextValue("");
+    setShowHint(false);
     setResult(null);
+    setDifficultyShift(null);
     startedAtRef.current = Date.now();
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("q", String(nextIndex));
-    router.replace(`?${params.toString()}`, { scroll: false });
   }
 
   async function submit() {
@@ -111,6 +138,9 @@ export function QuizShell({
         setError("invalid_number");
         return;
       }
+    } else if (question.kind === "fill_blank") {
+      if (!textValue.trim()) return;
+      answer = { kind: "fill_blank", text: textValue };
     } else {
       if (!selected) return;
       answer = { kind: question.kind, choiceId: selected };
@@ -121,12 +151,13 @@ export function QuizShell({
     try {
       const data = await backend.submitAttempt({
         sessionId,
-        questionId: question.id,
-        clientAttemptKey: `${sessionId}:${question.id}`,
+        instanceId: question.instanceId,
         answer,
         durationMs: Date.now() - startedAtRef.current,
+        counted: !isSimilar,
       });
       setResult(data);
+      setProgress(data.progress);
     } catch {
       setError("attempt_failed");
     } finally {
@@ -134,17 +165,104 @@ export function QuizShell({
     }
   }
 
+  async function goNext() {
+    if (!sessionId) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await backend.next(sessionId);
+      setProgress(res.progress);
+      setDifficultyShift(res.difficultyShift);
+      setIsSimilar(false);
+      if (res.done || !res.question) {
+        setPhase("finished");
+      } else {
+        setQuestion(res.question);
+        resetAnswerState();
+        setPhase("question");
+      }
+    } catch {
+      setError("attempt_failed");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function trySimilar() {
+    if (!sessionId) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await backend.similar(sessionId);
+      setQuestion(res.question);
+      setIsSimilar(true);
+      resetAnswerState();
+    } catch {
+      setError("attempt_failed");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function endEarly() {
+    setPhase("finished");
+  }
+
+  if (phase === "loading") {
+    return <div className="rounded-2xl border border-black/10 p-5 text-sm text-neutral-500 dark:border-white/10">…</div>;
+  }
+
+  if (phase === "empty") {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-5 text-sm text-neutral-600 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+        {emptyMessage ?? "—"}
+      </div>
+    );
+  }
+
+  if (phase === "finished") {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-neutral-900">
+        <p className="text-lg font-semibold">{dict.sessionDone}</p>
+        <p className="mt-1 text-neutral-600 dark:text-neutral-300">
+          {dict.sessionDoneSummary.replace("{correct}", String(progress.correctCount)).replace("{total}", String(progress.index))}
+        </p>
+      </div>
+    );
+  }
+
   if (!question) return null;
-  const isLast = index === questions.length - 1;
+  const isLastCounted = progress.total !== null && progress.index >= progress.total && !isSimilar;
+  // progress.index compte les questions déjà répondues : tant que la correction de la
+  // question courante est affichée, son propre numéro reste index (pas index+1).
+  const displayNumber = result ? progress.index : progress.index + 1;
 
   return (
     <div className="rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-neutral-900">
-      <p className="mb-3 text-xs font-medium uppercase tracking-wide text-neutral-500">
-        {dict.questionOf.replace("{current}", String(index + 1)).replace("{total}", String(questions.length))}
-      </p>
-      <p className="mb-4 text-base font-medium">{question.prompt}</p>
+      <div className="mb-3 flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+        <span>
+          {isSimilar
+            ? dict.similarExercise
+            : progress.total !== null
+              ? dict.questionOf.replace("{current}", String(displayNumber)).replace("{total}", String(progress.total))
+              : dict.questionCount.replace("{current}", String(displayNumber))}
+        </span>
+        <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] normal-case tracking-normal text-neutral-500 dark:bg-neutral-800">
+          {dict.difficulty[question.difficulty]}
+        </span>
+      </div>
 
-      {question.kind !== "numeric" && question.choices && (
+      {difficultyShift && (
+        <p className="mb-3 rounded-lg bg-sky-50 px-3 py-1.5 text-xs text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">
+          {difficultyShift === "up" ? dict.difficultyAdjustedUp : dict.difficultyAdjustedDown}
+        </p>
+      )}
+
+      {question.chart && <PayoffChart chart={question.chart} label={dict.reviewChartLabel} />}
+
+      <p className={`mb-4 text-base font-medium ${question.isScenario ? "italic" : ""}`}>{question.prompt}</p>
+
+      {(question.kind === "mcq" || question.kind === "true_false") && question.choices && (
         <fieldset className="mb-4 space-y-2" disabled={Boolean(result)}>
           {question.choices.map((choice) => {
             const isSelected = selected === choice.id;
@@ -159,7 +277,7 @@ export function QuizShell({
               >
                 <input
                   type="radio"
-                  name={question.id}
+                  name={question.instanceId}
                   value={choice.id}
                   checked={selected === choice.id}
                   onChange={() => setSelected(choice.id)}
@@ -187,10 +305,35 @@ export function QuizShell({
         </div>
       )}
 
+      {question.kind === "fill_blank" && (
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder={question.fillBlankPlaceholder ?? dict.fillBlankPlaceholder}
+            value={textValue}
+            disabled={Boolean(result)}
+            onChange={(e) => setTextValue(e.target.value)}
+            className="w-64 rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/15 dark:bg-neutral-800"
+          />
+        </div>
+      )}
+
       {question.hint && !result && (
-        <p className="mb-4 text-xs text-neutral-500">
-          💡 {dict.hint}: {question.hint}
-        </p>
+        <div className="mb-4">
+          {showHint ? (
+            <p className="text-xs text-neutral-500">
+              💡 {dict.hint}: {question.hint}
+            </p>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setShowHint(true)}
+              className="text-xs font-medium text-sky-700 underline-offset-2 hover:underline dark:text-sky-300"
+            >
+              {dict.showHint}
+            </button>
+          )}
+        </div>
       )}
 
       {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
@@ -222,25 +365,48 @@ export function QuizShell({
             <span className="font-medium">{dict.commonMistake}: </span>
             {result.commonMistake}
           </p>
+          <Link
+            href={`/${locale}/lessons/${question.conceptId}`}
+            className="inline-block text-xs font-medium text-sky-700 underline-offset-2 hover:underline dark:text-sky-300"
+          >
+            {conceptLabel(locale, question.conceptId)}
+          </Link>
 
-          {isLast ? (
-            <p className="pt-2 text-sm font-medium">
-              {dict.sessionDone}
-              {result.nextDueAt && (
-                <>
-                  {" "}
-                  — {dict.nextReview}: {new Date(result.nextDueAt).toLocaleDateString(locale)}
-                </>
-              )}
-            </p>
-          ) : (
+          <div className="flex flex-wrap gap-2 pt-2">
             <button
-              onClick={() => goTo(index + 1)}
-              className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white dark:bg-white dark:text-neutral-900"
+              onClick={trySimilar}
+              disabled={submitting}
+              className="rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-800 disabled:opacity-50 dark:border-neutral-700 dark:text-neutral-100"
             >
-              {dict.next}
+              {dict.similarExercise}
             </button>
-          )}
+            {!isLastCounted && (
+              <button
+                onClick={goNext}
+                disabled={submitting}
+                className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+              >
+                {progress.total === null ? dict.continueSession : dict.next}
+              </button>
+            )}
+            {isLastCounted && (
+              <button
+                onClick={goNext}
+                disabled={submitting}
+                className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+              >
+                {dict.finish}
+              </button>
+            )}
+            {progress.total === null && (
+              <button
+                onClick={endEarly}
+                className="rounded-full px-4 py-2 text-sm font-medium text-neutral-500 hover:underline"
+              >
+                {dict.endSession}
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

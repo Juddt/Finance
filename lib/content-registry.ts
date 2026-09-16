@@ -1,36 +1,45 @@
 import type { LessonContent } from "./lesson-types";
-import type { QuestionPublic, QuestionSolution } from "./question-types";
+import type { QuestionTemplate } from "./question-templates";
+import { m02CouvertureForward } from "@/content/lessons/m02-couverture-forward";
 import { m02ForwardContractValue } from "@/content/lessons/m02-forward-contract-value";
-import { m02ForwardContractValueQuestions } from "@/content/questions/m02-forward-contract-value";
-// SERVEUR UNIQUEMENT (voir avertissement dans ce fichier de solutions) : ce
-// module ne doit être importé que par lib/store.ts et les route handlers.
-import { m02ForwardContractValueSolutions } from "@/content/questions/m02-forward-contract-value.solutions";
+import { m03Duration } from "@/content/lessons/m03-duration";
+import { m03RisqueCredit } from "@/content/lessons/m03-risque-credit";
+import { m05CallPut } from "@/content/lessons/m05-call-put";
+import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
+import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
+import { templates as m03DurationTemplates } from "@/content/question-templates/m03-duration";
+import { templates as m03RisqueCreditTemplates } from "@/content/question-templates/m03-risque-credit";
+import { templates as m05CallPutTemplates } from "@/content/question-templates/m05-call-put";
 
 /**
- * Registre des contenus publiés. Un seul concept est publié dans ce MVP
- * (m02-forward-contract-value) ; ajouter une entrée ici pour chaque nouveau
- * concept rédigé et validé (voir doc section 8, "publication progressive").
+ * Registre des contenus publiés. Ajouter une entrée ici (leçon + templates de
+ * questions) pour chaque nouveau concept rédigé et validé (voir doc section 8,
+ * "publication progressive").
  */
 export const lessonsByConceptId: Record<string, LessonContent> = {
   "m02-forward-contract-value": m02ForwardContractValue,
+  "m02-couverture-forward": m02CouvertureForward,
+  "m03-duration": m03Duration,
+  "m03-risque-credit": m03RisqueCredit,
+  "m05-call-put": m05CallPut,
 };
 
-export const questionsByConceptId: Record<string, QuestionPublic[]> = {
-  "m02-forward-contract-value": m02ForwardContractValueQuestions,
+export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
+  "m02-forward-contract-value": m02ForwardContractValueTemplates,
+  "m02-couverture-forward": m02CouvertureForwardTemplates,
+  "m03-duration": m03DurationTemplates,
+  "m03-risque-credit": m03RisqueCreditTemplates,
+  "m05-call-put": m05CallPutTemplates,
 };
 
-const allQuestions: QuestionPublic[] = Object.values(questionsByConceptId).flat();
+const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();
 
-export const questionById: Record<string, QuestionPublic> = Object.fromEntries(
-  allQuestions.map((q) => [q.id, q])
-);
-
-const allSolutions: QuestionSolution[] = [...m02ForwardContractValueSolutions];
-
-export const solutionByQuestionId: Record<string, QuestionSolution> = Object.fromEntries(
-  allSolutions.map((s) => [s.questionId, s])
-);
+export const templateById: Record<string, QuestionTemplate> = Object.fromEntries(allTemplates.map((t) => [t.id, t]));
 
 export function getPublishedConceptIds(): string[] {
   return Object.keys(lessonsByConceptId);
+}
+
+export function getTemplatesForConcepts(conceptIds: string[]): QuestionTemplate[] {
+  return conceptIds.flatMap((id) => templatesByConceptId[id] ?? []);
 }

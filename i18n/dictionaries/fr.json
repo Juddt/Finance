@@ -30,6 +30,9 @@
     "definition": "Définition",
     "utility": "Utilité",
     "example": "Exemple concret",
+    "prerequisiteReminder": "Avant de continuer",
+    "glossary": "Vocabulaire",
+    "alternativeExplanation": "Toujours bloqué ? Une autre façon de voir les choses",
     "formula": "Formule indispensable",
     "variables": "Variables, unités et hypothèses",
     "calculation": "Calcul détaillé",
@@ -37,12 +40,20 @@
     "pitfalls": "Pièges",
     "keyPoints": "Trois points à retenir",
     "advanced": "Approfondir / démonstration",
-    "startQuiz": "Commencer le mini-quiz",
+    "startQuiz": "Mini-quiz de cette notion",
     "essential": "Essentiel",
-    "minutes": "min"
+    "minutes": "min",
+    "chapterQuizLink": "Quiz du chapitre",
+    "categoryQuizLink": "Quiz de la catégorie"
   },
   "quiz": {
     "questionOf": "Question {current} sur {total}",
+    "questionCount": "Question {current}",
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
     "validate": "Valider",
     "next": "Question suivante",
     "finish": "Terminer",
@@ -52,10 +63,57 @@
     "calculation": "Calcul",
     "commonMistake": "Erreur fréquente",
     "hint": "Indice",
+    "showHint": "Voir l'indice",
+    "showSolution": "Voir la solution",
+    "similarExercise": "Réessayer avec un exercice similaire",
     "numericPlaceholder": "Votre réponse",
+    "fillBlankPlaceholder": "Votre réponse",
     "backToLesson": "Retour au cours",
+    "backToQuizHub": "Retour aux quiz",
     "sessionDone": "Session terminée",
-    "nextReview": "Prochaine révision"
+    "sessionDoneSummary": "{correct} / {total} bonnes réponses",
+    "nextReview": "Prochaine révision",
+    "continueSession": "Question suivante",
+    "endSession": "Arrêter ici",
+    "difficultyAdjustedUp": "Vous progressez bien : questions plus difficiles à partir de maintenant.",
+    "difficultyAdjustedDown": "On reprend plus doucement sur cette notion.",
+    "reviewChartLabel": "Sous-jacent à l'échéance"
+  },
+  "quizHub": {
+    "title": "S'entraîner",
+    "subtitle": "Mini-quiz, quiz par chapitre ou catégorie, mix personnalisé, ou reprends tes erreurs. Sessions illimitées.",
+    "chooseLength": "Longueur de la session",
+    "length5": "5 questions",
+    "length10": "10 questions",
+    "length20": "20 questions",
+    "lengthContinuous": "Continu",
+    "startButton": "Démarrer",
+    "chapterQuiz": "Quiz par chapitre",
+    "categoryQuiz": "Quiz de catégorie complet",
+    "customQuiz": "Quiz personnalisé",
+    "customQuizDescription": "Choisis les catégories à mélanger.",
+    "reviewMistakes": "Revoir mes erreurs",
+    "reviewMistakesDescription": "Uniquement les notions où tu t'es trompé récemment.",
+    "reviewMistakesEmpty": "Aucune erreur récente à revoir — bien joué. Reviens après quelques sessions.",
+    "noQuestionsYet": "Pas encore de questions publiées ici.",
+    "selectCategories": "Catégories à inclure",
+    "questionsAvailable": "{count} questions disponibles"
+  },
+  "revisionsPage": {
+    "title": "Révisions dues",
+    "subtitle": "Notions à réviser maintenant, selon la répétition espacée.",
+    "empty": "Rien à réviser pour l'instant. Reviens après avoir étudié quelques notions.",
+    "dueSince": "due depuis le {date}",
+    "reviewNow": "Réviser maintenant"
+  },
+  "progressPage": {
+    "title": "Ma progression",
+    "subtitle": "Par catégorie : notions étudiées et maîtrisées.",
+    "statusToDiscover": "À découvrir",
+    "statusInProgress": "En cours",
+    "statusFragile": "Fragile",
+    "statusMastered": "Maîtrisée",
+    "statusToReactivate": "À réactiver"
   },
   "footer": {
     "notAppRealSite": "Prototype pédagogique — voir README pour l'état d'avancement."
