@@ -1,0 +1,108 @@
+import type { ConceptDef } from "../types";
+
+export const m03: ConceptDef[] = [
+  {
+    id: "m03-definition-obligations",
+    chapterId: "m03",
+    sourceRef: "M03-1",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Définition et types d'obligations", en: "Bond definition & types" },
+    objective: {
+      fr: "Décrire les propriétés et types d'obligations, y compris les zéro-coupons.",
+      en: "Describe bond properties and types, including zero-coupon bonds.",
+    },
+  },
+  {
+    id: "m03-pricing-obligation",
+    chapterId: "m03",
+    sourceRef: "M03-2",
+    level: "essential",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Pricing d'une obligation", en: "Bond pricing" },
+    objective: {
+      fr: "Calculer le prix d'une obligation par actualisation des flux, avec coupon couru, clean/dirty price et rendement actuariel.",
+      en: "Price a bond by discounting cash flows, with accrued coupon, clean/dirty price and yield to maturity.",
+    },
+  },
+  {
+    id: "m03-duration",
+    chapterId: "m03",
+    sourceRef: "M03-3",
+    level: "essential",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Duration de Macaulay et duration modifiée", en: "Macaulay duration & modified duration" },
+    objective: {
+      fr: "Calculer et interpréter la duration de Macaulay et la duration modifiée d'une obligation.",
+      en: "Compute and interpret a bond's Macaulay duration and modified duration.",
+    },
+  },
+  {
+    id: "m03-convexite",
+    chapterId: "m03",
+    sourceRef: "M03-4",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Convexité", en: "Convexity" },
+    objective: {
+      fr: "Calculer la convexité et l'utiliser pour approximer la relation prix-taux.",
+      en: "Compute convexity and use it to approximate the price-yield relationship.",
+    },
+  },
+  {
+    id: "m03-risque-credit",
+    chapterId: "m03",
+    sourceRef: "M03-5",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Risque de crédit et notation", en: "Credit risk & ratings" },
+    objective: {
+      fr: "Expliquer le risque de crédit, le rôle des agences de notation et les limites des notations.",
+      en: "Explain credit risk, the role of rating agencies and the limits of ratings.",
+    },
+  },
+  {
+    id: "m03-cds",
+    chapterId: "m03",
+    sourceRef: "M03-6",
+    level: "advanced",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Mécanisme d'un CDS", en: "CDS mechanics" },
+    objective: {
+      fr: "Décrire acheteur/vendeur de protection, prime, événement de crédit et règlement d'un CDS.",
+      en: "Describe protection buyer/seller, premium, credit event and settlement of a CDS.",
+    },
+  },
+  {
+    id: "m03-taux-sans-risque",
+    chapterId: "m03",
+    sourceRef: "M03-7",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Taux sans risque, spot et forward", en: "Risk-free, spot & forward rates" },
+    objective: {
+      fr: "Choisir un proxy de taux sans risque et distinguer taux spot, taux forward et conventions de courbe.",
+      en: "Choose a risk-free rate proxy and distinguish spot rates, forward rates and curve conventions.",
+    },
+  },
+  {
+    id: "m03-dv01",
+    chapterId: "m03",
+    sourceRef: "M03-8",
+    level: "advanced",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "DV01 / PV01", en: "DV01 / PV01" },
+    objective: {
+      fr: "Définir et calculer le DV01 (PV01), son unité et sa convention de signe.",
+      en: "Define and compute DV01 (PV01), its unit and sign convention.",
+    },
+  },
+];

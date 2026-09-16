@@ -1,0 +1,95 @@
+import type { ConceptDef } from "../types";
+
+export const m02: ConceptDef[] = [
+  {
+    id: "m02-forward-future-definitions",
+    chapterId: "m02",
+    sourceRef: "M02-1",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Forward et future : définitions et payoffs", en: "Forward & future: definitions and payoffs" },
+    objective: {
+      fr: "Définir un contrat forward et un contrat future, les positions longue/courte et leurs payoffs.",
+      en: "Define a forward contract and a future contract, long/short positions and their payoffs.",
+    },
+  },
+  {
+    id: "m02-prix-forward-non-arbitrage",
+    chapterId: "m02",
+    sourceRef: "M02-2",
+    level: "essential",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Prix forward par non-arbitrage", en: "Forward price by no-arbitrage" },
+    objective: {
+      fr: "Démontrer le prix forward par non-arbitrage, avec et sans revenus ou coûts de portage.",
+      en: "Derive the forward price by no-arbitrage, with and without carry income or costs.",
+    },
+  },
+  {
+    id: "m02-forward-vs-future",
+    chapterId: "m02",
+    sourceRef: "M02-3",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Différences forward / future", en: "Forward vs future differences" },
+    objective: {
+      fr: "Comparer standardisation, contrepartie, collatéral, appels de marge et règlement quotidien.",
+      en: "Compare standardization, counterparty, collateral, margin calls and daily settlement.",
+    },
+  },
+  {
+    id: "m02-forward-contract-value",
+    chapterId: "m02",
+    sourceRef: "M02-4",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "published",
+    title: { fr: "Valeur d'un forward à la conclusion", en: "Value of a forward at inception" },
+    objective: {
+      fr: "Distinguer prix forward de marché, prix de livraison contractuel et valeur du contrat existant.",
+      en: "Distinguish the market forward price, the contractual delivery price and the value of an existing contract.",
+    },
+  },
+  {
+    id: "m02-couverture-forward",
+    chapterId: "m02",
+    sourceRef: "M02-5",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Couvertures avec des forwards", en: "Hedging with forwards" },
+    objective: {
+      fr: "Mettre en place une couverture chiffrée avec un forward et évaluer le risque de base et ses limites.",
+      en: "Set up a numerical hedge with a forward and assess basis risk and its limits.",
+    },
+  },
+  {
+    id: "m02-matieres-premieres",
+    chapterId: "m02",
+    sourceRef: "M02-6",
+    level: "advanced",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Spécificités des matières premières", en: "Commodity specifics" },
+    objective: {
+      fr: "Expliquer stockage, saisonnalité et rendement de convenance pour les matières premières.",
+      en: "Explain storage, seasonality and convenience yield for commodities.",
+    },
+  },
+  {
+    id: "m02-contango-backwardation",
+    chapterId: "m02",
+    sourceRef: "M02-7",
+    level: "advanced",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Contango, backwardation et prix forward matière première", en: "Contango, backwardation & commodity forward price" },
+    objective: {
+      fr: "Calculer le prix forward d'une matière première et distinguer courbe à terme et anticipations.",
+      en: "Compute the forward price of a commodity and distinguish the term curve from expectations.",
+    },
+  },
+];

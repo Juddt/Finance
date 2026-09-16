@@ -1,0 +1,63 @@
+{
+  "brand": "Finance Academy",
+  "nav": {
+    "courses": "Courses",
+    "revisions": "Reviews",
+    "quiz": "Quiz",
+    "formulas": "Formulas",
+    "progress": "Progress"
+  },
+  "languageToggle": "Passer en français",
+  "home": {
+    "title": "The complete capital markets curriculum",
+    "subtitle": "Categories, chapters, concepts and quizzes — know what you already know, and what's left to learn.",
+    "searchPlaceholder": "Search a concept (FR/EN)…",
+    "continueButton": "Continue my course",
+    "statsPublished": "Published curriculum coverage",
+    "statsStudied": "Concepts studied",
+    "statsMastered": "Concepts mastered",
+    "prerequisites": "Prerequisites",
+    "level": "Level",
+    "chapters": "chapters",
+    "concepts": "concepts",
+    "comingSoon": "Coming soon",
+    "openLesson": "Open the lesson",
+    "clarificationBadge": "Title to confirm"
+  },
+  "lesson": {
+    "objective": "Objective",
+    "intuition": "Intuition",
+    "definition": "Definition",
+    "utility": "Why it matters",
+    "example": "Worked example",
+    "formula": "Key formula",
+    "variables": "Variables, units and assumptions",
+    "calculation": "Detailed calculation",
+    "interpretation": "Interpretation",
+    "pitfalls": "Pitfalls",
+    "keyPoints": "Three takeaways",
+    "advanced": "Go deeper / proof",
+    "startQuiz": "Start the mini-quiz",
+    "essential": "Essential",
+    "minutes": "min"
+  },
+  "quiz": {
+    "questionOf": "Question {current} of {total}",
+    "validate": "Submit",
+    "next": "Next question",
+    "finish": "Finish",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "explanation": "Explanation",
+    "calculation": "Calculation",
+    "commonMistake": "Common mistake",
+    "hint": "Hint",
+    "numericPlaceholder": "Your answer",
+    "backToLesson": "Back to the lesson",
+    "sessionDone": "Session complete",
+    "nextReview": "Next review"
+  },
+  "footer": {
+    "notAppRealSite": "Educational prototype — see README for current status."
+  }
+}

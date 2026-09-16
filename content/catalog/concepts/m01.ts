@@ -1,0 +1,108 @@
+import type { ConceptDef } from "../types";
+
+export const m01: ConceptDef[] = [
+  {
+    id: "m01-organisation-banque",
+    chapterId: "m01",
+    sourceRef: "M01-1",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Organisation d'une banque", en: "Organization of a bank" },
+    objective: {
+      fr: "Distinguer les métiers d'une banque et les interactions entre front, middle et back office.",
+      en: "Distinguish a bank's business lines and how front, middle and back office interact.",
+    },
+  },
+  {
+    id: "m01-banques-centrales",
+    chapterId: "m01",
+    sourceRef: "M01-2",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Rôle des banques centrales : FED vs BCE", en: "Role of central banks: FED vs ECB" },
+    objective: {
+      fr: "Comprendre le rôle d'une banque centrale et les différences entre FED et BCE, avec sources institutionnelles datées.",
+      en: "Understand the role of a central bank and the differences between the FED and the ECB, with dated institutional sources.",
+    },
+  },
+  {
+    id: "m01-classes-actifs",
+    chapterId: "m01",
+    sourceRef: "M01-3",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Classes d'actifs et structure des marchés", en: "Asset classes & market structure" },
+    objective: {
+      fr: "Différencier marché monétaire/marché de capitaux, marché primaire/secondaire, marché organisé/de gré à gré.",
+      en: "Differentiate money market vs capital market, primary vs secondary market, exchange-traded vs OTC.",
+    },
+  },
+  {
+    id: "m01-arbitrage",
+    chapterId: "m01",
+    sourceRef: "M01-4",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Arbitrage", en: "Arbitrage" },
+    objective: {
+      fr: "Expliquer l'intuition de l'arbitrage, ses hypothèses, un exemple chiffré et ses limites pratiques.",
+      en: "Explain the intuition of arbitrage, its assumptions, a worked example and its practical limits.",
+    },
+  },
+  {
+    id: "m01-vente-decouvert",
+    chapterId: "m01",
+    sourceRef: "M01-5",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Vente à découvert", en: "Short selling" },
+    objective: {
+      fr: "Décrire le mécanisme d'emprunt de titres, vente, rachat, restitution, ainsi que les coûts et risques associés.",
+      en: "Describe the mechanics of borrowing, selling, buying back and returning securities, and the associated costs and risks.",
+    },
+  },
+  {
+    id: "m01-taux-change",
+    chapterId: "m01",
+    sourceRef: "M01-6",
+    level: "essential",
+    estimatedMinutes: 5,
+    status: "upcoming",
+    title: { fr: "Taux de change", en: "Exchange rates" },
+    objective: {
+      fr: "Lire une cotation de change, distinguer monnaie domestique/étrangère, convertir et identifier le risque de change.",
+      en: "Read an FX quote, distinguish domestic vs foreign currency, convert amounts and identify FX risk.",
+    },
+  },
+  {
+    id: "m01-parite-taux",
+    chapterId: "m01",
+    sourceRef: "M01-7",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Parité des taux d'intérêt", en: "Interest rate parity" },
+    objective: {
+      fr: "Distinguer parité couverte (relation de non-arbitrage) et parité non couverte (relation fondée sur des anticipations).",
+      en: "Distinguish covered interest rate parity (no-arbitrage relation) from uncovered parity (expectations-based relation).",
+    },
+  },
+  {
+    id: "m01-microstructure-rappels",
+    chapterId: "m01",
+    sourceRef: "M01-8",
+    level: "essential",
+    estimatedMinutes: 4,
+    status: "upcoming",
+    title: { fr: "Rappels de microstructure : liquidité, bid/ask, carnet d'ordres", en: "Microstructure basics: liquidity, bid/ask, order book" },
+    objective: {
+      fr: "Définir liquidité, bid/ask, spread, carnet d'ordres et les principaux intervenants de marché.",
+      en: "Define liquidity, bid/ask, spread, the order book and the main market participants.",
+    },
+  },
+];

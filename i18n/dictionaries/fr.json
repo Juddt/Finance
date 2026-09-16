@@ -1,0 +1,63 @@
+{
+  "brand": "Finance Academy",
+  "nav": {
+    "courses": "Cours",
+    "revisions": "Révisions",
+    "quiz": "Quiz",
+    "formulas": "Formules",
+    "progress": "Progression"
+  },
+  "languageToggle": "Switch to English",
+  "home": {
+    "title": "Le programme complet de finance de marché",
+    "subtitle": "Catégories, chapitres, notions et quiz — sachez ce que vous connaissez déjà et ce qu'il reste à apprendre.",
+    "searchPlaceholder": "Rechercher une notion (FR/EN)…",
+    "continueButton": "Continuer mon cours",
+    "statsPublished": "Couverture du programme publié",
+    "statsStudied": "Notions étudiées",
+    "statsMastered": "Notions maîtrisées",
+    "prerequisites": "Prérequis",
+    "level": "Niveau",
+    "chapters": "chapitres",
+    "concepts": "notions",
+    "comingSoon": "À venir",
+    "openLesson": "Ouvrir le cours",
+    "clarificationBadge": "Intitulé à confirmer"
+  },
+  "lesson": {
+    "objective": "Objectif",
+    "intuition": "Intuition",
+    "definition": "Définition",
+    "utility": "Utilité",
+    "example": "Exemple concret",
+    "formula": "Formule indispensable",
+    "variables": "Variables, unités et hypothèses",
+    "calculation": "Calcul détaillé",
+    "interpretation": "Interprétation",
+    "pitfalls": "Pièges",
+    "keyPoints": "Trois points à retenir",
+    "advanced": "Approfondir / démonstration",
+    "startQuiz": "Commencer le mini-quiz",
+    "essential": "Essentiel",
+    "minutes": "min"
+  },
+  "quiz": {
+    "questionOf": "Question {current} sur {total}",
+    "validate": "Valider",
+    "next": "Question suivante",
+    "finish": "Terminer",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "explanation": "Explication",
+    "calculation": "Calcul",
+    "commonMistake": "Erreur fréquente",
+    "hint": "Indice",
+    "numericPlaceholder": "Votre réponse",
+    "backToLesson": "Retour au cours",
+    "sessionDone": "Session terminée",
+    "nextReview": "Prochaine révision"
+  },
+  "footer": {
+    "notAppRealSite": "Prototype pédagogique — voir README pour l'état d'avancement."
+  }
+}

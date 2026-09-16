@@ -1,0 +1,95 @@
+import type { ConceptDef } from "../types";
+
+export const m06: ConceptDef[] = [
+  {
+    id: "m06-mouvement-brownien",
+    chapterId: "m06",
+    sourceRef: "M06-1",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Construction du mouvement brownien", en: "Brownian motion construction" },
+    objective: {
+      fr: "Construire intuitivement le mouvement brownien, ses propriétés et sa simulation.",
+      en: "Build intuition for Brownian motion, its properties and its simulation.",
+    },
+  },
+  {
+    id: "m06-brownien-arithmetique-geometrique",
+    chapterId: "m06",
+    sourceRef: "M06-2",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Brownien arithmétique vs géométrique", en: "Arithmetic vs geometric Brownian motion" },
+    objective: {
+      fr: "Comparer définitions, usages, différences et limites des mouvements browniens arithmétique et géométrique.",
+      en: "Compare definitions, uses, differences and limits of arithmetic and geometric Brownian motion.",
+    },
+  },
+  {
+    id: "m06-prerequis-ito",
+    chapterId: "m06",
+    sourceRef: "M06-3",
+    level: "advanced",
+    estimatedMinutes: 8,
+    status: "upcoming",
+    title: { fr: "Prérequis : Itô, absence d'arbitrage, mesure risque-neutre", en: "Prerequisites: Itô, no-arbitrage, risk-neutral measure" },
+    objective: {
+      fr: "Relier probabilités, dérivées, lemme d'Itô, absence d'arbitrage et mesure risque-neutre.",
+      en: "Connect probability, derivatives, Itô's lemma, no-arbitrage and the risk-neutral measure.",
+    },
+  },
+  {
+    id: "m06-black-scholes",
+    chapterId: "m06",
+    sourceRef: "M06-4",
+    level: "advanced",
+    estimatedMinutes: 9,
+    status: "upcoming",
+    title: { fr: "Modèle de Black-Scholes", en: "Black-Scholes model" },
+    objective: {
+      fr: "Présenter les hypothèses de Black-Scholes, une démonstration guidée et ses limites.",
+      en: "Present the Black-Scholes assumptions, a guided derivation and its limits.",
+    },
+  },
+  {
+    id: "m06-formules-call-put",
+    chapterId: "m06",
+    sourceRef: "M06-5",
+    level: "essential",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Formules de Black-Scholes pour call et put", en: "Black-Scholes formulas for call and put" },
+    objective: {
+      fr: "Appliquer les formules de pricing d'un call et d'un put avec un exemple numérique.",
+      en: "Apply the pricing formulas for a call and a put with a numerical example.",
+    },
+  },
+  {
+    id: "m06-approximation-atmf",
+    chapterId: "m06",
+    sourceRef: "M06-6",
+    level: "advanced",
+    estimatedMinutes: 6,
+    status: "upcoming",
+    title: { fr: "Approximation d'un call ATMF", en: "ATMF call approximation" },
+    objective: {
+      fr: "Établir l'approximation d'un call at-the-money forward et ses conditions de validité.",
+      en: "Derive the at-the-money-forward call approximation and its conditions of validity.",
+    },
+  },
+  {
+    id: "m06-monte-carlo",
+    chapterId: "m06",
+    sourceRef: "M06-7",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "upcoming",
+    title: { fr: "Pricing par Monte-Carlo", en: "Monte-Carlo pricing" },
+    objective: {
+      fr: "Expliquer le principe de Monte-Carlo, son erreur d'estimation et un exemple de pricing.",
+      en: "Explain the Monte-Carlo principle, its estimation error and a pricing example.",
+    },
+  },
+];

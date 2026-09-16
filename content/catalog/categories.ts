@@ -1,0 +1,122 @@
+import type { CategoryDef } from "./types";
+
+/**
+ * 8 catégories. Le cadrage demande de distinguer immédiatement bases, taux,
+ * dérivés, risques, modèles quantitatifs et machine learning (voir section 1
+ * du document) ; portefeuille et outils/carrière sont ajoutés pour loger sans
+ * perte les sujets transverses de M13 (voir README, "Hypothèses").
+ */
+export const categories: CategoryDef[] = [
+  {
+    id: "fondamentaux",
+    slug: "fondamentaux",
+    icon: "Landmark",
+    color: "amber",
+    position: 1,
+    title: { fr: "Bases : banques, marchés et mathématiques financières", en: "Fundamentals: banks, markets & financial maths" },
+    summary: {
+      fr: "Organisation des marchés, rôle des banques, mathématiques financières de base et microstructure.",
+      en: "Market organization, role of banks, basic financial maths and microstructure.",
+    },
+    level: { fr: "Aucun prérequis", en: "No prerequisite" },
+    prerequisites: { fr: "Aucun", en: "None" },
+  },
+  {
+    id: "taux-credit",
+    slug: "taux-credit",
+    icon: "Percent",
+    color: "sky",
+    position: 2,
+    title: { fr: "Taux et crédit", en: "Rates & credit" },
+    summary: {
+      fr: "Obligations, duration/convexité, crédit, FRA et swaps de taux.",
+      en: "Bonds, duration/convexity, credit, FRAs and interest rate swaps.",
+    },
+    level: { fr: "Intermédiaire", en: "Intermediate" },
+    prerequisites: { fr: "Bases (M01), mathématiques financières", en: "Fundamentals (M01), financial maths" },
+  },
+  {
+    id: "derives",
+    slug: "derives",
+    icon: "GitBranch",
+    color: "emerald",
+    position: 3,
+    title: { fr: "Produits dérivés", en: "Derivatives" },
+    summary: {
+      fr: "Forwards/futures, options vanilles, corrélation/dispersion, barrières/digitales, structurés et autocalls.",
+      en: "Forwards/futures, vanilla options, correlation/dispersion, barriers/digitals, structured products and autocalls.",
+    },
+    level: { fr: "Intermédiaire à avancé", en: "Intermediate to advanced" },
+    prerequisites: { fr: "Bases (M01), taux (M03)", en: "Fundamentals (M01), rates (M03)" },
+  },
+  {
+    id: "modeles-quantitatifs",
+    slug: "modeles-quantitatifs",
+    icon: "Sigma",
+    color: "violet",
+    position: 4,
+    title: { fr: "Modèles quantitatifs", en: "Quantitative models" },
+    summary: {
+      fr: "Mouvement brownien, Black-Scholes, Greeks et couverture dynamique, volatilité et variance.",
+      en: "Brownian motion, Black-Scholes, Greeks and dynamic hedging, volatility and variance.",
+    },
+    level: { fr: "Avancé", en: "Advanced" },
+    prerequisites: { fr: "Options vanilles (M05), probabilités", en: "Vanilla options (M05), probability" },
+  },
+  {
+    id: "gestion-portefeuille",
+    slug: "gestion-portefeuille",
+    icon: "PieChart",
+    color: "rose",
+    position: 5,
+    title: { fr: "Gestion de portefeuille", en: "Portfolio management" },
+    summary: {
+      fr: "Diversification, Markowitz, CAPM, allocation et attribution de performance.",
+      en: "Diversification, Markowitz, CAPM, allocation and performance attribution.",
+    },
+    level: { fr: "Intermédiaire", en: "Intermediate" },
+    prerequisites: { fr: "Mathématiques financières", en: "Financial maths" },
+  },
+  {
+    id: "risques-reglementation",
+    slug: "risques-reglementation",
+    icon: "ShieldAlert",
+    color: "red",
+    position: 6,
+    title: { fr: "Risques et réglementation", en: "Risk & regulation" },
+    summary: {
+      fr: "VaR, Expected Shortfall, ratios de risque ajusté, Bâle III/IV, MiFID II, EMIR.",
+      en: "VaR, Expected Shortfall, risk-adjusted ratios, Basel III/IV, MiFID II, EMIR.",
+    },
+    level: { fr: "Intermédiaire à avancé", en: "Intermediate to advanced" },
+    prerequisites: { fr: "Gestion de portefeuille, crédit (M03)", en: "Portfolio management, credit (M03)" },
+  },
+  {
+    id: "machine-learning",
+    slug: "machine-learning",
+    icon: "BrainCircuit",
+    color: "indigo",
+    position: 7,
+    title: { fr: "Machine learning appliqué à la finance", en: "Machine learning for finance" },
+    summary: {
+      fr: "Régression, arbres, séries temporelles, KNN/SVM, deep learning et bonnes pratiques.",
+      en: "Regression, trees, time series, KNN/SVM, deep learning and best practices.",
+    },
+    level: { fr: "Avancé", en: "Advanced" },
+    prerequisites: { fr: "Statistiques de base, Python", en: "Basic statistics, Python" },
+  },
+  {
+    id: "outils-carriere",
+    slug: "outils-carriere",
+    icon: "Wrench",
+    color: "teal",
+    position: 8,
+    title: { fr: "Outils et préparation aux entretiens", en: "Tools & interview prep" },
+    summary: {
+      fr: "Python/Excel/VBA/SQL/R pour la finance, questions techniques et brainteasers d'entretien.",
+      en: "Python/Excel/VBA/SQL/R for finance, technical interview questions and brainteasers.",
+    },
+    level: { fr: "Tous niveaux", en: "All levels" },
+    prerequisites: { fr: "Aucun", en: "None" },
+  },
+];
