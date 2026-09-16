@@ -56,6 +56,20 @@ import { m09CorrelationImplicite } from "@/content/lessons/m09-correlation-impli
 import { m09Dispersion } from "@/content/lessons/m09-dispersion";
 import { m09PanierWorstBestOf } from "@/content/lessons/m09-panier-worst-best-of";
 import { m09SensibilitesPayoff } from "@/content/lessons/m09-sensibilites-payoff";
+import { m10MecanismesBarrieres } from "@/content/lessons/m10-mecanismes-barrieres";
+import { m10GreeksBarrieres } from "@/content/lessons/m10-greeks-barrieres";
+import { m10BarrierParity } from "@/content/lessons/m10-barrier-parity";
+import { m10Pdi } from "@/content/lessons/m10-pdi";
+import { m10ImpactVolKnockout } from "@/content/lessons/m10-impact-vol-knockout";
+import { m10DoublesBarrieres } from "@/content/lessons/m10-doubles-barrieres";
+import { m10OptionsDigitales } from "@/content/lessons/m10-options-digitales";
+import { m10ReplicationDigitale } from "@/content/lessons/m10-replication-digitale";
+import { m10LissageDeltaGamma } from "@/content/lessons/m10-lissage-delta-gamma";
+import { m11ProduitStructure } from "@/content/lessons/m11-produit-structure";
+import { m11Autocall } from "@/content/lessons/m11-autocall";
+import { m11AugmenterCoupon } from "@/content/lessons/m11-augmenter-coupon";
+import { m11GreeksAutocall } from "@/content/lessons/m11-greeks-autocall";
+import { m11ModelesPricingAutocall } from "@/content/lessons/m11-modeles-pricing-autocall";
 import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
 import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
 import { templates as m02ForwardFutureDefinitionsTemplates } from "@/content/question-templates/m02-forward-future-definitions";
@@ -112,6 +126,20 @@ import { templates as m09CorrelationImpliciteTemplates } from "@/content/questio
 import { templates as m09DispersionTemplates } from "@/content/question-templates/m09-dispersion";
 import { templates as m09PanierWorstBestOfTemplates } from "@/content/question-templates/m09-panier-worst-best-of";
 import { templates as m09SensibilitesPayoffTemplates } from "@/content/question-templates/m09-sensibilites-payoff";
+import { templates as m10MecanismesBarrieresTemplates } from "@/content/question-templates/m10-mecanismes-barrieres";
+import { templates as m10GreeksBarrieresTemplates } from "@/content/question-templates/m10-greeks-barrieres";
+import { templates as m10BarrierParityTemplates } from "@/content/question-templates/m10-barrier-parity";
+import { templates as m10PdiTemplates } from "@/content/question-templates/m10-pdi";
+import { templates as m10ImpactVolKnockoutTemplates } from "@/content/question-templates/m10-impact-vol-knockout";
+import { templates as m10DoublesBarrieresTemplates } from "@/content/question-templates/m10-doubles-barrieres";
+import { templates as m10OptionsDigitalesTemplates } from "@/content/question-templates/m10-options-digitales";
+import { templates as m10ReplicationDigitaleTemplates } from "@/content/question-templates/m10-replication-digitale";
+import { templates as m10LissageDeltaGammaTemplates } from "@/content/question-templates/m10-lissage-delta-gamma";
+import { templates as m11ProduitStructureTemplates } from "@/content/question-templates/m11-produit-structure";
+import { templates as m11AutocallTemplates } from "@/content/question-templates/m11-autocall";
+import { templates as m11AugmenterCouponTemplates } from "@/content/question-templates/m11-augmenter-coupon";
+import { templates as m11GreeksAutocallTemplates } from "@/content/question-templates/m11-greeks-autocall";
+import { templates as m11ModelesPricingAutocallTemplates } from "@/content/question-templates/m11-modeles-pricing-autocall";
 
 /**
  * Registre des contenus publiés. Ajouter une entrée ici (leçon + templates de
@@ -175,6 +203,20 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m09-dispersion": m09Dispersion,
   "m09-panier-worst-best-of": m09PanierWorstBestOf,
   "m09-sensibilites-payoff": m09SensibilitesPayoff,
+  "m10-mecanismes-barrieres": m10MecanismesBarrieres,
+  "m10-greeks-barrieres": m10GreeksBarrieres,
+  "m10-barrier-parity": m10BarrierParity,
+  "m10-pdi": m10Pdi,
+  "m10-impact-vol-knockout": m10ImpactVolKnockout,
+  "m10-doubles-barrieres": m10DoublesBarrieres,
+  "m10-options-digitales": m10OptionsDigitales,
+  "m10-replication-digitale": m10ReplicationDigitale,
+  "m10-lissage-delta-gamma": m10LissageDeltaGamma,
+  "m11-produit-structure": m11ProduitStructure,
+  "m11-autocall": m11Autocall,
+  "m11-augmenter-coupon": m11AugmenterCoupon,
+  "m11-greeks-autocall": m11GreeksAutocall,
+  "m11-modeles-pricing-autocall": m11ModelesPricingAutocall,
 };
 
 export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
@@ -234,6 +276,20 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m09-dispersion": m09DispersionTemplates,
   "m09-panier-worst-best-of": m09PanierWorstBestOfTemplates,
   "m09-sensibilites-payoff": m09SensibilitesPayoffTemplates,
+  "m10-mecanismes-barrieres": m10MecanismesBarrieresTemplates,
+  "m10-greeks-barrieres": m10GreeksBarrieresTemplates,
+  "m10-barrier-parity": m10BarrierParityTemplates,
+  "m10-pdi": m10PdiTemplates,
+  "m10-impact-vol-knockout": m10ImpactVolKnockoutTemplates,
+  "m10-doubles-barrieres": m10DoublesBarrieresTemplates,
+  "m10-options-digitales": m10OptionsDigitalesTemplates,
+  "m10-replication-digitale": m10ReplicationDigitaleTemplates,
+  "m10-lissage-delta-gamma": m10LissageDeltaGammaTemplates,
+  "m11-produit-structure": m11ProduitStructureTemplates,
+  "m11-autocall": m11AutocallTemplates,
+  "m11-augmenter-coupon": m11AugmenterCouponTemplates,
+  "m11-greeks-autocall": m11GreeksAutocallTemplates,
+  "m11-modeles-pricing-autocall": m11ModelesPricingAutocallTemplates,
 };
 
 const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();

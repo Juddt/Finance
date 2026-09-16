@@ -7,7 +7,7 @@ export const m11: ConceptDef[] = [
     sourceRef: "M11-1",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Mécanisme d'un produit structuré", en: "Structured product mechanics" },
     objective: {
       fr: "Décrire les principales catégories de produits structurés : risque émetteur, liquidité, frais, protection conditionnelle du capital.",
@@ -20,7 +20,7 @@ export const m11: ConceptDef[] = [
     sourceRef: "M11-2",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Mécanisme d'un autocall", en: "Autocall mechanics" },
     objective: {
       fr: "Décrire l'échéancier, les observations, le coupon, la mémoire éventuelle, le rappel anticipé, la barrière et le remboursement final d'un autocall.",
@@ -33,7 +33,7 @@ export const m11: ConceptDef[] = [
     sourceRef: "M11-3",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Augmenter un coupon : comment et à quel risque", en: "Increasing a coupon: how and at what risk" },
     objective: {
       fr: "Expliquer comment augmenter un coupon et les contreparties/risques associés, sans le présenter comme gratuit.",
@@ -46,7 +46,7 @@ export const m11: ConceptDef[] = [
     sourceRef: "M11-4",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Delta, Gamma, Vega d'un autocall", en: "Delta, Gamma, Vega of an autocall" },
     objective: {
       fr: "Analyser Delta, Gamma et Vega d'un autocall selon sa structure et l'état de marché.",
@@ -59,7 +59,7 @@ export const m11: ConceptDef[] = [
     sourceRef: "M11-5",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Choix de modèle pour pricer un autocall", en: "Model choice for autocall pricing" },
     objective: {
       fr: "Justifier quand utiliser des volatilités et taux stochastiques pour le pricing, en comparant avec des modèles simplifiés.",

@@ -7,7 +7,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-1",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Mécanismes des options barrières", en: "Barrier option mechanics" },
     objective: {
       fr: "Décrire knock-in/knock-out, up/down, observation continue/discrète et rebates avec exemples.",
@@ -20,7 +20,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-2",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Sensibilités autour de la barrière", en: "Sensitivities around the barrier" },
     objective: {
       fr: "Représenter graphiquement les Greeks autour de la barrière et connaître leurs limites.",
@@ -33,7 +33,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-3",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Barrier parity / in-out parity", en: "Barrier parity / in-out parity" },
     objective: {
       fr: "Définir la barrier parity (in-out parity) et ses hypothèses nécessaires.",
@@ -46,7 +46,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-4",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Étude de cas : put down-and-in (PDI)", en: "Case study: put down-and-in (PDI)" },
     objective: {
       fr: "Analyser un put down-and-in : risques, hedging et sensibilités.",
@@ -59,7 +59,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-5",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Impact de la volatilité sur les knock-out", en: "Volatility impact on knock-outs" },
     objective: {
       fr: "Évaluer l'impact de la volatilité sur les knock-out et le déplacement de barrière, en distinguant changement contractuel et ajustement de modélisation.",
@@ -72,7 +72,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-6",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Doubles-barrières", en: "Double barriers" },
     objective: {
       fr: "Décrire le mécanisme et le fonctionnement des options à double barrière.",
@@ -85,7 +85,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-7",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Options digitales", en: "Digital options" },
     objective: {
       fr: "Décrire le mécanisme cash-or-nothing/asset-or-nothing, le payoff et les Greeks d'une digitale.",
@@ -98,7 +98,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-8",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Réplication d'une digitale par spreads", en: "Digital replication via spreads" },
     objective: {
       fr: "Répliquer une digitale par des spreads et connaître les limites près du strike/seuil.",
@@ -111,7 +111,7 @@ export const m10: ConceptDef[] = [
     sourceRef: "M10-9",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Lissage du Delta et du Gamma près du seuil", en: "Smoothing Delta and Gamma near the threshold" },
     objective: {
       fr: "Décrire les méthodes de lissage du Delta et du Gamma autour du seuil/de la barrière, leurs compromis et risque résiduel.",

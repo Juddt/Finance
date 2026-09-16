@@ -79,18 +79,19 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **56 notions publiées de bout en bout** (`content/lessons/`, liste exacte
-  des IDs dans `lib/content-registry.ts`), couvrant neuf modules désormais
+- **70 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+  des IDs dans `lib/content-registry.ts`), couvrant onze modules désormais
   complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (8/8), M02
   Forwards/futures/matières premières (7/7), M03 Obligations/taux/crédit
   (8/8), M04 FRA & swaps de taux (5/5), M05 Options vanilles & stratégies
   (4/4), M06 Brownien & Black-Scholes (7/7), M07 Greeks & couverture
   dynamique (6/6), M08 Volatilité & variance (6/8 — 2 intitulés laissés
   `upcoming` faute de confirmation, voir section « Ce qui reste à valider »),
-  M09 Corrélation/dispersion/paniers (5/5). Les catégories **Taux et
-  crédit** (M03+M04) et **Fondamentaux → chapitre M01** sont publiées à
-  100% ; **Modèles quantitatifs** (M06+M07+M08) et **Produits dérivés**
-  (M02+M05+M09, restent M10+M11) sont bien avancées. Chaque cours respecte la structure
+  M09 Corrélation/dispersion/paniers (5/5), M10 Options barrières & digitales
+  (9/9), M11 Produits structurés & autocalls (5/5). Les catégories **Taux et
+  crédit** (M03+M04), **Fondamentaux → chapitre M01** et **Produits dérivés**
+  (M02+M05+M09+M10+M11) sont publiées à 100% ; **Modèles quantitatifs**
+  (M06+M07+M08) est bien avancée. Chaque cours respecte la structure
   imposée — objectif → intuition → **rappel de prérequis** → **vocabulaire**
   défini avant usage → définition → utilité → exemple → **explication
   alternative** (pour un lecteur bloqué) → formule (KaTeX, variables/unités/
@@ -99,7 +100,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   niveaux de lecture (essentiel toujours visible, démonstration technique
   dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 228
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 284
   templates génèrent des exercices avec des paramètres tirés au hasard
   (montants, taux, dates, scénarios) et **recalculent systématiquement** la
   bonne réponse et l'explication à partir de ces paramètres — changer
@@ -269,7 +270,7 @@ components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scr
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   228 templates de questions à variantes (56 notions), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   284 templates de questions à variantes (70 notions), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
