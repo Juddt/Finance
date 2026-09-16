@@ -79,8 +79,8 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **70 notions publiées de bout en bout** (`content/lessons/`, liste exacte
-  des IDs dans `lib/content-registry.ts`), couvrant onze modules désormais
+- **77 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+  des IDs dans `lib/content-registry.ts`), couvrant douze modules désormais
   complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (8/8), M02
   Forwards/futures/matières premières (7/7), M03 Obligations/taux/crédit
   (8/8), M04 FRA & swaps de taux (5/5), M05 Options vanilles & stratégies
@@ -88,19 +88,21 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   dynamique (6/6), M08 Volatilité & variance (6/8 — 2 intitulés laissés
   `upcoming` faute de confirmation, voir section « Ce qui reste à valider »),
   M09 Corrélation/dispersion/paniers (5/5), M10 Options barrières & digitales
-  (9/9), M11 Produits structurés & autocalls (5/5). Les catégories **Taux et
-  crédit** (M03+M04), **Fondamentaux → chapitre M01** et **Produits dérivés**
-  (M02+M05+M09+M10+M11) sont publiées à 100% ; **Modèles quantitatifs**
-  (M06+M07+M08) est bien avancée. Chaque cours respecte la structure
-  imposée — objectif → intuition → **rappel de prérequis** → **vocabulaire**
-  défini avant usage → définition → utilité → exemple → **explication
-  alternative** (pour un lecteur bloqué) → formule (KaTeX, variables/unités/
-  hypothèses) → calcul détaillé → interprétation → pièges → 3 points à
-  retenir → section « Approfondir » dépliable avec démonstration — et deux
-  niveaux de lecture (essentiel toujours visible, démonstration technique
-  dépliable à la demande).
+  (9/9), M11 Produits structurés & autocalls (5/5), M12 Machine learning
+  appliqué à la finance (7/7). Les catégories **Taux et crédit** (M03+M04),
+  **Fondamentaux → chapitre M01**, **Produits dérivés** (M02+M05+M09+M10+M11)
+  et **Machine learning** (M12) sont publiées à 100% ; **Modèles
+  quantitatifs** (M06+M07+M08) est bien avancée. Chaque cours respecte la
+  structure imposée — objectif → intuition → **rappel de prérequis** →
+  **vocabulaire** défini avant usage → définition → utilité → exemple →
+  **explication alternative** (pour un lecteur bloqué) → formule (KaTeX,
+  variables/unités/hypothèses) → calcul détaillé → **mini-code Python
+  commenté** (M12 uniquement, champ `pythonExample` optionnel) →
+  interprétation → pièges → 3 points à retenir → section « Approfondir »
+  dépliable avec démonstration — et deux niveaux de lecture (essentiel
+  toujours visible, démonstration technique dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 284
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 311
   templates génèrent des exercices avec des paramètres tirés au hasard
   (montants, taux, dates, scénarios) et **recalculent systématiquement** la
   bonne réponse et l'explication à partir de ces paramètres — changer
@@ -195,10 +197,6 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   points d'entrée visibles mais désactivés (« Formules » grisée dans
   `app/[locale]/layout.tsx`) — Révisions, Quiz et Progression sont
   maintenant actifs.
-- **Aucune démo de contenu ML (M12) ni de code Python commenté** : le
-  catalogue liste les notions et objectifs pédagogiques demandés pour M12,
-  mais aucun cours n'est rédigé (contrainte « quel problème / quand l'éviter
-  / mini-code Python » du document à honorer à la rédaction).
 - **Le build GitHub Pages n'a pas de correction serveur** : c'est une démo de
   test, pas une alternative à l'architecture Supabase visée. Voir
   « Déploiement GitHub Pages » ci-dessus pour le détail de ce qui change
@@ -270,7 +268,7 @@ components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scr
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   284 templates de questions à variantes (70 notions), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   311 templates de questions à variantes (77 notions), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN

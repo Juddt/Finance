@@ -123,6 +123,16 @@ export default async function LessonPage({
         </section>
 
         <Section title={dict.lesson.calculation} body={lesson.calculation[locale]} />
+
+        {lesson.pythonExample && (
+          <section>
+            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">{dict.lesson.pythonExample}</h2>
+            <pre className="overflow-x-auto rounded-xl border border-black/10 bg-neutral-900 p-4 text-xs text-neutral-100 dark:border-white/10">
+              <code>{lesson.pythonExample[locale]}</code>
+            </pre>
+          </section>
+        )}
+
         <Section title={dict.lesson.interpretation} body={lesson.interpretation[locale]} />
         <Section title={dict.lesson.pitfalls} body={lesson.pitfalls[locale]} warn />
 

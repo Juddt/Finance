@@ -36,6 +36,7 @@
     "formula": "Formule indispensable",
     "variables": "Variables, unités et hypothèses",
     "calculation": "Calcul détaillé",
+    "pythonExample": "Exemple de code Python",
     "interpretation": "Interprétation",
     "pitfalls": "Pièges",
     "keyPoints": "Trois points à retenir",

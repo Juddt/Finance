@@ -14,7 +14,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-1",
     level: "essential",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Régression linéaire", en: "Linear regression" },
     objective: {
       fr: "Prédire une quantité continue : interprétation, hypothèses, régularisation et limites.",
@@ -27,7 +27,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-2",
     level: "essential",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Régression logistique", en: "Logistic regression" },
     objective: {
       fr: "Classer/estimer une probabilité, différencier de la régression linéaire, calibrer le modèle.",
@@ -40,7 +40,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-3",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Arbres de décision et forêts aléatoires", en: "Decision trees & random forests" },
     objective: {
       fr: "Capturer des non-linéarités, évaluer interprétabilité, surapprentissage et compromis.",
@@ -53,7 +53,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-4",
     level: "advanced",
     estimatedMinutes: 9,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Séries temporelles : AR/ARIMA, GARCH", en: "Time series: AR/ARIMA, GARCH" },
     objective: {
       fr: "Modéliser dépendance temporelle et stationnarité ; introduire AR/ARIMA, GARCH et validation chronologique, en distinguant économétrie et machine learning.",
@@ -66,7 +66,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-5",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "KNN et SVM/SVR", en: "KNN & SVM/SVR" },
     objective: {
       fr: "Utiliser la proximité (KNN, normalisation, dimension) et les marges/noyaux (SVM/SVR) pour classer ou régresser.",
@@ -79,7 +79,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-6",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Introduction au deep learning", en: "Introduction to deep learning" },
     objective: {
       fr: "Présenter réseaux de neurones, entraînement, modèles séquentiels, besoins en données et raisons de préférer parfois un modèle simple.",
@@ -92,7 +92,7 @@ export const m12: ConceptDef[] = [
     sourceRef: "M12-cross",
     level: "essential",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Méthodologie et bonnes pratiques du ML en finance", en: "Methodology & best practices for ML in finance" },
     objective: {
       fr: "Appliquer train/validation/test chronologiques, walk-forward, fuite de données, biais de survivance, overfitting, métriques adaptées, benchmark naïf et coûts de transaction, sans promettre de prédire les marchés.",

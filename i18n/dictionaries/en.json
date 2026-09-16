@@ -36,6 +36,7 @@
     "formula": "Key formula",
     "variables": "Variables, units and assumptions",
     "calculation": "Detailed calculation",
+    "pythonExample": "Python code example",
     "interpretation": "Interpretation",
     "pitfalls": "Pitfalls",
     "keyPoints": "Three takeaways",

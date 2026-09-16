@@ -81,6 +81,13 @@ import { m11Autocall } from "@/content/lessons/m11-autocall";
 import { m11AugmenterCoupon } from "@/content/lessons/m11-augmenter-coupon";
 import { m11GreeksAutocall } from "@/content/lessons/m11-greeks-autocall";
 import { m11ModelesPricingAutocall } from "@/content/lessons/m11-modeles-pricing-autocall";
+import { m12RegressionLineaire } from "@/content/lessons/m12-regression-lineaire";
+import { m12RegressionLogistique } from "@/content/lessons/m12-regression-logistique";
+import { m12ArbresForets } from "@/content/lessons/m12-arbres-forets";
+import { m12SeriesTemporelles } from "@/content/lessons/m12-series-temporelles";
+import { m12KnnSvm } from "@/content/lessons/m12-knn-svm";
+import { m12DeepLearningIntro } from "@/content/lessons/m12-deep-learning-intro";
+import { m12MethodologieMl } from "@/content/lessons/m12-methodologie-ml";
 import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
 import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
 import { templates as m02ForwardFutureDefinitionsTemplates } from "@/content/question-templates/m02-forward-future-definitions";
@@ -151,6 +158,13 @@ import { templates as m11AutocallTemplates } from "@/content/question-templates/
 import { templates as m11AugmenterCouponTemplates } from "@/content/question-templates/m11-augmenter-coupon";
 import { templates as m11GreeksAutocallTemplates } from "@/content/question-templates/m11-greeks-autocall";
 import { templates as m11ModelesPricingAutocallTemplates } from "@/content/question-templates/m11-modeles-pricing-autocall";
+import { templates as m12RegressionLineaireTemplates } from "@/content/question-templates/m12-regression-lineaire";
+import { templates as m12RegressionLogistiqueTemplates } from "@/content/question-templates/m12-regression-logistique";
+import { templates as m12ArbresForetsTemplates } from "@/content/question-templates/m12-arbres-forets";
+import { templates as m12SeriesTemporellesTemplates } from "@/content/question-templates/m12-series-temporelles";
+import { templates as m12KnnSvmTemplates } from "@/content/question-templates/m12-knn-svm";
+import { templates as m12DeepLearningIntroTemplates } from "@/content/question-templates/m12-deep-learning-intro";
+import { templates as m12MethodologieMlTemplates } from "@/content/question-templates/m12-methodologie-ml";
 
 export const lessonsByConceptId: Record<string, LessonContent> = {
   "m02-forward-future-definitions": m02ForwardFutureDefinitions,
@@ -223,6 +237,13 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m11-augmenter-coupon": m11AugmenterCoupon,
   "m11-greeks-autocall": m11GreeksAutocall,
   "m11-modeles-pricing-autocall": m11ModelesPricingAutocall,
+  "m12-regression-lineaire": m12RegressionLineaire,
+  "m12-regression-logistique": m12RegressionLogistique,
+  "m12-arbres-forets": m12ArbresForets,
+  "m12-series-temporelles": m12SeriesTemporelles,
+  "m12-knn-svm": m12KnnSvm,
+  "m12-deep-learning-intro": m12DeepLearningIntro,
+  "m12-methodologie-ml": m12MethodologieMl,
 };
 
 export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
@@ -296,6 +317,13 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m11-augmenter-coupon": m11AugmenterCouponTemplates,
   "m11-greeks-autocall": m11GreeksAutocallTemplates,
   "m11-modeles-pricing-autocall": m11ModelesPricingAutocallTemplates,
+  "m12-regression-lineaire": m12RegressionLineaireTemplates,
+  "m12-regression-logistique": m12RegressionLogistiqueTemplates,
+  "m12-arbres-forets": m12ArbresForetsTemplates,
+  "m12-series-temporelles": m12SeriesTemporellesTemplates,
+  "m12-knn-svm": m12KnnSvmTemplates,
+  "m12-deep-learning-intro": m12DeepLearningIntroTemplates,
+  "m12-methodologie-ml": m12MethodologieMlTemplates,
 };
 
 const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();

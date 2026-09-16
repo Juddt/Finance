@@ -36,6 +36,12 @@ export interface LessonContent {
   alternativeExplanation?: Bi;
   formula: LessonFormula;
   calculation: Bi;
+  /**
+   * Mini-code Python commenté (un bloc par langue, commentaires traduits),
+   * réservé aux notions qui l'exigent (ex. module M12, machine learning) —
+   * voir doc : chaque famille de modèle doit inclure un exemple de code.
+   */
+  pythonExample?: Bi;
   interpretation: Bi;
   pitfalls: Bi;
   keyPoints: { fr: string[]; en: string[] };
