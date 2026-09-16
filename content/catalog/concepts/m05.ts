@@ -20,7 +20,7 @@ export const m05: ConceptDef[] = [
     sourceRef: "M05-2",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Européennes/américaines, ITM/ATM/OTM", en: "European/American, ITM/ATM/OTM" },
     objective: {
       fr: "Distinguer options européennes et américaines, ITM/ATM/OTM, valeur intrinsèque et valeur temps.",
@@ -33,7 +33,7 @@ export const m05: ConceptDef[] = [
     sourceRef: "M05-3",
     level: "essential",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Parité call-put", en: "Put-call parity" },
     objective: {
       fr: "Démontrer la parité call-put, ses hypothèses et son ajustement en présence de dividendes.",
@@ -46,7 +46,7 @@ export const m05: ConceptDef[] = [
     sourceRef: "M05-4",
     level: "essential",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Stratégies optionnelles classiques", en: "Classic option strategies" },
     objective: {
       fr: "Comparer call spread, put spread, straddle, strangle, butterfly, collar et risk reversal : fonctionnement, usage, risques.",

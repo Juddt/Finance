@@ -79,10 +79,17 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **5 notions publiées de bout en bout**, couvrant deux catégories
-  (Taux et crédit, Produits dérivés) : `m02-forward-contract-value`,
-  `m02-couverture-forward`, `m03-duration`, `m03-risque-credit`,
-  `m05-call-put`. Chaque cours (`content/lessons/`) respecte la structure
+- **19 notions publiées de bout en bout**, couvrant les modules M02 (Forwards,
+  futures & matières premières, complet — 7/7), M03 (Obligations, taux &
+  crédit, complet — 8/8) et M05 (Options vanilles & stratégies, complet —
+  4/4) : `m02-forward-future-definitions`, `m02-prix-forward-non-arbitrage`,
+  `m02-forward-vs-future`, `m02-forward-contract-value`,
+  `m02-couverture-forward`, `m02-matieres-premieres`,
+  `m02-contango-backwardation`, `m03-definition-obligations`,
+  `m03-pricing-obligation`, `m03-duration`, `m03-convexite`,
+  `m03-risque-credit`, `m03-cds`, `m03-taux-sans-risque`, `m03-dv01`,
+  `m05-call-put`, `m05-itm-atm-otm`, `m05-parite-call-put`,
+  `m05-strategies-classiques`. Chaque cours (`content/lessons/`) respecte la structure
   imposée — objectif → intuition → **rappel de prérequis** → **vocabulaire**
   défini avant usage → définition → utilité → exemple → **explication
   alternative** (pour un lecteur bloqué) → formule (KaTeX, variables/unités/
@@ -91,7 +98,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   niveaux de lecture (essentiel toujours visible, démonstration technique
   dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 24
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 80
   templates génèrent des exercices avec des paramètres tirés au hasard
   (montants, taux, dates, scénarios) et **recalculent systématiquement** la
   bonne réponse et l'explication à partir de ces paramètres — changer
@@ -208,7 +215,7 @@ Repris du document de cadrage (section E), toujours vrai pour ce scaffold :
      d'Avellaneda à préciser, à ne pas confondre avec Avellaneda-Stoikov
      (market making).
 2. Les cours/annales de l'utilisateur et les sources autorisées pour aligner
-   exemples, conventions et démonstrations des 92 notions restantes.
+   exemples, conventions et démonstrations des 78 notions restantes.
 3. La stack d'un éventuel site existant à faire évoluer : aucun dépôt de ce
    type n'a été trouvé/inspecté (ce dépôt a été créé vide pour ce projet).
 4. Revue technique et pédagogique de chaque cours rédigé (le contenu de
@@ -260,8 +267,8 @@ components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/Stati
 components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
-content/lessons/              contenu bilingue des 5 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   24 templates de questions à variantes (5 notions), serveur uniquement — sauf build GitHub Pages
+content/lessons/              contenu bilingue des 19 cours publiés (prérequis, vocabulaire, explication alternative)
+content/question-templates/   80 templates de questions à variantes (19 notions), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN

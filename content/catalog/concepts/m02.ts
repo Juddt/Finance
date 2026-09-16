@@ -7,7 +7,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-1",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Forward et future : définitions et payoffs", en: "Forward & future: definitions and payoffs" },
     objective: {
       fr: "Définir un contrat forward et un contrat future, les positions longue/courte et leurs payoffs.",
@@ -20,7 +20,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-2",
     level: "essential",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Prix forward par non-arbitrage", en: "Forward price by no-arbitrage" },
     objective: {
       fr: "Démontrer le prix forward par non-arbitrage, avec et sans revenus ou coûts de portage.",
@@ -33,7 +33,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-3",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Différences forward / future", en: "Forward vs future differences" },
     objective: {
       fr: "Comparer standardisation, contrepartie, collatéral, appels de marge et règlement quotidien.",
@@ -72,7 +72,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-6",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Spécificités des matières premières", en: "Commodity specifics" },
     objective: {
       fr: "Expliquer stockage, saisonnalité et rendement de convenance pour les matières premières.",
@@ -85,7 +85,7 @@ export const m02: ConceptDef[] = [
     sourceRef: "M02-7",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Contango, backwardation et prix forward matière première", en: "Contango, backwardation & commodity forward price" },
     objective: {
       fr: "Calculer le prix forward d'une matière première et distinguer courbe à terme et anticipations.",

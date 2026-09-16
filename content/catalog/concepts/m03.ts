@@ -7,7 +7,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-1",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Définition et types d'obligations", en: "Bond definition & types" },
     objective: {
       fr: "Décrire les propriétés et types d'obligations, y compris les zéro-coupons.",
@@ -20,7 +20,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-2",
     level: "essential",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Pricing d'une obligation", en: "Bond pricing" },
     objective: {
       fr: "Calculer le prix d'une obligation par actualisation des flux, avec coupon couru, clean/dirty price et rendement actuariel.",
@@ -46,7 +46,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-4",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Convexité", en: "Convexity" },
     objective: {
       fr: "Calculer la convexité et l'utiliser pour approximer la relation prix-taux.",
@@ -72,7 +72,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-6",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Mécanisme d'un CDS", en: "CDS mechanics" },
     objective: {
       fr: "Décrire acheteur/vendeur de protection, prime, événement de crédit et règlement d'un CDS.",
@@ -85,7 +85,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-7",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Taux sans risque, spot et forward", en: "Risk-free, spot & forward rates" },
     objective: {
       fr: "Choisir un proxy de taux sans risque et distinguer taux spot, taux forward et conventions de courbe.",
@@ -98,7 +98,7 @@ export const m03: ConceptDef[] = [
     sourceRef: "M03-8",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "DV01 / PV01", en: "DV01 / PV01" },
     objective: {
       fr: "Définir et calculer le DV01 (PV01), son unité et sa convention de signe.",
