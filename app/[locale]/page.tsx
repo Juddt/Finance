@@ -5,6 +5,12 @@ import { getUserId } from "@/lib/session";
 import { getCatalogStats } from "@/lib/store";
 import { notFound } from "next/navigation";
 import { getPublishedConceptIds } from "@/lib/content-registry";
+import { LiveStatTile } from "@/components/LiveStatTile";
+
+// Build GitHub Pages (export statique) : cookies() n'est pas disponible (pas de
+// serveur) — la progression personnelle est alors lue en localStorage, côté
+// client, via LiveStatTile. Voir README, "Déploiement GitHub Pages".
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
 export default async function CatalogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
@@ -12,7 +18,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
   const locale = rawLocale as Locale;
   const dict = await getDictionary(locale);
 
-  const userId = await getUserId();
+  const userId = isStaticExport ? null : await getUserId();
   const stats = await getCatalogStats(userId);
   const statsByCategory = new Map(stats.map((s) => [s.categoryId, s]));
 
@@ -54,9 +60,9 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
       </section>
 
       <section className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatTile label={dict.home.statsPublished} value={`${totals.publishedConcepts}/${totals.totalConcepts}`} />
-        <StatTile label={dict.home.statsStudied} value={String(totals.studiedConcepts)} />
-        <StatTile label={dict.home.statsMastered} value={String(totals.masteredConcepts)} />
+        <LiveStatTile label={dict.home.statsPublished} value={`${totals.publishedConcepts}/${totals.totalConcepts}`} />
+        <LiveStatTile label={dict.home.statsStudied} value={String(totals.studiedConcepts)} liveKind="studied" />
+        <LiveStatTile label={dict.home.statsMastered} value={String(totals.masteredConcepts)} liveKind="mastered" />
       </section>
 
       <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -138,15 +144,6 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
             );
           })}
       </section>
-    </div>
-  );
-}
-
-function StatTile({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-900">
-      <div className="text-2xl font-semibold tabular-nums">{value}</div>
-      <div className="text-sm text-neutral-600 dark:text-neutral-300">{label}</div>
     </div>
   );
 }

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:pages": "node scripts/build-static.mjs"
   },
   "dependencies": {
     "katex": "^0.18.7",

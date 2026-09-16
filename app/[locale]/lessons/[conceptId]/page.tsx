@@ -1,10 +1,17 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getConceptById } from "@/content/catalog";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
-import { lessonsByConceptId, questionsByConceptId } from "@/lib/content-registry";
+import { getPublishedConceptIds, lessonsByConceptId, questionsByConceptId } from "@/lib/content-registry";
 import { toQuestionView } from "@/lib/question-types";
 import { Formula } from "@/components/Formula";
-import { QuizRunner } from "@/components/QuizRunner";
+import { QuizSlot } from "@/components/QuizSlot";
+
+// Requis par `output: "export"` (build GitHub Pages) : toutes les valeurs de
+// conceptId doivent être connues au build. Sans effet sur le build normal.
+export async function generateStaticParams() {
+  return getPublishedConceptIds().map((conceptId) => ({ conceptId }));
+}
 
 export default async function LessonPage({
   params,
@@ -90,7 +97,9 @@ export default async function LessonPage({
       <hr className="my-8 border-black/10 dark:border-white/10" />
 
       <h2 className="mb-4 text-xl font-semibold">{dict.lesson.startQuiz}</h2>
-      <QuizRunner conceptId={conceptId} locale={locale} questions={questions} dict={dict.quiz} />
+      <Suspense fallback={null}>
+        <QuizSlot conceptId={conceptId} locale={locale} questions={questions} dict={dict.quiz} />
+      </Suspense>
     </div>
   );
 }

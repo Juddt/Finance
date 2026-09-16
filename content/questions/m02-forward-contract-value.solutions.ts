@@ -1,10 +1,14 @@
 import type { QuestionSolution } from "@/lib/question-types";
 
 /**
- * SERVEUR UNIQUEMENT. Ne jamais importer ce fichier depuis un composant client
- * ('use client') ni depuis app/[locale]/** : seules les route handlers
- * (app/api/**) et lib/store.ts doivent l'importer, pour que webpack ne
- * l'inclue jamais dans le bundle envoyé au navigateur.
+ * SERVEUR UNIQUEMENT dans le build normal (npm run dev / npm run build) :
+ * seuls les route handlers (app/api/**) et lib/store.ts doivent l'importer,
+ * pour que webpack ne l'inclue jamais dans le bundle envoyé au navigateur.
+ * Ne jamais l'importer depuis un composant client dans ce build-là.
+ *
+ * Exception assumée : lib/content-registry-client.ts (utilisé uniquement par
+ * le build statique GitHub Pages, qui n'a pas de serveur) importe ce fichier
+ * volontairement — voir README, "Déploiement GitHub Pages".
  */
 export const m02ForwardContractValueSolutions: QuestionSolution[] = [
   {

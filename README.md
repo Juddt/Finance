@@ -25,6 +25,46 @@ persistance utilisateur (sessions, tentatives, révisions) est un store
 fichier local (`lib/store.ts`, données dans `.data/`, jamais commitées). Voir
 plus bas pour la cible de production (Supabase).
 
+## Déploiement GitHub Pages (démo de test)
+
+GitHub Pages ne sert que des fichiers statiques (pas de serveur Node), donc
+les routes API, les cookies et `proxy.ts` sont incompatibles — voir
+[la documentation Next.js sur l'export statique](https://nextjs.org/docs/app/guides/static-exports#unsupported-features).
+Un build dédié (`npm run build:pages`, alias `output: "export"`) contourne ça :
+
+- Les routes API, `proxy.ts` et `components/QuizSlot.tsx` (voir plus bas) sont
+  remplacés le temps du build par `scripts/build-static.mjs`, puis restaurés —
+  le build normal (`npm run dev` / `npm run build`) n'est jamais impacté.
+- **Le quiz est corrigé 100 % côté navigateur** (`lib/quiz-engine-client.ts`,
+  rejoue `gradeAnswer`/`scheduleReview` en local) et la progression est
+  stockée en `localStorage`, par navigateur — pas de compte, pas de
+  synchronisation entre appareils, effacée si le visiteur vide ses données de
+  site.
+- **Conséquence assumée sur la sécurité** : pour que la correction puisse
+  tourner sans serveur, les solutions des questions (normalement strictement
+  serveur, voir plus bas) sont incluses dans le bundle JavaScript envoyé au
+  navigateur pour *cette version uniquement*
+  (`lib/content-registry-client.ts` → `content/questions/*.solutions.ts`).
+  N'importe qui peut les lire dans les DevTools. C'est acceptable pour tester
+  l'application, pas pour un usage réel — voir « Ce qui n'est pas fait ».
+  Le build normal (Vercel/Node) n'est pas concerné : vérifié après chaque
+  build que les solutions n'apparaissent pas dans `.next/static`.
+
+**Mise en route (une fois)** : Settings → Pages → Source : **GitHub Actions**
+sur le dépôt GitHub. Le workflow `.github/workflows/deploy-pages.yml` build et
+déploie ensuite automatiquement à chaque push sur `main`.
+
+**Tester en local avant de pousser** :
+
+```bash
+npm run build:pages   # génère ./out
+npx serve out          # ou tout serveur statique équivalent
+```
+
+Le `basePath` par défaut est `/Finance` (nom du dépôt). Si le dépôt est
+renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
+`next.config.ts` ou le passer en variable d'environnement au build.
+
 ## Ce qui est fait
 
 - **Architecture** Next.js (App Router) / TypeScript / Tailwind v4, routage
@@ -102,6 +142,10 @@ plus bas pour la cible de production (Supabase).
   catalogue liste les notions et objectifs pédagogiques demandés pour M12,
   mais aucun cours n'est rédigé (contrainte « quel problème / quand l'éviter
   / mini-code Python » du document à honorer à la rédaction).
+- **Le build GitHub Pages n'a pas de correction serveur** : c'est une démo de
+  test, pas une alternative à l'architecture Supabase visée. Voir
+  « Déploiement GitHub Pages » ci-dessus pour le détail de ce qui change
+  (solutions côté client, progression en localStorage uniquement).
 
 ## Ce qui reste à valider avant d'aller plus loin
 
@@ -152,14 +196,19 @@ Repris du document de cadrage (section E), toujours vrai pour ce scaffold :
 ```
 app/[locale]/                page d'accueil (catalogue), page notion+quiz, layout (nav, toggle langue)
 app/api/                     route handlers : catalog, lessons/:id, study-sessions, attempts, reviews/due, profile
-proxy.ts                     redirige "/" -> "/fr" (convention Next.js 16, ex-middleware.ts)
-components/                  LanguageToggle, Formula (KaTeX serveur), QuizRunner (client)
+app/layout.tsx, app/page.tsx  filet pour la racine "/" du build GitHub Pages (redirige vers "/fr")
+proxy.ts                     redirige "/" -> "/fr" (convention Next.js 16, ex-middleware.ts) ; absent du build GitHub Pages
+components/                  LanguageToggle, Formula (KaTeX serveur), QuizShell (UI quiz partagée)
+components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/StaticQuizRunner.tsx = backend local/localStorage
+components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue du cours pilote publié
-content/questions/            questions publiques + solutions (fichier .solutions.ts, serveur uniquement)
-lib/                         srs.ts, grading.ts, store.ts, session.ts, content-registry.ts, question/lesson types
+content/questions/            questions publiques + solutions (fichier .solutions.ts, serveur uniquement — sauf build GitHub Pages)
+lib/                         srs.ts, grading.ts, store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
 db/migrations/0001_init.sql   schéma cible Supabase/PostgreSQL (tables + RLS), non exécuté
+scripts/build-static.mjs      build GitHub Pages : swap proxy.ts/app/api/QuizSlot.tsx, output: "export"
+.github/workflows/deploy-pages.yml  CI : build + déploiement GitHub Pages sur push main
 ```
 
 ## Sources

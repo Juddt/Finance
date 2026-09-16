@@ -42,3 +42,8 @@ next-env.d.ts
 
 # store fichier local du MVP (voir lib/store.ts) — jamais commité, régénéré au runtime
 /.data/
+
+# export statique GitHub Pages
+/out/
+*.static-build-bak
+*.static-build-bak/
