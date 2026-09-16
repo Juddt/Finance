@@ -7,7 +7,7 @@ export const m04: ConceptDef[] = [
     sourceRef: "M04-1",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Fonctionnement d'un FRA", en: "FRA mechanics" },
     objective: {
       fr: "Décrire le fonctionnement d'un FRA : conventions, taux contractuel et règlement.",
@@ -20,7 +20,7 @@ export const m04: ConceptDef[] = [
     sourceRef: "M04-2",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Swap de taux fixe/variable", en: "Fixed/floating rate swap" },
     objective: {
       fr: "Décrire les flux d'un swap de taux, les sens payeur/receveur et le taux au pair.",
@@ -33,7 +33,7 @@ export const m04: ConceptDef[] = [
     sourceRef: "M04-3",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Pricing d'un swap : deux méthodes", en: "Swap pricing: two methods" },
     objective: {
       fr: "Pricer un swap par différence de jambes obligataires et par décomposition en FRA, avec conventions cohérentes.",
@@ -46,7 +46,7 @@ export const m04: ConceptDef[] = [
     sourceRef: "M04-4",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Cadre mono-courbe vs multi-courbe", en: "Single-curve vs multi-curve framework" },
     objective: {
       fr: "Distinguer actualisation et projection en cadre pédagogique mono-courbe et en cadre multi-courbe.",
@@ -59,7 +59,7 @@ export const m04: ConceptDef[] = [
     sourceRef: "M04-5",
     level: "advanced",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "DV01 d'un swap et couverture", en: "Swap DV01 & hedging" },
     objective: {
       fr: "Calculer le DV01 d'un swap et l'utiliser pour couvrir le risque de taux, avec ses limites.",

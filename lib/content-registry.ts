@@ -19,6 +19,19 @@ import { m05CallPut } from "@/content/lessons/m05-call-put";
 import { m05ItmAtmOtm } from "@/content/lessons/m05-itm-atm-otm";
 import { m05PariteCallPut } from "@/content/lessons/m05-parite-call-put";
 import { m05StrategiesClassiques } from "@/content/lessons/m05-strategies-classiques";
+import { m04Fra } from "@/content/lessons/m04-fra";
+import { m04SwapFixeVariable } from "@/content/lessons/m04-swap-fixe-variable";
+import { m04PricingSwap } from "@/content/lessons/m04-pricing-swap";
+import { m04MonoMultiCourbe } from "@/content/lessons/m04-mono-multi-courbe";
+import { m04Dv01Swap } from "@/content/lessons/m04-dv01-swap";
+import { m01OrganisationBanque } from "@/content/lessons/m01-organisation-banque";
+import { m01BanquesCentrales } from "@/content/lessons/m01-banques-centrales";
+import { m01ClassesActifs } from "@/content/lessons/m01-classes-actifs";
+import { m01Arbitrage } from "@/content/lessons/m01-arbitrage";
+import { m01VenteDecouvert } from "@/content/lessons/m01-vente-decouvert";
+import { m01TauxChange } from "@/content/lessons/m01-taux-change";
+import { m01PariteTaux } from "@/content/lessons/m01-parite-taux";
+import { m01MicrostructureRappels } from "@/content/lessons/m01-microstructure-rappels";
 import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
 import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
 import { templates as m02ForwardFutureDefinitionsTemplates } from "@/content/question-templates/m02-forward-future-definitions";
@@ -38,6 +51,19 @@ import { templates as m05CallPutTemplates } from "@/content/question-templates/m
 import { templates as m05ItmAtmOtmTemplates } from "@/content/question-templates/m05-itm-atm-otm";
 import { templates as m05PariteCallPutTemplates } from "@/content/question-templates/m05-parite-call-put";
 import { templates as m05StrategiesClassiquesTemplates } from "@/content/question-templates/m05-strategies-classiques";
+import { templates as m04FraTemplates } from "@/content/question-templates/m04-fra";
+import { templates as m04SwapFixeVariableTemplates } from "@/content/question-templates/m04-swap-fixe-variable";
+import { templates as m04PricingSwapTemplates } from "@/content/question-templates/m04-pricing-swap";
+import { templates as m04MonoMultiCourbeTemplates } from "@/content/question-templates/m04-mono-multi-courbe";
+import { templates as m04Dv01SwapTemplates } from "@/content/question-templates/m04-dv01-swap";
+import { templates as m01OrganisationBanqueTemplates } from "@/content/question-templates/m01-organisation-banque";
+import { templates as m01BanquesCentralesTemplates } from "@/content/question-templates/m01-banques-centrales";
+import { templates as m01ClassesActifsTemplates } from "@/content/question-templates/m01-classes-actifs";
+import { templates as m01ArbitrageTemplates } from "@/content/question-templates/m01-arbitrage";
+import { templates as m01VenteDecouvertTemplates } from "@/content/question-templates/m01-vente-decouvert";
+import { templates as m01TauxChangeTemplates } from "@/content/question-templates/m01-taux-change";
+import { templates as m01PariteTauxTemplates } from "@/content/question-templates/m01-parite-taux";
+import { templates as m01MicrostructureRappelsTemplates } from "@/content/question-templates/m01-microstructure-rappels";
 
 /**
  * Registre des contenus publiés. Ajouter une entrée ici (leçon + templates de
@@ -64,6 +90,19 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m05-itm-atm-otm": m05ItmAtmOtm,
   "m05-parite-call-put": m05PariteCallPut,
   "m05-strategies-classiques": m05StrategiesClassiques,
+  "m04-fra": m04Fra,
+  "m04-swap-fixe-variable": m04SwapFixeVariable,
+  "m04-pricing-swap": m04PricingSwap,
+  "m04-mono-multi-courbe": m04MonoMultiCourbe,
+  "m04-dv01-swap": m04Dv01Swap,
+  "m01-organisation-banque": m01OrganisationBanque,
+  "m01-banques-centrales": m01BanquesCentrales,
+  "m01-classes-actifs": m01ClassesActifs,
+  "m01-arbitrage": m01Arbitrage,
+  "m01-vente-decouvert": m01VenteDecouvert,
+  "m01-taux-change": m01TauxChange,
+  "m01-parite-taux": m01PariteTaux,
+  "m01-microstructure-rappels": m01MicrostructureRappels,
 };
 
 export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
@@ -86,6 +125,19 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m05-itm-atm-otm": m05ItmAtmOtmTemplates,
   "m05-parite-call-put": m05PariteCallPutTemplates,
   "m05-strategies-classiques": m05StrategiesClassiquesTemplates,
+  "m04-fra": m04FraTemplates,
+  "m04-swap-fixe-variable": m04SwapFixeVariableTemplates,
+  "m04-pricing-swap": m04PricingSwapTemplates,
+  "m04-mono-multi-courbe": m04MonoMultiCourbeTemplates,
+  "m04-dv01-swap": m04Dv01SwapTemplates,
+  "m01-organisation-banque": m01OrganisationBanqueTemplates,
+  "m01-banques-centrales": m01BanquesCentralesTemplates,
+  "m01-classes-actifs": m01ClassesActifsTemplates,
+  "m01-arbitrage": m01ArbitrageTemplates,
+  "m01-vente-decouvert": m01VenteDecouvertTemplates,
+  "m01-taux-change": m01TauxChangeTemplates,
+  "m01-parite-taux": m01PariteTauxTemplates,
+  "m01-microstructure-rappels": m01MicrostructureRappelsTemplates,
 };
 
 const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();
