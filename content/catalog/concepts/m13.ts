@@ -14,7 +14,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-mathfin-a",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Intérêts simples, composés et capitalisation continue", en: "Simple, compound interest & continuous compounding" },
     objective: {
       fr: "Calculer intérêts simples, intérêts composés et capitalisation continue.",
@@ -27,7 +27,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-mathfin-b",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Actualisation, annuités, rendements et courbes", en: "Discounting, annuities, returns & curves" },
     objective: {
       fr: "Actualiser des flux, valoriser des annuités et lire rendements et courbes de taux.",
@@ -42,7 +42,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-gp-a",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Covariance et diversification", en: "Covariance & diversification" },
     objective: {
       fr: "Relier covariance entre actifs et effet de diversification d'un portefeuille.",
@@ -55,7 +55,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-gp-b",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Markowitz, frontière efficiente et portefeuille minimum variance", en: "Markowitz, efficient frontier & minimum variance portfolio" },
     objective: {
       fr: "Construire la frontière efficiente de Markowitz et identifier le portefeuille minimum variance.",
@@ -68,7 +68,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-gp-c",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "CAPM et Security Market Line", en: "CAPM & Security Market Line" },
     objective: {
       fr: "Appliquer le CAPM et représenter la Security Market Line.",
@@ -81,7 +81,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-gp-d",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Allocation, benchmark et attribution de performance", en: "Allocation, benchmark & performance attribution" },
     objective: {
       fr: "Comparer gestion active/passive, choisir un benchmark et décomposer l'attribution de performance.",
@@ -96,7 +96,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-risques-a",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "VaR, Expected Shortfall et stress tests", en: "VaR, Expected Shortfall & stress tests" },
     objective: {
       fr: "Calculer volatilité, downside risk, VaR et Expected Shortfall, et interpréter un stress test.",
@@ -109,7 +109,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-risques-b",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Drawdown, recovery period et Ulcer Index", en: "Drawdown, recovery period & Ulcer Index" },
     objective: {
       fr: "Mesurer le drawdown maximal, la période de recovery et l'Ulcer Index d'une stratégie.",
@@ -122,7 +122,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-risques-c",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Sharpe, Sortino, Calmar, alpha/bêta et tracking error", en: "Sharpe, Sortino, Calmar, alpha/beta & tracking error" },
     objective: {
       fr: "Calculer et interpréter Sharpe, Sortino, Calmar, alpha/bêta, tracking error et information ratio.",
@@ -135,7 +135,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-risques-d",
     level: "essential",
     estimatedMinutes: 5,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Risques de marché, crédit, contrepartie, liquidité, opérationnel", en: "Market, credit, counterparty, liquidity & operational risk" },
     objective: {
       fr: "Distinguer les grandes familles de risque financier : marché, crédit, contrepartie, liquidité, opérationnel.",
@@ -150,7 +150,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-trading-a",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Ordres, levier, marge et P&L", en: "Orders, leverage, margin & P&L" },
     objective: {
       fr: "Utiliser ordres marché/limite/stop, comprendre levier, marge et calcul du P&L.",
@@ -163,7 +163,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-trading-b",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Market making, arbitrage, momentum, mean reversion", en: "Market making, arbitrage, momentum, mean reversion" },
     objective: {
       fr: "Décrire les logiques de market making, d'arbitrage, de momentum et de mean reversion.",
@@ -176,7 +176,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-trading-c",
     level: "advanced",
     estimatedMinutes: 7,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Backtesting et biais comportementaux", en: "Backtesting & behavioral biases" },
     objective: {
       fr: "Mener un backtesting rigoureux et repérer les biais comportementaux courants.",
@@ -191,7 +191,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-reg-a",
     level: "advanced",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Bâle III et finalisation (« Bâle IV »)", en: "Basel III & finalization (\"Basel IV\")" },
     objective: {
       fr: "Situer fonds propres, RWA, CET1, LCR, NSFR, CVA et FRTB, avec sources officielles datées et juridiction précisée.",
@@ -204,7 +204,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-reg-b",
     level: "advanced",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "MiFID II, EMIR, KYC et LCB-FT", en: "MiFID II, EMIR, KYC & AML" },
     objective: {
       fr: "Présenter les objectifs de MiFID II, EMIR, KYC et LCB-FT, avec sources officielles.",
@@ -219,7 +219,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-prog",
     level: "essential",
     estimatedMinutes: 8,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Python, Excel/VBA, SQL et R pour la finance", en: "Python, Excel/VBA, SQL & R for finance" },
     objective: {
       fr: "Manipuler données, rendements, VaR et Monte-Carlo avec Python/Excel/VBA/SQL/R, graphiques et automatisation.",
@@ -234,7 +234,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-entretiens-a",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Questions techniques et de marché", en: "Technical & market questions" },
     objective: {
       fr: "S'entraîner aux questions techniques et de marché posées en entretien.",
@@ -247,7 +247,7 @@ export const m13: ConceptDef[] = [
     sourceRef: "M13-entretiens-b",
     level: "essential",
     estimatedMinutes: 6,
-    status: "upcoming",
+    status: "published",
     title: { fr: "Motivation, études de cas et brainteasers", en: "Motivation, case studies & brainteasers" },
     objective: {
       fr: "Préparer motivation, études de cas risk/trading/structuration/quant et brainteasers.",

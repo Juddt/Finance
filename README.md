@@ -79,8 +79,8 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **77 notions publiées de bout en bout** (`content/lessons/`, liste exacte
-  des IDs dans `lib/content-registry.ts`), couvrant douze modules désormais
+- **95 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+  des IDs dans `lib/content-registry.ts`), couvrant treize modules désormais
   complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (8/8), M02
   Forwards/futures/matières premières (7/7), M03 Obligations/taux/crédit
   (8/8), M04 FRA & swaps de taux (5/5), M05 Options vanilles & stratégies
@@ -89,20 +89,23 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   `upcoming` faute de confirmation, voir section « Ce qui reste à valider »),
   M09 Corrélation/dispersion/paniers (5/5), M10 Options barrières & digitales
   (9/9), M11 Produits structurés & autocalls (5/5), M12 Machine learning
-  appliqué à la finance (7/7). Les catégories **Taux et crédit** (M03+M04),
-  **Fondamentaux → chapitre M01**, **Produits dérivés** (M02+M05+M09+M10+M11)
-  et **Machine learning** (M12) sont publiées à 100% ; **Modèles
-  quantitatifs** (M06+M07+M08) est bien avancée. Chaque cours respecte la
-  structure imposée — objectif → intuition → **rappel de prérequis** →
-  **vocabulaire** défini avant usage → définition → utilité → exemple →
-  **explication alternative** (pour un lecteur bloqué) → formule (KaTeX,
-  variables/unités/hypothèses) → calcul détaillé → **mini-code Python
-  commenté** (M12 uniquement, champ `pythonExample` optionnel) →
+  appliqué à la finance (7/7), M13 Compléments (18/18 — mathématiques
+  financières, gestion de portefeuille, risques, trading/microstructure,
+  réglementation avec sources officielles datées, programmation,
+  entretiens). Les catégories **Taux et crédit** (M03+M04), **Fondamentaux →
+  chapitre M01**, **Produits dérivés** (M02+M05+M09+M10+M11), **Machine
+  learning** (M12) et **M13 (tous ses chapitres)** sont publiées à 100% ;
+  **Modèles quantitatifs** (M06+M07+M08) est bien avancée. Chaque cours
+  respecte la structure imposée — objectif → intuition → **rappel de
+  prérequis** → **vocabulaire** défini avant usage → définition → utilité →
+  exemple → **explication alternative** (pour un lecteur bloqué) → formule
+  (KaTeX, variables/unités/hypothèses) → calcul détaillé → **mini-code
+  Python commenté** (M12 et M13-prog, champ `pythonExample` optionnel) →
   interprétation → pièges → 3 points à retenir → section « Approfondir »
   dépliable avec démonstration — et deux niveaux de lecture (essentiel
   toujours visible, démonstration technique dépliable à la demande).
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
-  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 311
+  `content/question-templates/`, PRNG seedé dans `lib/prng.ts`) : 383
   templates génèrent des exercices avec des paramètres tirés au hasard
   (montants, taux, dates, scénarios) et **recalculent systématiquement** la
   bonne réponse et l'explication à partir de ces paramètres — changer
@@ -268,7 +271,7 @@ components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scr
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   311 templates de questions à variantes (77 notions), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   383 templates de questions à variantes (95 notions), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN

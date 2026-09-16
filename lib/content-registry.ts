@@ -77,6 +77,24 @@ import { m12SeriesTemporelles } from "@/content/lessons/m12-series-temporelles";
 import { m12KnnSvm } from "@/content/lessons/m12-knn-svm";
 import { m12DeepLearningIntro } from "@/content/lessons/m12-deep-learning-intro";
 import { m12MethodologieMl } from "@/content/lessons/m12-methodologie-ml";
+import { m13InteretsComposes } from "@/content/lessons/m13-interets-composes";
+import { m13ActualisationAnnuites } from "@/content/lessons/m13-actualisation-annuites";
+import { m13CovarianceDiversification } from "@/content/lessons/m13-covariance-diversification";
+import { m13MarkowitzFrontiere } from "@/content/lessons/m13-markowitz-frontiere";
+import { m13CapmSml } from "@/content/lessons/m13-capm-sml";
+import { m13AllocationAttribution } from "@/content/lessons/m13-allocation-attribution";
+import { m13VarEsStress } from "@/content/lessons/m13-var-es-stress";
+import { m13DrawdownUlcer } from "@/content/lessons/m13-drawdown-ulcer";
+import { m13RatiosRisqueAjuste } from "@/content/lessons/m13-ratios-risque-ajuste";
+import { m13TypologieRisques } from "@/content/lessons/m13-typologie-risques";
+import { m13OrdresLevierMarge } from "@/content/lessons/m13-ordres-levier-marge";
+import { m13MarketMakingMomentum } from "@/content/lessons/m13-market-making-momentum";
+import { m13BacktestingBiais } from "@/content/lessons/m13-backtesting-biais";
+import { m13Bale } from "@/content/lessons/m13-bale";
+import { m13MifidEmirKyc } from "@/content/lessons/m13-mifid-emir-kyc";
+import { m13ProgrammationFinance } from "@/content/lessons/m13-programmation-finance";
+import { m13EntretiensTechniques } from "@/content/lessons/m13-entretiens-techniques";
+import { m13EntretiensCasBrainteasers } from "@/content/lessons/m13-entretiens-cas-brainteasers";
 import { templates as m02CouvertureForwardTemplates } from "@/content/question-templates/m02-couverture-forward";
 import { templates as m02ForwardContractValueTemplates } from "@/content/question-templates/m02-forward-contract-value";
 import { templates as m02ForwardFutureDefinitionsTemplates } from "@/content/question-templates/m02-forward-future-definitions";
@@ -154,6 +172,24 @@ import { templates as m12SeriesTemporellesTemplates } from "@/content/question-t
 import { templates as m12KnnSvmTemplates } from "@/content/question-templates/m12-knn-svm";
 import { templates as m12DeepLearningIntroTemplates } from "@/content/question-templates/m12-deep-learning-intro";
 import { templates as m12MethodologieMlTemplates } from "@/content/question-templates/m12-methodologie-ml";
+import { templates as m13InteretsComposesTemplates } from "@/content/question-templates/m13-interets-composes";
+import { templates as m13ActualisationAnnuitesTemplates } from "@/content/question-templates/m13-actualisation-annuites";
+import { templates as m13CovarianceDiversificationTemplates } from "@/content/question-templates/m13-covariance-diversification";
+import { templates as m13MarkowitzFrontiereTemplates } from "@/content/question-templates/m13-markowitz-frontiere";
+import { templates as m13CapmSmlTemplates } from "@/content/question-templates/m13-capm-sml";
+import { templates as m13AllocationAttributionTemplates } from "@/content/question-templates/m13-allocation-attribution";
+import { templates as m13VarEsStressTemplates } from "@/content/question-templates/m13-var-es-stress";
+import { templates as m13DrawdownUlcerTemplates } from "@/content/question-templates/m13-drawdown-ulcer";
+import { templates as m13RatiosRisqueAjusteTemplates } from "@/content/question-templates/m13-ratios-risque-ajuste";
+import { templates as m13TypologieRisquesTemplates } from "@/content/question-templates/m13-typologie-risques";
+import { templates as m13OrdresLevierMargeTemplates } from "@/content/question-templates/m13-ordres-levier-marge";
+import { templates as m13MarketMakingMomentumTemplates } from "@/content/question-templates/m13-market-making-momentum";
+import { templates as m13BacktestingBiaisTemplates } from "@/content/question-templates/m13-backtesting-biais";
+import { templates as m13BaleTemplates } from "@/content/question-templates/m13-bale";
+import { templates as m13MifidEmirKycTemplates } from "@/content/question-templates/m13-mifid-emir-kyc";
+import { templates as m13ProgrammationFinanceTemplates } from "@/content/question-templates/m13-programmation-finance";
+import { templates as m13EntretiensTechniquesTemplates } from "@/content/question-templates/m13-entretiens-techniques";
+import { templates as m13EntretiensCasBrainteasersTemplates } from "@/content/question-templates/m13-entretiens-cas-brainteasers";
 
 /**
  * Registre des contenus publiés. Ajouter une entrée ici (leçon + templates de
@@ -238,6 +274,24 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m12-knn-svm": m12KnnSvm,
   "m12-deep-learning-intro": m12DeepLearningIntro,
   "m12-methodologie-ml": m12MethodologieMl,
+  "m13-interets-composes": m13InteretsComposes,
+  "m13-actualisation-annuites": m13ActualisationAnnuites,
+  "m13-covariance-diversification": m13CovarianceDiversification,
+  "m13-markowitz-frontiere": m13MarkowitzFrontiere,
+  "m13-capm-sml": m13CapmSml,
+  "m13-allocation-attribution": m13AllocationAttribution,
+  "m13-var-es-stress": m13VarEsStress,
+  "m13-drawdown-ulcer": m13DrawdownUlcer,
+  "m13-ratios-risque-ajuste": m13RatiosRisqueAjuste,
+  "m13-typologie-risques": m13TypologieRisques,
+  "m13-ordres-levier-marge": m13OrdresLevierMarge,
+  "m13-market-making-momentum": m13MarketMakingMomentum,
+  "m13-backtesting-biais": m13BacktestingBiais,
+  "m13-bale": m13Bale,
+  "m13-mifid-emir-kyc": m13MifidEmirKyc,
+  "m13-programmation-finance": m13ProgrammationFinance,
+  "m13-entretiens-techniques": m13EntretiensTechniques,
+  "m13-entretiens-cas-brainteasers": m13EntretiensCasBrainteasers,
 };
 
 export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
@@ -318,6 +372,24 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m12-knn-svm": m12KnnSvmTemplates,
   "m12-deep-learning-intro": m12DeepLearningIntroTemplates,
   "m12-methodologie-ml": m12MethodologieMlTemplates,
+  "m13-interets-composes": m13InteretsComposesTemplates,
+  "m13-actualisation-annuites": m13ActualisationAnnuitesTemplates,
+  "m13-covariance-diversification": m13CovarianceDiversificationTemplates,
+  "m13-markowitz-frontiere": m13MarkowitzFrontiereTemplates,
+  "m13-capm-sml": m13CapmSmlTemplates,
+  "m13-allocation-attribution": m13AllocationAttributionTemplates,
+  "m13-var-es-stress": m13VarEsStressTemplates,
+  "m13-drawdown-ulcer": m13DrawdownUlcerTemplates,
+  "m13-ratios-risque-ajuste": m13RatiosRisqueAjusteTemplates,
+  "m13-typologie-risques": m13TypologieRisquesTemplates,
+  "m13-ordres-levier-marge": m13OrdresLevierMargeTemplates,
+  "m13-market-making-momentum": m13MarketMakingMomentumTemplates,
+  "m13-backtesting-biais": m13BacktestingBiaisTemplates,
+  "m13-bale": m13BaleTemplates,
+  "m13-mifid-emir-kyc": m13MifidEmirKycTemplates,
+  "m13-programmation-finance": m13ProgrammationFinanceTemplates,
+  "m13-entretiens-techniques": m13EntretiensTechniquesTemplates,
+  "m13-entretiens-cas-brainteasers": m13EntretiensCasBrainteasersTemplates,
 };
 
 const allTemplates: QuestionTemplate[] = Object.values(templatesByConceptId).flat();
