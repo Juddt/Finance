@@ -33,8 +33,10 @@ export const m06MonteCarlo: LessonContent = {
     en: "Think of estimating a coin's chance of landing heads by flipping it only 10 times (unreliable result) versus 1 million times (very reliable, close to 50%). Monte-Carlo applies exactly this logic: the more simulated paths you \"flip\", the closer the average price estimate gets to the true value, at a predictable rate.",
   },
   formula: {
-    latex: "\\text{Erreur standard} \\approx \\frac{\\hat{\\sigma}_{\\text{payoff}}}{\\sqrt{N}}",
+    latex: "\\begin{aligned} \\hat{C} &= e^{-rT} \\times \\frac{1}{N} \\sum_{i=1}^{N} \\text{payoff}\\left(S_T^{(i)}\\right) \\\\ \\text{Erreur standard} &\\approx \\frac{\\hat{\\sigma}_{\\text{payoff}}}{\\sqrt{N}} \\end{aligned}",
     variables: [
+      { symbol: "\\hat{C}", description: { fr: "Prix estimé par Monte-Carlo : moyenne des payoffs actualisés sur N trajectoires", en: "Monte-Carlo price estimate: average of the discounted payoffs over N paths" } },
+      { symbol: "S_T^{(i)}", description: { fr: "Valeur simulée du sous-jacent à maturité sur la trajectoire i, sous la mesure risque-neutre", en: "Simulated value of the underlying at maturity on path i, under the risk-neutral measure" } },
       { symbol: "\\hat{\\sigma}_{\\text{payoff}}", description: { fr: "Écart-type estimé des payoffs actualisés simulés", en: "Estimated standard deviation of the simulated discounted payoffs" } },
       { symbol: "N", description: { fr: "Nombre de trajectoires simulées", en: "Number of simulated paths" } },
     ],

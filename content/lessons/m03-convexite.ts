@@ -33,10 +33,12 @@ export const m03Convexite: LessonContent = {
     en: "Imagine driving on a road that curves slightly. Duration is driving straight in the direction the wheel points right now — accurate over a short distance. Convexity is the fact that the road actually curves: the further you go (the bigger Δy is), the wider the gap between the straight line and the real road — and that gap always works in the bondholder's favor (the price falls less than expected when rates rise, and rises more than expected when rates fall).",
   },
   formula: {
-    latex: "\\frac{\\Delta P}{P} \\approx -D_{\\text{mod}} \\times \\Delta y + \\frac{1}{2} \\times C \\times \\Delta y^{2}",
+    latex: "\\begin{aligned} C &= \\frac{1}{P} \\times \\sum_t \\frac{CF_t \\times t \\times (t+1)}{(1+y)^{t+2}} \\\\ \\frac{\\Delta P}{P} &\\approx -D_{\\text{mod}} \\times \\Delta y + \\frac{1}{2} \\times C \\times \\Delta y^{2} \\end{aligned}",
     variables: [
+      { symbol: "C", description: { fr: "Convexité de l'obligation = (1/P) × d²P/dy² : mesure la courbure de la relation prix-taux à partir des flux CF_t", en: "The bond's convexity = (1/P) × d²P/dy²: measures the curvature of the price-yield relationship from the cash flows CF_t" } },
+      { symbol: "CF_t, t", description: { fr: "Montant et date de chaque flux (coupon ou remboursement)", en: "Amount and date of each cash flow (coupon or redemption)" } },
+      { symbol: "P", description: { fr: "Prix de l'obligation", en: "The bond's price" } },
       { symbol: "D_{\\text{mod}}", description: { fr: "Duration modifiée de l'obligation", en: "The bond's modified duration" } },
-      { symbol: "C", description: { fr: "Convexité de l'obligation", en: "The bond's convexity" } },
       { symbol: "\\Delta y", description: { fr: "Variation du rendement (en proportion, ex. +0,02 pour +200 pb)", en: "Change in yield (as a proportion, e.g. +0.02 for +200 bp)" } },
     ],
     assumptions: { fr: "Développement de Taylor au second ordre ; suppose un déplacement parallèle et instantané de la courbe des taux.", en: "Second-order Taylor expansion; assumes a parallel, instantaneous shift of the yield curve." },

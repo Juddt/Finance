@@ -46,10 +46,13 @@ export const m03Duration: LessonContent = {
     en: "Think of duration as a \"weighted average wait time\" to get your money back: a high coupon or a short maturity shortens that wait (lower duration, less rate-sensitive bond); a low (or zero) coupon or a long maturity lengthens it (higher duration, more rate-sensitive). The longer the money takes to come back, the more a rate rise hurts.",
   },
   formula: {
-    latex: "\\frac{\\Delta P}{P} \\approx -D_{\\text{mod}} \\times \\Delta y",
+    latex: "\\begin{aligned} D_{\\text{mac}} &= \\sum_t t \\times \\frac{VA_t}{P}, \\quad VA_t = \\frac{CF_t}{(1+y/m)^{mt}} \\\\ D_{\\text{mod}} &= \\frac{D_{\\text{mac}}}{1 + y/m} \\\\ \\frac{\\Delta P}{P} &\\approx -D_{\\text{mod}} \\times \\Delta y \\end{aligned}",
     variables: [
-      { symbol: "\\Delta P / P", description: { fr: "Variation relative (en %) du prix de l'obligation", en: "Relative change (in %) of the bond's price" } },
+      { symbol: "D_{\\text{mac}}", description: { fr: "Duration de Macaulay : moyenne des dates de flux t, pondérée par le poids VA_t / P de chaque flux dans le prix", en: "Macaulay duration: average of the cash-flow dates t, weighted by each flow's share VA_t / P of the price" } },
+      { symbol: "VA_t, CF_t", description: { fr: "Valeur actuelle et montant du flux (coupon ou remboursement) payé à la date t", en: "Present value and amount of the cash flow (coupon or redemption) paid at date t" } },
+      { symbol: "P", description: { fr: "Prix de l'obligation = somme des VA_t de tous les flux", en: "Bond price = sum of the VA_t of all cash flows" } },
       { symbol: "D_{\\text{mod}}", description: { fr: "Duration modifiée = D_Macaulay / (1 + y/m)", en: "Modified duration = Macaulay duration / (1 + y/m)" } },
+      { symbol: "\\Delta P / P", description: { fr: "Variation relative (en %) du prix de l'obligation", en: "Relative change (in %) of the bond's price" } },
       { symbol: "\\Delta y", description: { fr: "Variation du rendement de marché (en décimal, ex. 0,01 pour +1%)", en: "Change in market yield (as a decimal, e.g. 0.01 for +1%)" } },
       { symbol: "y, m", description: { fr: "Rendement actuariel et fréquence de coupon par an", en: "Yield to maturity and number of coupons per year" } },
     ],
