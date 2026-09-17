@@ -107,7 +107,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
   `content/question-templates/`, PRNG seedé dans `lib/prng.ts`, fabriques
   mutualisées dans `lib/question-template-kit.ts` pour les familles
-  qualitatives) : 463 templates (en cours d'enrichissement vers ≥ 12
+  qualitatives) : 502 templates (en cours d'enrichissement vers ≥ 12
   familles réellement distinctes par notion — compréhension, comparaison,
   raisonnement conditionnel, calcul, erreur fréquente, mises en situation —
   plutôt qu'une simple variation de chiffres) génèrent des exercices avec
@@ -276,7 +276,7 @@ components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scr
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
 content/catalog/             catégories, chapitres, 97 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   463 templates de questions à variantes (95 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   502 templates de questions à variantes (95 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
