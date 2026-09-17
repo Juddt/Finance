@@ -1,5 +1,6 @@
-import { randomInt, type Rng } from "@/lib/prng";
+import { pick, randomInt, type Rng } from "@/lib/prng";
 import { buildChoices, type QuestionTemplate } from "@/lib/question-templates";
+import { mcqTemplate, trueFalseTemplate } from "@/lib/question-template-kit";
 
 function fmt(n: number, locale: "fr" | "en"): string {
   return n.toLocaleString(locale === "fr" ? "fr-FR" : "en-US");
@@ -193,10 +194,200 @@ const chartReadingTemplate: QuestionTemplate = {
   },
 };
 
+const comprehensionTemplate = mcqTemplate({
+  id: "m05-call-put-comprehension-utilite",
+  conceptId: "m05-call-put",
+  difficulty: "easy",
+  prompt: {
+    fr: "Pourquoi un investisseur qui anticipe une baisse d'une action peut-il préférer acheter un put plutôt que de vendre l'action à découvert ?",
+    en: "Why might an investor expecting a stock to fall prefer buying a put rather than shorting the stock?",
+  },
+  choices: [
+    { id: "limited-loss", label: { fr: "Parce que sa perte maximale est limitée à la prime payée, alors qu'une vente à découvert expose à une perte potentiellement illimitée si le prix monte au lieu de baisser", en: "Because their maximum loss is limited to the premium paid, while shorting exposes them to a potentially unlimited loss if the price rises instead of falling" } },
+    { id: "same-risk", label: { fr: "Les deux stratégies ont exactement le même profil de risque", en: "Both strategies have exactly the same risk profile" } },
+    { id: "put-always-cheaper", label: { fr: "Un put coûte toujours moins cher que les frais d'une vente à découvert", en: "A put always costs less than a short sale's fees" } },
+  ],
+  correctId: "limited-loss",
+  hint: { fr: "Pensez à ce qui arrive à chaque position si l'anticipation baissière se révèle fausse et que le prix monte fortement.", en: "Think about what happens to each position if the bearish view turns out wrong and the price rises sharply." },
+  explanation: {
+    fr: "Un put acheté offre un droit, pas une obligation : si le prix monte au lieu de baisser, l'acheteur n'exerce simplement pas, plafonnant sa perte à la prime payée. Une vente à découvert (M01, vente à découvert), elle, expose à une perte théoriquement illimitée si le prix continue de monter, puisqu'il faudra racheter l'action à un prix de plus en plus élevé pour clôturer la position.",
+    en: "A bought put offers a right, not an obligation: if the price rises instead of falling, the buyer simply doesn't exercise, capping their loss at the premium paid. A short sale (M01, short selling), by contrast, exposes them to a theoretically unlimited loss if the price keeps rising, since the stock must be bought back at an ever-higher price to close the position.",
+  },
+  commonMistake: {
+    fr: "Croire que le put et la vente à découvert offrent une exposition baissière strictement équivalente en termes de risque, en oubliant le plafonnement de la perte propre à l'option achetée.",
+    en: "Believing a put and a short sale offer strictly equivalent bearish exposure in terms of risk, forgetting the capped loss specific to the bought option.",
+  },
+});
+
+const buyerDirectionComparisonTemplate = mcqTemplate({
+  id: "m05-call-put-comparaison-acheteur-direction",
+  conceptId: "m05-call-put",
+  difficulty: "easy",
+  prompt: {
+    fr: "Un acheteur de call et un acheteur de put, sur le même sous-jacent et même strike : lequel profite d'une HAUSSE du sous-jacent, et lequel profite d'une BAISSE ?",
+    en: "A call buyer and a put buyer, on the same underlying and strike: which one profits from a RISE in the underlying, and which from a FALL?",
+  },
+  choices: [
+    { id: "call-up-put-down", label: { fr: "L'acheteur du call profite d'une hausse ; l'acheteur du put profite d'une baisse", en: "The call buyer profits from a rise; the put buyer profits from a fall" } },
+    { id: "both-up", label: { fr: "Les deux profitent d'une hausse", en: "Both profit from a rise" } },
+    { id: "call-down-put-up", label: { fr: "L'acheteur du call profite d'une baisse ; l'acheteur du put profite d'une hausse", en: "The call buyer profits from a fall; the put buyer profits from a rise" } },
+  ],
+  correctId: "call-up-put-down",
+  hint: { fr: "Le call donne le droit d'ACHETER (utile si le prix monte) ; le put donne le droit de VENDRE (utile si le prix baisse).", en: "The call gives the right to BUY (useful if the price rises); the put gives the right to SELL (useful if the price falls)." },
+  explanation: {
+    fr: "Le call donne le droit d'acheter à K : il devient profitable si S_T dépasse K (le droit d'acheter moins cher que le marché a de la valeur). Le put donne le droit de vendre à K : il devient profitable si S_T tombe sous K (le droit de vendre plus cher que le marché a de la valeur). Ce sont donc des paris de sens opposé.",
+    en: "The call gives the right to buy at K: it becomes profitable if S_T exceeds K (the right to buy cheaper than the market has value). The put gives the right to sell at K: it becomes profitable if S_T falls below K (the right to sell dearer than the market has value). These are therefore opposite-direction bets.",
+  },
+  commonMistake: {
+    fr: "Inverser call et put dans leur sens directionnel, une confusion très fréquente en tout début d'apprentissage.",
+    en: "Swapping the call and put's directional sense, a very common early-learning confusion.",
+  },
+});
+
+const whatIfHigherStrikeTemplate = mcqTemplate({
+  id: "m05-call-put-whatif-strike-plus-eleve",
+  conceptId: "m05-call-put",
+  difficulty: "easy",
+  prompt: {
+    fr: "Toutes choses égales par ailleurs (même S_T), si le strike K d'un call est plus élevé, que devient son payoff brut max(S_T−K,0) ?",
+    en: "All else equal (same S_T), if a call's strike K is higher, what happens to its gross payoff max(S_T−K,0)?",
+  },
+  choices: [
+    { id: "lower-or-equal", label: { fr: "Il diminue ou reste nul : un strike plus élevé est un obstacle plus difficile à franchir pour le call", en: "It decreases or stays zero: a higher strike is a harder hurdle for the call to clear" } },
+    { id: "higher", label: { fr: "Il augmente avec le strike", en: "It increases with the strike" } },
+    { id: "unaffected", label: { fr: "Le payoff ne dépend jamais du strike", en: "The payoff never depends on the strike" } },
+  ],
+  correctId: "lower-or-equal",
+  hint: { fr: "Payoff = max(S_T−K,0) : K apparaît avec un signe négatif.", en: "Payoff = max(S_T−K,0): K appears with a negative sign." },
+  explanation: {
+    fr: "Le payoff d'un call diminue quand K augmente (à S_T fixé), puisque K est soustrait de S_T : un strike plus élevé signifie que le sous-jacent doit monter davantage pour que le call ait de la valeur, réduisant son payoff pour un même S_T final.",
+    en: "A call's payoff decreases as K rises (with S_T fixed), since K is subtracted from S_T: a higher strike means the underlying must rise further for the call to have value, reducing its payoff for the same final S_T.",
+  },
+  commonMistake: {
+    fr: "Croire qu'un strike plus élevé rend systématiquement un call plus avantageux, en confondant le niveau du strike avec le niveau du sous-jacent.",
+    en: "Believing a higher strike systematically makes a call more advantageous, confusing the strike's level with the underlying's.",
+  },
+});
+
+const whatIfSellerPerspectiveTemplate = mcqTemplate({
+  id: "m05-call-put-whatif-perspective-vendeur",
+  conceptId: "m05-call-put",
+  difficulty: "medium",
+  prompt: {
+    fr: "Contrairement à l'acheteur d'un call (perte plafonnée à la prime), quel est le profil de risque du VENDEUR d'un call, si le sous-jacent monte fortement au-delà du strike ?",
+    en: "Unlike a call buyer (loss capped at the premium), what is the risk profile of a call's SELLER, if the underlying rises sharply above the strike?",
+  },
+  choices: [
+    { id: "unlimited-loss", label: { fr: "Une perte potentiellement illimitée : le vendeur doit livrer le sous-jacent à K, quel que soit son prix de marché, aussi élevé soit-il", en: "A potentially unlimited loss: the seller must deliver the underlying at K, whatever its market price, however high" } },
+    { id: "capped-loss", label: { fr: "Une perte plafonnée à la prime encaissée, symétrique à l'acheteur", en: "A loss capped at the premium collected, symmetric to the buyer" } },
+    { id: "no-loss", label: { fr: "Aucune perte possible, le vendeur est toujours protégé", en: "No possible loss, the seller is always protected" } },
+  ],
+  correctId: "unlimited-loss",
+  hint: { fr: "Le vendeur d'un call a une obligation, pas un droit : il ne peut pas simplement refuser d'exécuter le contrat.", en: "A call's seller has an obligation, not a right: they cannot simply refuse to execute the contract." },
+  explanation: {
+    fr: "Le vendeur d'un call a l'obligation de livrer le sous-jacent au strike K si l'acheteur exerce, quel que soit le prix de marché atteint : sa perte, égale à (S_T − K) moins la prime encaissée, n'est théoriquement pas plafonnée puisque S_T peut monter sans limite claire. C'est l'exact miroir de la perte plafonnée de l'acheteur (M05-1) : l'acheteur et le vendeur d'une même option n'ont jamais le même profil de risque.",
+    en: "A call's seller has the obligation to deliver the underlying at strike K if the buyer exercises, whatever market price is reached: their loss, equal to (S_T − K) minus the premium collected, is theoretically uncapped since S_T can rise with no clear limit. This is the exact mirror of the buyer's capped loss (M05-1): the buyer and seller of the same option never share the same risk profile.",
+  },
+  commonMistake: {
+    fr: "Croire que vendeur et acheteur d'une même option partagent un profil de risque symétrique et tout aussi plafonné, alors que seul l'acheteur bénéficie de cette protection.",
+    en: "Believing a same option's seller and buyer share a symmetric, equally capped risk profile, when only the buyer benefits from that protection.",
+  },
+});
+
+const putNetProfitNumericTemplate: QuestionTemplate = {
+  id: "m05-call-put-profit-net-put",
+  conceptId: "m05-call-put",
+  kind: "numeric",
+  difficulty: "medium",
+  generate: (rng: Rng) => {
+    const K = randomInt(rng, 6, 15) * 10;
+    const premium = randomInt(rng, 2, 8);
+    const sT = randomInt(rng, K - 30, K + 30);
+    const grossPayoff = Math.max(K - sT, 0);
+    const netProfit = grossPayoff - premium;
+
+    return {
+      isScenario: true,
+      prompt: {
+        fr: `Vous avez acheté un put de strike K = ${fmt(K, "fr")} pour une prime de ${fmt(premium, "fr")}. À l'échéance, le sous-jacent vaut S_T = ${fmt(sT, "fr")}. Quel est votre profit net (avec son signe) ?`,
+        en: `You bought a put with strike K = ${fmt(K, "en")} for a premium of ${fmt(premium, "en")}. At maturity, the underlying is worth S_T = ${fmt(sT, "en")}. What is your net profit (with its sign)?`,
+      },
+      numericUnit: { fr: "même devise", en: "same currency" },
+      numericTolerance: "± 0.5",
+      hint: { fr: "Profit net = max(K − S_T, 0) − prime.", en: "Net profit = max(K − S_T, 0) − premium." },
+      numeric: { value: netProfit, tolerance: 0.5 },
+      calculation: {
+        fr: `Payoff brut = max(${fmt(K, "fr")} − ${fmt(sT, "fr")}, 0) = ${fmt(grossPayoff, "fr")}. Profit net = ${fmt(grossPayoff, "fr")} − ${fmt(premium, "fr")} = ${fmt(netProfit, "fr")}.`,
+        en: `Gross payoff = max(${fmt(K, "en")} − ${fmt(sT, "en")}, 0) = ${fmt(grossPayoff, "en")}. Net profit = ${fmt(grossPayoff, "en")} − ${fmt(premium, "en")} = ${fmt(netProfit, "en")}.`,
+      },
+      explanation: {
+        fr: "La formule du put est le miroir de celle du call (max(K−S_T,0) au lieu de max(S_T−K,0)) : c'est l'erreur la plus fréquente sur ce calcul, inverser l'ordre de la soustraction.",
+        en: "The put's formula mirrors the call's (max(K−S_T,0) instead of max(S_T−K,0)): flipping the subtraction's order is the most frequent mistake on this calculation.",
+      },
+      commonMistake: {
+        fr: "Utiliser max(S_T−K,0) comme pour un call, au lieu de max(K−S_T,0) pour un put.",
+        en: "Using max(S_T−K,0) as for a call, instead of max(K−S_T,0) for a put.",
+      },
+    };
+  },
+};
+
+const putDirectionErrorTemplate = trueFalseTemplate({
+  id: "m05-call-put-erreur-direction-put",
+  conceptId: "m05-call-put",
+  difficulty: "easy",
+  statement: {
+    fr: "L'acheteur d'un put profite d'une hausse du prix du sous-jacent, exactement comme l'acheteur d'un call.",
+    en: "A put buyer profits from a rise in the underlying's price, exactly like a call buyer.",
+  },
+  correct: false,
+  explanation: {
+    fr: "Faux : l'acheteur d'un put profite au contraire d'une BAISSE du sous-jacent sous le strike K, puisqu'il détient le droit de VENDRE à K, un droit qui n'a de valeur que si le prix de marché tombe sous ce niveau. C'est l'exact inverse du call.",
+    en: "False: a put buyer, on the contrary, profits from a FALL in the underlying below strike K, since they hold the right to SELL at K, a right only valuable if the market price falls below that level. This is the exact opposite of a call.",
+  },
+  commonMistake: {
+    fr: "Appliquer machinalement la logique directionnelle du call (profite d'une hausse) au put, sans se souvenir que leurs sens sont opposés.",
+    en: "Mechanically applying the call's directional logic (profits from a rise) to the put, forgetting their directions are opposite.",
+  },
+});
+
+const bullishChoiceScenarioTemplate = mcqTemplate({
+  id: "m05-call-put-scenario-choix-haussier",
+  conceptId: "m05-call-put",
+  difficulty: "medium",
+  isScenario: true,
+  prompt: {
+    fr: "Un investisseur dispose de 1 000 € et est fortement convaincu qu'une action va monter significativement dans les prochains mois. Entre acheter l'action directement, ou acheter des calls avec le même budget, quelle différence essentielle doit-il garder à l'esprit ?",
+    en: "An investor has €1,000 and is strongly convinced a stock will rise significantly over the coming months. Between buying the stock directly, or buying calls with the same budget, what essential difference should they keep in mind?",
+  },
+  choices: [
+    { id: "leverage-vs-total-loss", label: { fr: "Les calls offrent un effet de levier (plus d'exposition pour le même budget) mais risquent une perte totale de la mise si le pari ne se réalise pas à temps", en: "Calls offer leverage (more exposure for the same budget) but risk a total loss of the stake if the bet doesn't play out in time" } },
+    { id: "identical", label: { fr: "Les deux approches sont financièrement identiques en tout point", en: "Both approaches are financially identical in every respect" } },
+    { id: "stock-always-better", label: { fr: "Acheter l'action directement est toujours strictement meilleur", en: "Buying the stock directly is always strictly better" } },
+  ],
+  correctId: "leverage-vs-total-loss",
+  hint: { fr: "Un call coûte moins cher que l'action elle-même : que peut-on faire du reste du budget, et quel est le risque si l'échéance approche sans que le prix ait bougé ?", en: "A call costs less than the stock itself: what can be done with the rest of the budget, and what's the risk if expiry nears with no price move?" },
+  explanation: {
+    fr: "Avec le même budget, les calls permettent de contrôler une exposition économique plus large que l'achat direct de l'action (effet de levier), amplifiant les gains en pourcentage si la hausse se réalise. Mais contrairement à l'action (détenue indéfiniment, sans échéance), les calls ont une durée de vie limitée : si la hausse attendue ne se produit pas avant l'échéance, l'investisseur peut perdre l'intégralité de sa mise, un risque que l'actionnaire direct n'a pas.",
+    en: "With the same budget, calls allow controlling a larger economic exposure than directly buying the stock (leverage), amplifying percentage gains if the rise happens. But unlike the stock (held indefinitely, with no expiry), calls have a limited lifespan: if the expected rise doesn't happen before expiry, the investor can lose their entire stake, a risk the direct shareholder doesn't have.",
+  },
+  commonMistake: {
+    fr: "Ne considérer que l'effet de levier positif des calls sans tenir compte de leur échéance limitée et du risque de perte totale si le timing du mouvement anticipé est erroné.",
+    en: "Only considering calls' positive leverage effect without accounting for their limited lifespan and the total-loss risk if the anticipated move's timing is wrong.",
+  },
+});
+
 export const templates: QuestionTemplate[] = [
   netProfitTemplate,
   maxLossTemplate,
   breakEvenTemplate,
   vocabTemplate,
   chartReadingTemplate,
+  comprehensionTemplate,
+  buyerDirectionComparisonTemplate,
+  whatIfHigherStrikeTemplate,
+  whatIfSellerPerspectiveTemplate,
+  putNetProfitNumericTemplate,
+  putDirectionErrorTemplate,
+  bullishChoiceScenarioTemplate,
 ];
