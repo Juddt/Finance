@@ -17,10 +17,12 @@ export function LiveStatTile({
   label,
   value,
   liveKind,
+  index,
 }: {
   label: string;
   value: string;
   liveKind?: "studied" | "mastered";
+  index: number;
 }) {
   const [display, setDisplay] = useState(value);
 
@@ -33,9 +35,11 @@ export function LiveStatTile({
   }, [liveKind]);
 
   return (
-    <div className="rounded-xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-900">
-      <div className="text-2xl font-semibold tabular-nums">{display}</div>
-      <div className="text-sm text-neutral-600 dark:text-neutral-300">{label}</div>
+    <div className="relative border border-rule bg-paper-raised px-5 py-4">
+      <span className="absolute top-0 left-0 h-[3px] w-8 bg-accent" aria-hidden="true" />
+      <div className="font-mono text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl">{display}</div>
+      <div className="mt-1 font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">{label}</div>
+      <span className="absolute right-4 bottom-3 font-mono text-[10px] text-ink-faint">{String(index).padStart(2, "0")}</span>
     </div>
   );
 }

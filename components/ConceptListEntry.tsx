@@ -10,10 +10,10 @@ export interface ConceptScore {
   total: number;
 }
 
-function colorClasses(pct: number): { text: string; badge: string } {
-  if (pct >= 80) return { text: "text-emerald-700 dark:text-emerald-400", badge: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300" };
-  if (pct >= 50) return { text: "text-amber-700 dark:text-amber-400", badge: "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300" };
-  return { text: "text-red-700 dark:text-red-400", badge: "bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-300" };
+function scoreTone(pct: number): { text: string; badgeBg: string; badgeText: string } {
+  if (pct >= 80) return { text: "text-gain", badgeBg: "bg-gain-soft", badgeText: "text-gain" };
+  if (pct >= 50) return { text: "text-mid", badgeBg: "bg-mid-soft", badgeText: "text-mid" };
+  return { text: "text-loss", badgeBg: "bg-loss-soft", badgeText: "text-loss" };
 }
 
 /**
@@ -52,27 +52,31 @@ export function ConceptListEntry({
   }, [conceptId, isPublished]);
 
   const pct = score && score.total > 0 ? Math.round((score.correct / score.total) * 100) : null;
-  const colors = pct !== null ? colorClasses(pct) : null;
+  const tone = pct !== null ? scoreTone(pct) : null;
 
   return (
-    <li className="flex items-center justify-between gap-2">
+    <li className="flex items-center justify-between gap-2 py-1">
       {isPublished ? (
         <Link
           href={href}
           title={score ? completedTitle : undefined}
-          className={`underline-offset-2 hover:underline ${colors ? colors.text : "text-neutral-800 dark:text-neutral-100"}`}
+          className={`tick-underline pb-0.5 ${tone ? tone.text : "text-ink"}`}
         >
-          {score && <span aria-hidden="true">✓ </span>}
+          {score && (
+            <span aria-hidden="true" className="mr-1 font-mono text-[10px]">
+              &#9632;
+            </span>
+          )}
           {title}
         </Link>
       ) : (
-        <span className="text-neutral-500 dark:text-neutral-400">{title}</span>
+        <span className="text-ink-faint">{title}</span>
       )}
-      <span className="shrink-0 text-xs text-neutral-400">
+      <span className="shrink-0 font-mono text-[10px] text-ink-faint">
         {!isPublished ? (
           comingSoonLabel
-        ) : score && colors ? (
-          <span className={`rounded-full px-2 py-0.5 font-medium ${colors.badge}`}>
+        ) : score && tone ? (
+          <span className={`px-1.5 py-0.5 font-semibold tracking-wide ${tone.badgeBg} ${tone.badgeText}`}>
             {score.correct}/{score.total}
           </span>
         ) : null}

@@ -20,11 +20,14 @@ export function LanguageToggle({ locale, label }: { locale: Locale; label: strin
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1.5 rounded-full border border-black/10 px-3 py-1.5 text-sm font-medium text-neutral-800 transition-colors hover:bg-black/5 dark:border-white/15 dark:text-neutral-100 dark:hover:bg-white/10"
+      className="inline-flex items-center gap-1.5 border border-rule px-2.5 py-1.5 font-mono text-[11px] font-semibold tracking-[0.1em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
       aria-label={label}
     >
-      <span aria-hidden="true">{locale === "fr" ? "🇬🇧" : "🇫🇷"}</span>
-      <span>{locale === "fr" ? "EN" : "FR"}</span>
+      <span>{locale === "fr" ? "FR" : "EN"}</span>
+      <span className="text-ink-faint" aria-hidden="true">
+        /
+      </span>
+      <span className="text-ink-faint">{locale === "fr" ? "EN" : "FR"}</span>
     </Link>
   );
 }

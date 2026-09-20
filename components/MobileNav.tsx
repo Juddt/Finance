@@ -33,31 +33,35 @@ export function MobileNav({
         aria-label={open ? nav.closeMenu : nav.openMenu}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-neutral-700 dark:border-white/15 dark:text-neutral-200"
+        className="flex h-9 w-9 items-center justify-center border border-rule text-ink transition-colors hover:border-ink"
       >
         {open ? (
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
             <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         )}
       </button>
 
       {open && (
-        <nav className="absolute inset-x-0 top-full border-b border-black/10 bg-neutral-50 px-4 py-3 shadow-sm dark:border-white/10 dark:bg-neutral-950">
-          <ul className="flex flex-col gap-1 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-            {links.map((link) => (
+        <nav className="absolute inset-x-0 top-full border-b border-rule bg-paper px-4 py-3 shadow-[0_12px_24px_-16px_rgba(0,0,0,0.4)]">
+          <ul className="flex flex-col divide-y divide-rule font-mono text-[13px] font-medium tracking-[0.08em] text-ink uppercase">
+            {links.map((link, i) => (
               <li key={link.href}>
-                <Link href={link.href} className="block rounded-lg px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10">
-                  {link.label}
+                <Link
+                  href={link.href}
+                  className="flex items-center justify-between py-3 hover:text-accent-ink"
+                >
+                  <span>{link.label}</span>
+                  <span className="text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
                 </Link>
               </li>
             ))}
             <li>
-              <span aria-disabled="true" className="block cursor-not-allowed rounded-lg px-3 py-2 opacity-50">
+              <span aria-disabled="true" className="flex cursor-not-allowed items-center justify-between py-3 opacity-40">
                 {nav.formulas}
               </span>
             </li>

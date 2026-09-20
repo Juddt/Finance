@@ -9,10 +9,10 @@ export interface ConceptScore {
   total: number;
 }
 
-function colorClasses(pct: number): string {
-  if (pct >= 80) return "border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100";
-  if (pct >= 50) return "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100";
-  return "border-red-200 bg-red-50 text-red-900 dark:border-red-900 dark:bg-red-950/30 dark:text-red-100";
+function scoreTone(pct: number): { border: string; bg: string; text: string } {
+  if (pct >= 80) return { border: "border-gain", bg: "bg-gain-soft", text: "text-gain" };
+  if (pct >= 50) return { border: "border-mid", bg: "bg-mid-soft", text: "text-mid" };
+  return { border: "border-loss", bg: "bg-loss-soft", text: "text-loss" };
 }
 
 /**
@@ -45,13 +45,14 @@ export function LessonScoreBadge({
 
   if (!score || score.total === 0) return null;
   const pct = Math.round((score.correct / score.total) * 100);
+  const tone = scoreTone(pct);
 
   return (
-    <div className={`mb-6 flex flex-wrap items-center justify-between gap-2 rounded-xl border p-3 text-sm ${colorClasses(pct)}`}>
-      <span className="font-medium">
-        {label}: {score.correct}/{score.total} ({pct}%)
+    <div className={`mb-8 flex flex-wrap items-center justify-between gap-3 border-l-2 ${tone.border} ${tone.bg} px-4 py-3`}>
+      <span className={`font-mono text-[12px] font-semibold tracking-[0.06em] ${tone.text}`}>
+        {label}: {score.correct}/{score.total} &middot; {pct}%
       </span>
-      <a href={retryHref} className="text-xs font-semibold underline-offset-2 hover:underline">
+      <a href={retryHref} className="tick-underline font-mono text-[11px] font-semibold tracking-[0.08em] text-ink uppercase">
         {retryLabel}
       </a>
     </div>
