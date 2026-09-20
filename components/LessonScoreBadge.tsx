@@ -17,8 +17,9 @@ function scoreTone(pct: number): { bg: string; text: string } {
 
 /**
  * Badge affiché en haut de la page notion, rappelant le résultat du dernier
- * quiz complété pour cette notion (voir ConceptListEntry pour la même note
- * dans le catalogue). Même pattern serveur/statique que ConceptListEntry.
+ * quiz complété pour cette notion. Pattern serveur/statique standard du
+ * projet : score reçu en prop côté serveur, relu en localStorage côté
+ * client pour le build GitHub Pages (voir ResumeCard, NextReviewCard).
  */
 export function LessonScoreBadge({
   conceptId,

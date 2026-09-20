@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { categories, chapters, concepts } from "@/content/catalog";
 import type { Locale } from "@/i18n/config";
 import type { ConceptStatus } from "@/lib/srs";
+import { STATUS_DOT_COLOR } from "@/lib/concept-status-style";
 
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
@@ -16,13 +17,6 @@ export interface ProgressDict {
 }
 
 const STATUS_ORDER: ConceptStatus[] = ["mastered", "in-progress", "fragile", "to-reactivate", "to-discover"];
-const STATUS_COLOR: Record<ConceptStatus, string> = {
-  mastered: "bg-success",
-  "in-progress": "bg-accent",
-  fragile: "bg-warning",
-  "to-reactivate": "bg-danger",
-  "to-discover": "bg-line",
-};
 
 export function ProgressBoard({ locale, dict }: { locale: Locale; dict: ProgressDict }) {
   const [progress, setProgress] = useState<Record<string, ConceptStatus> | null>(null);
@@ -90,7 +84,7 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
                     counts[status] > 0 && (
                       <div
                         key={status}
-                        className={STATUS_COLOR[status]}
+                        className={STATUS_DOT_COLOR[status]}
                         style={{ width: `${(counts[status] / publishedIds.length) * 100}%` }}
                         title={`${statusLabel[status]}: ${counts[status]}`}
                       />
@@ -102,7 +96,7 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
                   (status) =>
                     counts[status] > 0 && (
                       <li key={status} className="flex items-center gap-1.5">
-                        <span className={`inline-block h-2 w-2 rounded-full ${STATUS_COLOR[status]}`} />
+                        <span className={`inline-block h-2 w-2 rounded-full ${STATUS_DOT_COLOR[status]}`} />
                         {statusLabel[status]} ({counts[status]})
                       </li>
                     )

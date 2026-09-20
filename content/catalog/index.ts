@@ -18,6 +18,24 @@ export function getConceptsForChapter(chapterId: string): ConceptDef[] {
   return concepts.filter((c) => c.chapterId === chapterId);
 }
 
+export function getChapterById(id: string): ChapterDef | undefined {
+  return chapters.find((ch) => ch.id === id);
+}
+
+export interface ChapterStats {
+  totalConcepts: number;
+  publishedConcepts: number;
+}
+
+/** Couverture éditoriale réelle d'un chapitre, même logique que getCategoryStats. */
+export function getChapterStats(chapterId: string): ChapterStats {
+  const relevant = getConceptsForChapter(chapterId);
+  return {
+    totalConcepts: relevant.length,
+    publishedConcepts: relevant.filter((c) => c.status === "published").length,
+  };
+}
+
 export interface CategoryStats {
   totalConcepts: number;
   publishedConcepts: number;

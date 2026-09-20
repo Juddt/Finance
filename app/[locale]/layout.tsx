@@ -10,6 +10,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { MobileNav } from "@/components/MobileNav";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { CourseSearch } from "@/components/CourseSearch";
+import { ScrollRestore } from "@/components/ScrollRestore";
 
 const workSans = Work_Sans({ variable: "--font-work-sans", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -37,6 +38,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${workSans.variable} ${plexMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-bg text-text">
+        <ScrollRestore />
         <header className="focus-mode-hide sticky top-0 z-20 h-[65px] border-b border-line bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
           <div className="flex h-full items-center justify-between gap-3 px-4 sm:px-6">
             <div className="flex items-center gap-4">

@@ -144,6 +144,18 @@
     "statusMastered": "Mastered",
     "statusToReactivate": "To reactivate"
   },
+  "chapterPage": {
+    "backToCatalog": "Back to catalog",
+    "resumeChapter": "Resume this chapter",
+    "startChapter": "Start",
+    "publishedCount": "{published}/{total} published concepts",
+    "masteredCount": "{count} mastered",
+    "notionsTitle": "Chapter concepts",
+    "prevChapter": "Previous chapter",
+    "nextChapter": "Next chapter",
+    "jumpToChapter": "Jump to another chapter",
+    "upcoming": "Coming soon"
+  },
   "footer": {
     "notAppRealSite": "Educational prototype — see README for current status."
   }

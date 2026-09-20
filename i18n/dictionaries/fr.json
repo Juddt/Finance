@@ -144,6 +144,18 @@
     "statusMastered": "Maîtrisée",
     "statusToReactivate": "À réactiver"
   },
+  "chapterPage": {
+    "backToCatalog": "Retour au catalogue",
+    "resumeChapter": "Reprendre ce chapitre",
+    "startChapter": "Commencer",
+    "publishedCount": "{published}/{total} notions publiées",
+    "masteredCount": "{count} maîtrisée(s)",
+    "notionsTitle": "Notions du chapitre",
+    "prevChapter": "Chapitre précédent",
+    "nextChapter": "Chapitre suivant",
+    "jumpToChapter": "Aller à un autre chapitre",
+    "upcoming": "À venir"
+  },
   "footer": {
     "notAppRealSite": "Prototype pédagogique — voir README pour l'état d'avancement."
   }

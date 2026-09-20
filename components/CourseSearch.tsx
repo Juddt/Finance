@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { concepts, chapters } from "@/content/catalog";
 import type { Locale } from "@/i18n/config";
@@ -19,6 +20,7 @@ const MAX_RESULTS = 8;
  * Voir demande section 4 : "accéder directement à une notion".
  */
 export function CourseSearch({ locale, dict, className = "" }: { locale: Locale; dict: CourseSearchDict; className?: string }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -65,7 +67,8 @@ export function CourseSearch({ locale, dict, className = "" }: { locale: Locale;
     } else if (e.key === "Enter") {
       const target = results[activeIndex];
       if (target) {
-        window.location.href = `/${locale}/lessons/${target.concept.id}`;
+        setOpen(false);
+        router.push(`/${locale}/lessons/${target.concept.id}`);
       }
     }
   }

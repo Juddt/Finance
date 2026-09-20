@@ -61,7 +61,9 @@ export default async function LessonPage({
             {chapter && (
               <>
                 <span aria-hidden="true">/</span>
-                <span className="text-text-dim">{chapter.title[locale]}</span>
+                <Link href={`/${locale}/chapters/${chapter.id}`} className="text-text-dim hover:text-accent-bright hover:underline">
+                  {chapter.title[locale]}
+                </Link>
               </>
             )}
           </nav>

@@ -1,11 +1,11 @@
-import { categories, chapters, concepts } from "@/content/catalog";
+import Link from "next/link";
+import { categories, chapters, concepts, getChapterStats } from "@/content/catalog";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { getUserId } from "@/lib/session";
-import { getCatalogStats, getConceptQuizScores, getDueReviews } from "@/lib/store";
+import { getCatalogStats, getDueReviews } from "@/lib/store";
 import { notFound } from "next/navigation";
 import { getPublishedConceptIds } from "@/lib/content-registry";
 import { LiveStatTile } from "@/components/LiveStatTile";
-import { ConceptListEntry } from "@/components/ConceptListEntry";
 import { ResumeCard } from "@/components/ResumeCard";
 import { NextReviewCard } from "@/components/NextReviewCard";
 import { ModuleIcon } from "@/components/ModuleIcon";
@@ -24,7 +24,6 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
   const userId = isStaticExport ? null : await getUserId();
   const stats = await getCatalogStats(userId);
   const statsByCategory = new Map(stats.map((s) => [s.categoryId, s]));
-  const conceptScores = await getConceptQuizScores(userId);
   const dueCount = userId ? (await getDueReviews(userId, new Date())).length : 0;
 
   const totals = stats.reduce(
@@ -107,36 +106,27 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
                   </div>
                 </dl>
 
-                <div className="mt-auto space-y-1 border-t border-line pt-2">
-                  {categoryChapters.map((chapter) => (
-                    <details key={chapter.id} className="group rounded-lg py-1.5 open:bg-surface-2 open:px-2">
-                      <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium text-text">
-                        {chapter.title[locale]}
-                        <span
-                          className="flex h-5 w-5 items-center justify-center rounded-full bg-surface-2 font-mono text-text-faint transition-transform group-open:rotate-45"
-                          aria-hidden="true"
-                        >
-                          +
+                <div className="mt-3 space-y-0.5 border-t border-line pt-2">
+                  {categoryChapters.map((chapter) => {
+                    const chStats = getChapterStats(chapter.id);
+                    return (
+                      <Link
+                        key={chapter.id}
+                        href={`/${locale}/chapters/${chapter.id}`}
+                        className="interactive-lift flex items-center justify-between gap-3 rounded-lg border border-transparent px-2 py-2 text-sm font-medium text-text hover:border-accent/40 hover:bg-surface-2"
+                      >
+                        <span className="truncate">{chapter.title[locale]}</span>
+                        <span className="flex shrink-0 items-center gap-2 text-text-faint">
+                          <span className="font-mono text-[10px]">
+                            {chStats.publishedConcepts}/{chStats.totalConcepts}
+                          </span>
+                          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <path d="M6 3l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
                         </span>
-                      </summary>
-                      <ul className="mt-2 space-y-0.5 pl-1 text-sm">
-                        {concepts
-                          .filter((c) => c.chapterId === chapter.id)
-                          .map((concept) => (
-                            <ConceptListEntry
-                              key={concept.id}
-                              conceptId={concept.id}
-                              href={`/${locale}/lessons/${concept.id}`}
-                              title={concept.title[locale]}
-                              isPublished={concept.status === "published"}
-                              comingSoonLabel={dict.home.comingSoon}
-                              completedTitle={dict.home.completedTitle}
-                              serverScore={conceptScores[concept.id] ?? null}
-                            />
-                          ))}
-                      </ul>
-                    </details>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               </article>
             );
