@@ -25,8 +25,8 @@ export const m09SensibilitesPayoff: LessonContent = {
     en: "Understanding these opposite sensitivities is essential for any desk managing a book mixing baskets and Worst-Of/Best-Of: the two product types can partially hedge each other in correlation, an opportunity (and a mismanagement risk) that only careful payoff analysis reveals.",
   },
   example: {
-    fr: "Deux actifs de même volatilité individuelle. À corrélation=1 (mouvements identiques), le \"pire\" des deux est toujours égal au panier moyen — pas de différence entre eux. À corrélation=0 (mouvements indépendants), il devient beaucoup plus probable qu'au moins un des deux actifs sous-performe fortement, ce qui abaisse la valeur attendue du Worst-Of tout en laissant la valeur du panier relativement inchangée (la sous-performance de l'un compense la surperformance possible de l'autre dans une moyenne).",
-    en: "Two assets with the same individual volatility. At correlation=1 (identical moves), the \"worst\" of the two always equals the basket average — no difference between them. At correlation=0 (independent moves), it becomes much more likely that at least one asset badly underperforms, which lowers the Worst-Of's expected value while leaving the basket's value relatively unchanged (one's underperformance offsets the other's possible outperformance in an average).",
+    fr: "Deux actifs A et B, chacun rendant +10% ou −10% avec 50% de chance. À ρ=1 (mouvements identiques) : 50% du temps les deux font +10% (panier=+10%, pire=+10%), 50% du temps les deux font −10% (panier=−10%, pire=−10%) → E[panier]=0%, E[pire]=0% : aucune différence. À ρ=0 (mouvements indépendants), 4 combinaisons équiprobables (25% chacune) : (+10,+10)→panier=10,pire=10 ; (+10,−10)→panier=0,pire=−10 ; (−10,+10)→panier=0,pire=−10 ; (−10,−10)→panier=−10,pire=−10. E[panier]=0,25×(10+0+0−10)=0% (inchangé), mais E[pire]=0,25×(10−10−10−10)=−5% : la baisse de corrélation pénalise strictement le Worst-Of, sans affecter le panier.",
+    en: "Two assets A and B, each returning +10% or −10% with 50% probability. At ρ=1 (identical moves): 50% of the time both do +10% (basket=+10%, worst=+10%), 50% of the time both do −10% (basket=−10%, worst=−10%) → E[basket]=0%, E[worst]=0%: no difference. At ρ=0 (independent moves), 4 equally likely combinations (25% each): (+10,+10)→basket=10,worst=10; (+10,−10)→basket=0,worst=−10; (−10,+10)→basket=0,worst=−10; (−10,−10)→basket=−10,worst=−10. E[basket]=0.25×(10+0+0−10)=0% (unchanged), but E[worst]=0.25×(10−10−10−10)=−5%: the correlation drop strictly hurts the Worst-Of, without affecting the basket.",
   },
   alternativeExplanation: {
     fr: "Reprenez l'analogie de l'examen à trois épreuves (M09-4) : si les trois notes sont toujours identiques (corrélation=1), la moyenne et la pire note sont la même chose. Si les notes deviennent indépendantes (corrélation basse), la moyenne reste stable (les bonnes et mauvaises surprises se compensent), mais la pire note, elle, a de bonnes chances de chuter fortement (il suffit d'UNE mauvaise surprise) — d'où la sensibilité opposée entre panier et Worst-Of face à la corrélation.",
@@ -40,11 +40,32 @@ export const m09SensibilitesPayoff: LessonContent = {
     ],
     assumptions: { fr: "Cette formule s'applique littéralement au PANIER ; le Worst-Of et le Best-Of n'ont pas de formule de variance aussi simple, leur sensibilité s'établissant plutôt par simulation ou raisonnement qualitatif sur la dispersion des résultats.", en: "This formula literally applies to the BASKET; Worst-Of and Best-Of don't have as simple a variance formula, their sensitivity being established instead by simulation or qualitative reasoning about the spread of outcomes." },
     units: { fr: "Variance en proportion au carré.", en: "Variance as a proportion squared." },
-    example: { fr: "Voir M09-2 pour un exemple numérique complet de cette formule à deux actifs.", en: "See M09-2 for a full two-asset numerical example of this formula." },
+    example: { fr: "w1=w2=0,5, σ1=σ2=25% : à ρ=1, σ_panier=25% ; à ρ=0,2, Var_panier=0,03125+0,03125×0,2=0,0375, σ_panier=√0,0375≈19,36% — le panier devient moins volatil (donc son call moins cher) quand la corrélation baisse, exactement l'inverse du Worst-Of.", en: "w1=w2=0.5, σ1=σ2=25%: at ρ=1, σ_basket=25%; at ρ=0.2, Var_basket=0.03125+0.03125×0.2=0.0375, σ_basket=√0.0375≈19.36% — the basket becomes less volatile (so its call cheaper) as correlation falls, the exact opposite of the Worst-Of." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Corrélation ρ", en: "Correlation ρ" },
+    yLabel: { fr: "Valeur espérée du payoff (%)", en: "Expected payoff value (%)" },
+    series: [
+      {
+        label: { fr: "Panier (inchangé)", en: "Basket (unchanged)" },
+        points: [
+          { x: 0, y: 0 },
+          { x: 1, y: 0 },
+        ],
+      },
+      {
+        label: { fr: "Worst-of (pénalisé à basse corrélation)", en: "Worst-of (hurt at low correlation)" },
+        points: [
+          { x: 0, y: -5 },
+          { x: 1, y: 0 },
+        ],
+      },
+    ],
   },
   calculation: {
-    fr: "1) Identifier le type exact de payoff (panier, Worst-Of call, Worst-Of put, Best-Of call, Best-Of put). 2) Pour un panier : la variance croît avec la corrélation (formule ci-dessus), donc un panier CALL est long corrélation. 3) Pour un Worst-Of/Best-Of : raisonner sur l'effet de la corrélation sur la DISPERSION des résultats individuels, pas sur la variance globale — une corrélation plus basse disperse davantage les résultats. 4) Ne jamais transposer directement la conclusion d'un type de payoff à un autre sans revérifier ce raisonnement.",
-    en: "1) Identify the exact payoff type (basket, Worst-Of call, Worst-Of put, Best-Of call, Best-Of put). 2) For a basket: variance grows with correlation (formula above), so a basket CALL is long correlation. 3) For a Worst-Of/Best-Of: reason about correlation's effect on the SPREAD of individual outcomes, not overall variance — lower correlation spreads outcomes more. 4) Never directly transpose one payoff type's conclusion to another without re-checking this reasoning.",
+    fr: "1) Identifier le type exact de payoff (panier, Worst-Of call, Worst-Of put, Best-Of call, Best-Of put). 2) Pour un panier : la variance croît avec la corrélation (formule ci-dessus, σ_panier passe de 19,36% à 25% quand ρ passe de 0,2 à 1), donc un panier CALL est long corrélation. 3) Pour un Worst-Of/Best-Of : raisonner sur l'effet de la corrélation sur la DISPERSION des résultats individuels, pas sur la variance globale — dans notre exemple à 2 états, E[pire]=−5% à ρ=0 contre 0% à ρ=1, alors que E[panier] reste à 0% dans les deux cas. 4) Ne jamais transposer directement la conclusion d'un type de payoff à un autre sans revérifier ce raisonnement.",
+    en: "1) Identify the exact payoff type (basket, Worst-Of call, Worst-Of put, Best-Of call, Best-Of put). 2) For a basket: variance grows with correlation (formula above, σ_basket goes from 19.36% to 25% as ρ goes from 0.2 to 1), so a basket CALL is long correlation. 3) For a Worst-Of/Best-Of: reason about correlation's effect on the SPREAD of individual outcomes, not overall variance — in our 2-state example, E[worst]=−5% at ρ=0 versus 0% at ρ=1, while E[basket] stays at 0% in both cases. 4) Never directly transpose one payoff type's conclusion to another without re-checking this reasoning.",
   },
   interpretation: {
     fr: "Cette diversité de sensibilités explique pourquoi les desks de dérivés sur multi-actifs distinguent soigneusement leurs positions par type de payoff plutôt que de les agréger naïvement en un seul \"risque de corrélation\" : un livre avec des paniers longs et des Worst-Of courts peut avoir un risque de corrélation net bien plus faible que la somme des positions individuelles ne le suggérerait.",
@@ -65,6 +86,14 @@ export const m09SensibilitesPayoff: LessonContent = {
       "Worst-Of call: typically short correlation (lower correlation spreads outcomes more, hurting the worst one).",
       "Never generalize a single sign: each payoff/direction combination (call vs put) deserves specific analysis.",
     ],
+  },
+  businessApplication: {
+    fr: "Un desk actions multi-actifs qui vend simultanément des paniers (long corrélation) et des Worst-Of (court corrélation) peut structurer son inventaire pour que ces positions se couvrent partiellement l'une l'autre en risque de corrélation, réduisant le coût total de couverture — une opportunité invisible à quiconque agrégerait naïvement toutes les positions multi-actifs en un seul chiffre de \"risque de corrélation\".",
+    en: "A multi-asset equity desk that simultaneously sells baskets (long correlation) and Worst-Ofs (short correlation) can structure its inventory so these positions partially hedge each other's correlation risk, reducing total hedging cost — an opportunity invisible to anyone naively aggregating all multi-asset positions into a single \"correlation risk\" figure.",
+  },
+  interviewQuestion: {
+    question: "Is a Worst-Of call long or short correlation? And is that the same answer for every multi-asset payoff?",
+    answer: "A Worst-Of call is short correlation — lower correlation increases the spread between the underlyings' outcomes, which increases the chance that at least one drags the 'worst' result down, hurting the payoff. But that's specifically for baskets vs. Worst-Of calls; it's not a universal rule. A basket call is the opposite, long correlation, since basket variance actually increases with correlation. And a Best-Of call flips again, being long dispersion like the Worst-Of but in the opposite direction on value. Puts can flip the sign again relative to the corresponding call. So I'd never apply a single mnemonic to 'multi-asset products' as a category — I'd work out the sign fresh for each specific payoff type and direction.",
   },
   advancedDemonstration: {
     fr: "Pour un PUT (plutôt qu'un call), les sensibilités peuvent s'inverser par rapport au call correspondant : un Worst-Of PUT, par exemple, peut avoir une sensibilité à la corrélation de signe différent de celle d'un Worst-Of CALL, car ce n'est plus la même extrémité de la distribution des résultats qui détermine le payoff. Cette asymétrie call/put, combinée à celle entre panier/Worst-Of/Best-Of, crée une matrice de sensibilités à quatre cas (au minimum) qu'aucune règle mnémotechnique simple ne peut résumer correctement — seule une analyse par simulation Monte-Carlo (perturbant la matrice de corrélation et en observant l'effet sur le prix) permet de conclure de façon fiable pour un payoff exotique complexe donné.",

@@ -40,11 +40,48 @@ export const m08VolLocaleStochastique: LessonContent = {
     ],
     assumptions: { fr: "Formule de Dupire, valable si les prix C(K,T) sont connus (ou interpolés) pour tous K et T ; en pratique, dérive numériquement sur une surface interpolée.", en: "Dupire's formula, valid if prices C(K,T) are known (or interpolated) for all K and T; in practice, computed numerically on an interpolated surface." },
     units: { fr: "σ²_loc en proportion annuelle au carré.", en: "σ²_loc as an annual proportion squared." },
-    example: { fr: "Cette formule n'est pas calculable à la main sur un exemple numérique simple : elle nécessite une surface de prix complète, généralement traitée par ordinateur.", en: "This formula isn't hand-computable on a simple numerical example: it requires a full price surface, typically processed by computer." },
+    example: { fr: "Illustration simplifiée (taux r=0, grille grossière, PAS une calibration de marché réelle) : C(95,T=1)=8,5 ; C(100,T=1)=6,0 ; C(105,T=1)=4,0 ; C(100,T=1,1)=6,4. ∂_T C≈(6,4−6,0)/0,1=4,0. ∂_KK C≈(8,5−2×6,0+4,0)/5²=0,5/25=0,02. σ²_loc(100,1)≈4,0/(0,5×100²×0,02)=4,0/100=0,04, soit σ_loc=√0,04=20% — un résultat plausible, obtenu ici sur une grille grossière à but pédagogique ; une calibration réelle utilise une surface beaucoup plus dense.", en: "Simplified illustration (rate r=0, coarse grid, NOT a real market calibration): C(95,T=1)=8.5; C(100,T=1)=6.0; C(105,T=1)=4.0; C(100,T=1.1)=6.4. ∂_T C≈(6.4−6.0)/0.1=4.0. ∂_KK C≈(8.5−2×6.0+4.0)/5²=0.5/25=0.02. σ²_loc(100,1)≈4.0/(0.5×100²×0.02)=4.0/100=0.04, i.e. σ_loc=√0.04=20% — a plausible result, obtained here on a coarse grid for teaching purposes; a real calibration uses a much denser surface." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Strike / Spot (%)", en: "Strike / Spot (%)" },
+    yLabel: { fr: "Volatilité implicite (%)", en: "Implied volatility (%)" },
+    series: [
+      {
+        label: { fr: "Smile actuel (marché)", en: "Current smile (market)" },
+        points: [
+          { x: 80, y: 28 },
+          { x: 90, y: 24 },
+          { x: 100, y: 20 },
+          { x: 110, y: 22 },
+          { x: 120, y: 26 },
+        ],
+      },
+      {
+        label: { fr: "Smile futur prédit (vol locale, trop plat)", en: "Predicted future smile (local vol, too flat)" },
+        points: [
+          { x: 80, y: 21 },
+          { x: 90, y: 20.5 },
+          { x: 100, y: 20 },
+          { x: 110, y: 20.5 },
+          { x: 120, y: 21 },
+        ],
+      },
+      {
+        label: { fr: "Smile futur prédit (vol stochastique, persistant)", en: "Predicted future smile (stochastic vol, persistent)" },
+        points: [
+          { x: 80, y: 27 },
+          { x: 90, y: 23.5 },
+          { x: 100, y: 19.5 },
+          { x: 110, y: 21.5 },
+          { x: 120, y: 25 },
+        ],
+      },
+    ],
   },
   calculation: {
-    fr: "1) Construire (ou interpoler) une surface de prix d'options vanilles C(K,T) arbitrage-free (voir M08-3). 2) Calculer numériquement les dérivées ∂_T C, ∂_K C et ∂_KK C sur cette surface. 3) Assembler selon la formule de Dupire pour obtenir σ²_loc(K,T) en chaque point. 4) Utiliser cette fonction de volatilité locale pour pricer et couvrir des produits exotiques par Monte-Carlo (M06-7) ou différences finies.",
-    en: "1) Build (or interpolate) an arbitrage-free vanilla option price surface C(K,T) (see M08-3). 2) Numerically compute the derivatives ∂_T C, ∂_K C and ∂_KK C on this surface. 3) Assemble per Dupire's formula to get σ²_loc(K,T) at each point. 4) Use this local volatility function to price and hedge exotic products via Monte-Carlo (M06-7) or finite differences.",
+    fr: "1) Construire (ou interpoler) une surface de prix d'options vanilles C(K,T) arbitrage-free (voir M08-3). 2) Calculer numériquement les dérivées ∂_T C, ∂_K C et ∂_KK C sur cette surface : par exemple ∂_T C≈4,0 et ∂_KK C≈0,02 sur notre grille illustrative. 3) Assembler selon la formule de Dupire pour obtenir σ²_loc(K,T) en chaque point : ici σ_loc(100,1)≈20%. 4) Utiliser cette fonction de volatilité locale pour pricer et couvrir des produits exotiques par Monte-Carlo (M06-7) ou différences finies.",
+    en: "1) Build (or interpolate) an arbitrage-free vanilla option price surface C(K,T) (see M08-3). 2) Numerically compute the derivatives ∂_T C, ∂_K C and ∂_KK C on this surface: e.g. ∂_T C≈4.0 and ∂_KK C≈0.02 on our illustrative grid. 3) Assemble per Dupire's formula to get σ²_loc(K,T) at each point: here σ_loc(100,1)≈20%. 4) Use this local volatility function to price and hedge exotic products via Monte-Carlo (M06-7) or finite differences.",
   },
   interpretation: {
     fr: "Le modèle de vol locale est mathématiquement remarquable (une seule fonction déterministe suffit à répliquer tous les prix vanilles cotés), mais sa dynamique implicite du smile futur est connue pour être irréaliste (le smile s'aplatit trop vite). Le modèle de vol stochastique corrige ce défaut au prix d'une calibration plus difficile (plusieurs paramètres à ajuster, pas de formule fermée systématique) — un compromis fondamental entre fidélité statique et réalisme dynamique.",
@@ -65,6 +102,14 @@ export const m08VolLocaleStochastique: LessonContent = {
       "Stochastic vol (Heston...): volatility has its own source of randomness, more realistic smile dynamics.",
       "Fundamental trade-off: static fidelity (local vol) vs dynamic realism (stochastic vol).",
     ],
+  },
+  businessApplication: {
+    fr: "Un desk exotiques choisit le modèle utilisé pour pricer un produit spécifiquement en fonction de sa sensibilité à la dynamique du smile : un produit peu sensible à cette dynamique (barrière simple proche de l'échéance) peut être raisonnablement prické en vol locale, tandis qu'un produit fortement sensible (forward start, cliquet) exige un modèle de vol stochastique ou local-stochastique, sous peine d'une erreur de couverture significative et récurrente.",
+    en: "An exotics desk chooses the model used to price a specific product based on its sensitivity to smile dynamics: a product with low sensitivity to this dynamic (a simple barrier near expiry) can reasonably be priced with local vol, while a highly sensitive product (forward start, cliquet) requires a stochastic or local-stochastic vol model, or risks a significant, recurring hedging error.",
+  },
+  interviewQuestion: {
+    question: "A local volatility model perfectly reprices every vanilla option quoted in the market today. Does that mean it's the right model to use for pricing an exotic option?",
+    answer: "Not necessarily. Fitting today's vanilla prices exactly only tells you the model is consistent with the current static snapshot of the market — it says nothing about whether the model correctly predicts how the smile will evolve as time passes and the underlying moves, which is exactly what many exotic payoffs, like forward-start options, actually depend on. Local vol is known to predict a future smile that flattens unrealistically fast, which is a bad approximation of what markets actually do. A stochastic volatility model like Heston sacrifices a bit of that perfect fit to today's prices in exchange for much more realistic smile dynamics over time. So the right choice depends on how sensitive the specific exotic is to smile dynamics — for that, I'd lean stochastic or local-stochastic, not pure local vol, despite its perfect static fit.",
   },
   advancedDemonstration: {
     fr: "Les modèles \"local-stochastiques\" (LSV, combinant les deux approches) cherchent à obtenir le meilleur des deux mondes : une composante stochastique pour une dynamique réaliste, ajustée par une fonction de \"leverage\" locale pour retrouver un ajustement exact aux prix vanilles cotés — une approche aujourd'hui standard sur de nombreux desks exotiques. Le modèle de Heston lui-même suppose que la variance instantanée suit un processus de retour à la moyenne (mean-reverting, de type Cox-Ingersoll-Ross), ce qui produit naturellement une forme de smile réaliste avec des paramètres interprétables (vitesse de retour à la moyenne, volatilité de la volatilité, corrélation entre le sous-jacent et sa volatilité — cette dernière étant directement responsable de l'asymétrie du smile généré).",

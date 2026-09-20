@@ -25,8 +25,8 @@ export const m06MonteCarlo: LessonContent = {
     en: "Monte-Carlo is essential whenever no closed-form formula exists: options on a basket of several correlated assets (M09), path-dependent options (barriers, M10), complex structured products (M11) — its flexibility offsets its relative slowness.",
   },
   example: {
-    fr: "Pour pricer un call européen classique (qui a pourtant une formule fermée, à titre pédagogique) : on simule 100 000 trajectoires de S_T sous la mesure risque-neutre (drift=r), on calcule max(S_T−K,0) pour chacune, on actualise chaque résultat par e^{−rT}, et on moyenne les 100 000 valeurs — le résultat converge vers le prix Black-Scholes exact quand le nombre de simulations augmente.",
-    en: "To price a plain European call (which does have a closed-form formula, for teaching purposes): simulate 100,000 paths of S_T under the risk-neutral measure (drift=r), compute max(S_T−K,0) for each, discount each result by e^{−rT}, and average the 100,000 values — the result converges to the exact Black-Scholes price as the number of simulations grows.",
+    fr: "Pour pricer un call européen classique (qui a pourtant une formule fermée, à titre pédagogique) : S0=100, K=100, r=3%, σ=20%, T=1 an. Avec seulement 5 tirages Z=0,5 ; −1,0 ; 1,5 ; −0,5 ; 0,2 et S_T=100×exp[(0,03−0,02)+0,20×Z], on obtient S_T=111,63 ; 82,70 ; 136,34 ; 91,39 ; 105,13, soit des payoffs max(S_T−100,0)=11,63 ; 0 ; 36,34 ; 0 ; 5,13. Moyenne=10,62, actualisée par e^{−0,03}=0,9704 → Ĉ≈10,31. Le prix Black-Scholes exact est 9,42 : avec seulement 5 trajectoires, l'estimation reste bruitée (écart de +9%), illustrant pourquoi il faut typiquement des dizaines de milliers de trajectoires pour converger précisément.",
+    en: "To price a plain European call (which does have a closed-form formula, for teaching purposes): S0=100, K=100, r=3%, σ=20%, T=1 year. With just 5 draws Z=0.5, −1.0, 1.5, −0.5, 0.2 and S_T=100×exp[(0.03−0.02)+0.20×Z], we get S_T=111.63, 82.70, 136.34, 91.39, 105.13, i.e. payoffs max(S_T−100,0)=11.63, 0, 36.34, 0, 5.13. Average=10.62, discounted by e^{−0.03}=0.9704 → Ĉ≈10.31. The exact Black-Scholes price is 9.42: with only 5 paths, the estimate stays noisy (a +9% gap), illustrating why tens of thousands of paths are typically needed to converge precisely.",
   },
   alternativeExplanation: {
     fr: "Pensez à estimer la probabilité qu'une pièce tombe sur pile en la lançant seulement 10 fois (résultat peu fiable) contre 1 million de fois (résultat très fiable, proche de 50%). Le Monte-Carlo applique exactement cette logique : plus on \"lance\" de trajectoires simulées, plus l'estimation du prix moyen se rapproche de la vraie valeur, à une vitesse prévisible.",
@@ -42,11 +42,29 @@ export const m06MonteCarlo: LessonContent = {
     ],
     assumptions: { fr: "Trajectoires simulées indépendantes et identiquement distribuées (théorème central limite).", en: "Simulated paths independent and identically distributed (central limit theorem)." },
     units: { fr: "Même unité que le prix de l'option.", en: "Same unit as the option's price." },
-    example: { fr: "σ̂=15, N=10 000 : erreur standard ≈ 15/100 = 0,15 (l'estimation du prix a une incertitude d'environ ±0,15).", en: "σ̂=15, N=10,000: standard error ≈ 15/100 = 0.15 (the price estimate has an uncertainty of about ±0.15)." },
+    example: { fr: "σ̂=15, N=10 000 : erreur standard ≈ 15/100 = 0,15 (l'estimation du prix a une incertitude d'environ ±0,15). Avec seulement N=5 (notre exemple), l'erreur standard est bien plus grande, d'où l'écart de +9% observé par rapport au prix exact 9,42.", en: "σ̂=15, N=10,000: standard error ≈ 15/100 = 0.15 (the price estimate has an uncertainty of about ±0.15). With only N=5 (our example), the standard error is far larger, hence the +9% gap observed versus the exact price of 9.42." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "log₁₀(N) — nombre de trajectoires simulées", en: "log₁₀(N) — number of simulated paths" },
+    yLabel: { fr: "Prix estimé", en: "Estimated price" },
+    series: [
+      {
+        label: { fr: "Estimation Monte-Carlo", en: "Monte-Carlo estimate" },
+        points: [
+          { x: 1, y: 11.5 },
+          { x: 2, y: 8.7 },
+          { x: 3, y: 9.8 },
+          { x: 4, y: 9.3 },
+          { x: 5, y: 9.42 },
+        ],
+      },
+    ],
+    refLines: [{ label: { fr: "Prix Black-Scholes exact (9,42)", en: "Exact Black-Scholes price (9.42)" }, y: 9.42 }],
   },
   calculation: {
-    fr: "1) Simuler N trajectoires de S_T sous la mesure risque-neutre (drift=r). 2) Calculer le payoff actualisé de chaque trajectoire. 3) Calculer la moyenne (l'estimation du prix) et l'écart-type de ces N valeurs. 4) L'erreur standard de l'estimation = écart-type / √N — pour diviser l'erreur par 2, il faut multiplier N par 4.",
-    en: "1) Simulate N paths of S_T under the risk-neutral measure (drift=r). 2) Compute the discounted payoff of each path. 3) Compute the average (the price estimate) and standard deviation of these N values. 4) The estimate's standard error = standard deviation / √N — to halve the error, N must be multiplied by 4.",
+    fr: "1) Simuler N trajectoires de S_T sous la mesure risque-neutre (drift=r) : ici N=5, avec les tirages Z listés ci-dessus. 2) Calculer le payoff actualisé de chaque trajectoire. 3) Calculer la moyenne (l'estimation du prix, 10,31) et l'écart-type de ces N valeurs. 4) L'erreur standard de l'estimation = écart-type / √N — pour diviser l'erreur par 2, il faut multiplier N par 4 : passer de N=5 à N=100 000 réduit l'erreur standard d'un facteur √20 000≈141.",
+    en: "1) Simulate N paths of S_T under the risk-neutral measure (drift=r): here N=5, with the Z draws listed above. 2) Compute the discounted payoff of each path. 3) Compute the average (the price estimate, 10.31) and standard deviation of these N values. 4) The estimate's standard error = standard deviation / √N — to halve the error, N must be multiplied by 4: going from N=5 to N=100,000 reduces the standard error by a factor of √20,000≈141.",
   },
   interpretation: {
     fr: "La convergence en 1/√N est lente : quadrupler le nombre de simulations ne fait que diviser l'erreur par 2. C'est pourquoi des techniques de réduction de variance (variables antithétiques, variables de contrôle) sont couramment utilisées en pratique pour accélérer la convergence sans exploser le temps de calcul.",
@@ -67,6 +85,14 @@ export const m06MonteCarlo: LessonContent = {
       "The standard error decreases as 1/√N: slow convergence that motivates variance-reduction techniques.",
       "Essential whenever no closed-form formula exists (baskets, path-dependent, structured products).",
     ],
+  },
+  businessApplication: {
+    fr: "Un desk exotiques utilise le Monte-Carlo au quotidien pour pricer et couvrir tout produit sans formule fermée (paniers, autocalls, barrières complexes) : le compromis central pour la production quotidienne est le nombre de trajectoires utilisé, arbitrant entre précision du prix (erreur standard) et temps de calcul disponible avant l'ouverture des marchés ou la validation d'un trade.",
+    en: "An exotics desk uses Monte-Carlo daily to price and hedge any product without a closed-form formula (baskets, autocalls, complex barriers): the central trade-off for daily production is the number of paths used, balancing price precision (standard error) against the computation time available before markets open or a trade is validated.",
+  },
+  interviewQuestion: {
+    question: "You run a Monte-Carlo pricer with 10,000 paths and get a standard error of 0.15. Your manager wants the error down to 0.05. How many paths do you need, and why can't you just add a few more?",
+    answer: "Standard error scales as 1 over the square root of N, so to cut it by a factor of 3 (from 0.15 to 0.05), I need to multiply N by 3 squared, which is 9 — so about 90,000 paths, not just a small increase. This is the classic slow-convergence problem with Monte-Carlo: doubling your paths only reduces the error by a factor of about 1.4, not 2. If computation time is a real constraint, I wouldn't just brute-force more paths — I'd reach for variance-reduction techniques like antithetic variates or control variates, which can meaningfully shrink the error for a given N without needing to simulate proportionally more paths.",
   },
   advancedDemonstration: {
     fr: "Pour un produit path-dependent (M10), il faut simuler la trajectoire complète, pas seulement S_T : discrétiser [0,T] en pas Δt, et à chaque pas mettre à jour S_{t+Δt} = S_t × exp[(r−σ²/2)Δt + σ√Δt × Z], Z~N(0,1) — l'application directe du brownien géométrique (M06-2) sous mesure risque-neutre. Les techniques de réduction de variance courantes incluent les variables antithétiques (simuler aussi la trajectoire avec −Z pour chaque Z tiré, ce qui réduit la variance de l'estimateur moyen sans biais) et les variables de contrôle (utiliser un instrument similaire au prix fermé connu, comme un call vanille, pour corriger l'estimation d'un produit plus complexe).",

@@ -25,8 +25,8 @@ export const m07PnlDeltaHedging: LessonContent = {
     en: "This decomposition explains why an option seller makes money on average if realized volatility is lower than the sold implied volatility (the collected Theta exceeds the Gamma cost), and loses in the opposite case — a much finer view than a simple \"I sold, the market didn't move, so I won\".",
   },
   example: {
-    fr: "Un trader vend un call avec une volatilité implicite de 20% et se couvre en delta. Si la volatilité réellement réalisée sur le sous-jacent est de 15% (marché plus calme que prévu), le Theta encaissé (positif pour le vendeur) dépasse en moyenne le coût du Gamma (négatif pour le vendeur), et la position est profitable. Si la volatilité réalisée grimpe à 30%, c'est l'inverse : les pertes de Gamma dépassent le Theta encaissé.",
-    en: "A trader sells a call with 20% implied volatility and delta-hedges it. If realized volatility on the underlying turns out to be 15% (calmer market than expected), the collected Theta (positive for the seller) exceeds on average the Gamma cost (negative for the seller), and the position is profitable. If realized volatility spikes to 30%, it's the reverse: Gamma losses exceed the collected Theta.",
+    fr: "Un trader vend un call avec une volatilité implicite de 20% et se couvre en delta : position Θ=+80 par jour (collecté), Γ=−0,05. Sur 5 jours, les mouvements réalisés du sous-jacent sont dS=+1, −2, +0,5, −1, +3. P&L du jour = Θ + ½Γ(dS)² : jour 1=80+0,5×(−0,05)×1=79,975 ; jour 2=80+0,5×(−0,05)×4=79,9 ; jour 3=80+0,5×(−0,05)×0,25=79,994 ; jour 4=79,975 ; jour 5=80+0,5×(−0,05)×9=79,775. P&L cumulé sur 5 jours≈399,62 : la volatilité réalisée (mouvements journaliers modestes) est restée sous l'implicite vendue à 20%, donc le Theta encaissé domine largement le coût de Gamma chaque jour.",
+    en: "A trader sells a call with 20% implied volatility and delta-hedges it: position Θ=+80 per day (collected), Γ=−0.05. Over 5 days, the underlying's realized moves are dS=+1, −2, +0.5, −1, +3. Day P&L = Θ + ½Γ(dS)²: day 1=80+0.5×(−0.05)×1=79.975; day 2=80+0.5×(−0.05)×4=79.9; day 3=80+0.5×(−0.05)×0.25=79.994; day 4=79.975; day 5=80+0.5×(−0.05)×9=79.775. Cumulative P&L over 5 days≈399.62: realized volatility (modest daily moves) stayed below the 20% sold implied, so the collected Theta heavily dominates the Gamma cost every day.",
   },
   alternativeExplanation: {
     fr: "Vendre une option couverte en delta, c'est un peu comme vendre une assurance : vous encaissez une prime régulière (le Theta), mais vous devez payer chaque fois qu'un \"sinistre\" survient (un mouvement du marché, capté par le Gamma). Si les sinistres sont moins fréquents/importants que ce que la prime supposait (volatilité réalisée < implicite), l'assureur (le vendeur d'options) gagne de l'argent en moyenne.",
@@ -41,11 +41,29 @@ export const m07PnlDeltaHedging: LessonContent = {
     ],
     assumptions: { fr: "Approximation de Taylor au second ordre, valable pour un intervalle de temps court et un rééquilibrage fréquent du delta-hedge.", en: "Second-order Taylor approximation, valid for a short time interval and frequent delta-hedge rebalancing." },
     units: { fr: "P&L dans la devise de la position.", en: "P&L in the position's currency." },
-    example: { fr: "Voir l'exemple ci-dessus pour l'intuition sur un horizon complet plutôt qu'une seule période.", en: "See the example above for the intuition over a full horizon rather than a single period." },
+    example: { fr: "Θ=+80/jour, Γ=−0,05, dS=+1 le jour 1 → P&L=80+0,5×(−0,05)×1²=79,975. Répété et cumulé sur 5 jours avec les mouvements de l'exemple ci-dessus ≈399,62 au total.", en: "Θ=+80/day, Γ=−0.05, dS=+1 on day 1 → P&L=80+0.5×(−0.05)×1²=79.975. Repeated and cumulated over 5 days with the moves from the example above ≈399.62 in total." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Jour", en: "Day" },
+    yLabel: { fr: "P&L cumulé", en: "Cumulative P&L" },
+    series: [
+      {
+        label: { fr: "P&L cumulé du vendeur couvert en delta", en: "Delta-hedged seller's cumulative P&L" },
+        points: [
+          { x: 0, y: 0 },
+          { x: 1, y: 79.975 },
+          { x: 2, y: 159.875 },
+          { x: 3, y: 239.869 },
+          { x: 4, y: 319.844 },
+          { x: 5, y: 399.619 },
+        ],
+      },
+    ],
   },
   calculation: {
-    fr: "1) Sur chaque période de rééquilibrage, calculer le mouvement réalisé dS du sous-jacent. 2) Calculer le terme de Gamma : ½×Γ×(dS)². 3) Calculer le terme de Theta sur cette période : Θ×dt. 4) Additionner les deux pour le P&L de la période. 5) Cumuler sur toute la durée de vie de l'option pour le P&L total.",
-    en: "1) Over each rebalancing period, compute the underlying's realized move dS. 2) Compute the Gamma term: ½×Γ×(dS)². 3) Compute the Theta term over that period: Θ×dt. 4) Add both for the period's P&L. 5) Cumulate over the option's full life for the total P&L.",
+    fr: "1) Sur chaque période de rééquilibrage, calculer le mouvement réalisé dS du sous-jacent : +1, −2, +0,5, −1, +3 sur nos 5 jours. 2) Calculer le terme de Gamma : ½×Γ×(dS)², par exemple ½×(−0,05)×1²=−0,025 le jour 1. 3) Calculer le terme de Theta sur cette période : Θ×dt=+80 chaque jour. 4) Additionner les deux pour le P&L de la période : 79,975 le jour 1. 5) Cumuler sur toute la durée de vie de l'option pour le P&L total : ≈399,62 sur les 5 jours.",
+    en: "1) Over each rebalancing period, compute the underlying's realized move dS: +1, −2, +0.5, −1, +3 over our 5 days. 2) Compute the Gamma term: ½×Γ×(dS)², e.g. ½×(−0.05)×1²=−0.025 on day 1. 3) Compute the Theta term over that period: Θ×dt=+80 each day. 4) Add both for the period's P&L: 79.975 on day 1. 5) Cumulate over the option's full life for the total P&L: ≈399.62 over the 5 days.",
   },
   interpretation: {
     fr: "Pour un vendeur d'options (Γ<0, Θ>0), le P&L moyen sur la durée de vie est positif si la volatilité réalisée est inférieure à l'implicite vendue, car le Theta encaissé compense alors le coût moyen du Gamma négatif — un résultat qui formalise précisément l'intuition \"vendre cher, racheter (implicitement, via le hedge) bon marché\".",
@@ -66,6 +84,14 @@ export const m07PnlDeltaHedging: LessonContent = {
       "An option seller makes money on average if realized volatility < sold implied volatility, and loses otherwise.",
       "Discrete (not continuous) rebalancing introduces gap risk not captured by the continuous approximation.",
     ],
+  },
+  businessApplication: {
+    fr: "Un desk options suit quotidiennement le P&L de Gamma décomposé (Theta vs coût de Gamma) pour chaque position couverte en delta, précisément pour vérifier en temps réel si le marché réalise plus ou moins de volatilité que celle vendue — cette lecture guide les décisions de resserrer ou d'alléger une position de vente de volatilité avant l'échéance de l'option, plutôt que d'attendre passivement le résultat final.",
+    en: "An options desk tracks the decomposed Gamma P&L (Theta vs Gamma cost) daily for every delta-hedged position, precisely to check in real time whether the market is realizing more or less volatility than what was sold — this reading guides decisions to tighten or reduce a short-volatility position before the option's expiry, rather than passively waiting for the final result.",
+  },
+  interviewQuestion: {
+    question: "You're short a delta-hedged call. The stock barely moves today. Are you making or losing money, and why?",
+    answer: "I'm almost certainly making money on this position today. Being short a delta-hedged call means I have negative Gamma and positive Theta: I collect time decay every day (Theta), and I pay a cost proportional to the square of the stock's move each time I rebalance the hedge (the Gamma cost). On a day where the stock barely moves, that squared-move term is tiny, so the Gamma cost is negligible and the Theta I collected is basically pure profit. The real risk shows up on a day with a large move — the Gamma cost then scales with the square of that move, and if realized volatility over the option's life ends up higher than the implied volatility I sold it at, the accumulated Gamma losses will exceed the Theta I collected, and the position ends up unprofitable overall.",
   },
   advancedDemonstration: {
     fr: "En intégrant cette relation sur toute la durée de vie sous l'hypothèse Black-Scholes (où Θ = −½ΓS²σ_implicite²  −  rKe^{−rT}N(d2), en négligeant le terme de taux pour simplifier), le P&L cumulé attendu d'un vendeur d'options couvert en delta s'écrit approximativement ½∫Γ_t S_t² (σ_réalisée,t² − σ_implicite²) dt : c'est le \"P&L de Gamma\" classique de la littérature, qui montre explicitement que le signe du P&L moyen dépend du signe de (σ_réalisée² − σ_implicite²), pondéré par le Gamma (toujours positif pour une option longue) à chaque instant. Cette formule est au cœur de toutes les stratégies de \"vol trading\" (trading de volatilité) où l'on parie explicitement sur cet écart plutôt que sur la direction du marché.",
