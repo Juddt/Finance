@@ -42,11 +42,15 @@ import { m04SwapInflation } from "@/content/lessons/m04-swap-inflation";
 import { m01OrganisationBanque } from "@/content/lessons/m01-organisation-banque";
 import { m01IndicateursMacro } from "@/content/lessons/m01-indicateurs-macro";
 import { m01BanquesCentrales } from "@/content/lessons/m01-banques-centrales";
+import { m01AnticipationsTauxDirecteurs } from "@/content/lessons/m01-anticipations-taux-directeurs";
 import { m01ClassesActifs } from "@/content/lessons/m01-classes-actifs";
+import { m01ActionsDividendesRatios } from "@/content/lessons/m01-actions-dividendes-ratios";
+import { m01IndicesEtf } from "@/content/lessons/m01-indices-etf";
 import { m01Arbitrage } from "@/content/lessons/m01-arbitrage";
 import { m01VenteDecouvert } from "@/content/lessons/m01-vente-decouvert";
 import { m01TauxChange } from "@/content/lessons/m01-taux-change";
 import { m01PariteTaux } from "@/content/lessons/m01-parite-taux";
+import { m01FxPointsForwardSwap } from "@/content/lessons/m01-fx-points-forward-swap";
 import { m01MicrostructureRappels } from "@/content/lessons/m01-microstructure-rappels";
 import { m06MouvementBrownien } from "@/content/lessons/m06-mouvement-brownien";
 import { m06BrownienArithmetiqueGeometrique } from "@/content/lessons/m06-brownien-arithmetique-geometrique";
@@ -143,11 +147,15 @@ import { templates as m04SwapInflationTemplates } from "@/content/question-templ
 import { templates as m01OrganisationBanqueTemplates } from "@/content/question-templates/m01-organisation-banque";
 import { templates as m01IndicateursMacroTemplates } from "@/content/question-templates/m01-indicateurs-macro";
 import { templates as m01BanquesCentralesTemplates } from "@/content/question-templates/m01-banques-centrales";
+import { templates as m01AnticipationsTauxDirecteursTemplates } from "@/content/question-templates/m01-anticipations-taux-directeurs";
 import { templates as m01ClassesActifsTemplates } from "@/content/question-templates/m01-classes-actifs";
+import { templates as m01ActionsDividendesRatiosTemplates } from "@/content/question-templates/m01-actions-dividendes-ratios";
+import { templates as m01IndicesEtfTemplates } from "@/content/question-templates/m01-indices-etf";
 import { templates as m01ArbitrageTemplates } from "@/content/question-templates/m01-arbitrage";
 import { templates as m01VenteDecouvertTemplates } from "@/content/question-templates/m01-vente-decouvert";
 import { templates as m01TauxChangeTemplates } from "@/content/question-templates/m01-taux-change";
 import { templates as m01PariteTauxTemplates } from "@/content/question-templates/m01-parite-taux";
+import { templates as m01FxPointsForwardSwapTemplates } from "@/content/question-templates/m01-fx-points-forward-swap";
 import { templates as m01MicrostructureRappelsTemplates } from "@/content/question-templates/m01-microstructure-rappels";
 import { templates as m06MouvementBrownienTemplates } from "@/content/question-templates/m06-mouvement-brownien";
 import { templates as m06BrownienArithmetiqueGeometriqueTemplates } from "@/content/question-templates/m06-brownien-arithmetique-geometrique";
@@ -246,11 +254,15 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m01-organisation-banque": m01OrganisationBanque,
   "m01-indicateurs-macro": m01IndicateursMacro,
   "m01-banques-centrales": m01BanquesCentrales,
+  "m01-anticipations-taux-directeurs": m01AnticipationsTauxDirecteurs,
   "m01-classes-actifs": m01ClassesActifs,
+  "m01-actions-dividendes-ratios": m01ActionsDividendesRatios,
+  "m01-indices-etf": m01IndicesEtf,
   "m01-arbitrage": m01Arbitrage,
   "m01-vente-decouvert": m01VenteDecouvert,
   "m01-taux-change": m01TauxChange,
   "m01-parite-taux": m01PariteTaux,
+  "m01-fx-points-forward-swap": m01FxPointsForwardSwap,
   "m01-microstructure-rappels": m01MicrostructureRappels,
   "m06-mouvement-brownien": m06MouvementBrownien,
   "m06-brownien-arithmetique-geometrique": m06BrownienArithmetiqueGeometrique,
@@ -350,11 +362,15 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m01-organisation-banque": m01OrganisationBanqueTemplates,
   "m01-indicateurs-macro": m01IndicateursMacroTemplates,
   "m01-banques-centrales": m01BanquesCentralesTemplates,
+  "m01-anticipations-taux-directeurs": m01AnticipationsTauxDirecteursTemplates,
   "m01-classes-actifs": m01ClassesActifsTemplates,
+  "m01-actions-dividendes-ratios": m01ActionsDividendesRatiosTemplates,
+  "m01-indices-etf": m01IndicesEtfTemplates,
   "m01-arbitrage": m01ArbitrageTemplates,
   "m01-vente-decouvert": m01VenteDecouvertTemplates,
   "m01-taux-change": m01TauxChangeTemplates,
   "m01-parite-taux": m01PariteTauxTemplates,
+  "m01-fx-points-forward-swap": m01FxPointsForwardSwapTemplates,
   "m01-microstructure-rappels": m01MicrostructureRappelsTemplates,
   "m06-mouvement-brownien": m06MouvementBrownienTemplates,
   "m06-brownien-arithmetique-geometrique": m06BrownienArithmetiqueGeometriqueTemplates,

@@ -72,17 +72,18 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   bilingue par segment `/fr`, `/en` (`proxy.ts` + `app/[locale]`), dictionnaires
   d'interface FR/EN (`i18n/`).
 - **Catalogue complet** : les 13 modules du document (M01–M13) sont
-  entièrement transcrits en 8 catégories / 19 chapitres / **103 notions**
+  entièrement transcrits en 8 catégories / 19 chapitres / **107 notions**
   (`content/catalog/`), avec titre + objectif bilingues et référence à la
   ligne source du cadrage (`sourceRef`, ex. `M02-4`) pour chaque notion. Une
   matrice de couverture (`getCoverageMatrix()`) est générée directement depuis
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **101 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+- **105 notions publiées de bout en bout** (`content/lessons/`, liste exacte
   des IDs dans `lib/content-registry.ts`), couvrant treize modules désormais
-  complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (9/9, avec
-  les indicateurs macroéconomiques ajoutés avant les banques centrales), M02
+  complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (13/13, avec
+  indicateurs macro, anticipations de taux directeurs, actions/dividendes,
+  indices/ETF et points de change à terme/FX swap ajoutés), M02
   Forwards/futures/matières premières (7/7), M03 Obligations/taux/crédit
   (10/10, avec repo/collatéral avant le taux sans risque et les obligations
   convertibles en clôture), M04 FRA & swaps de taux (7/7, avec clearing
@@ -112,7 +113,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
   `content/question-templates/`, PRNG seedé dans `lib/prng.ts`, fabriques
   mutualisées dans `lib/question-template-kit.ts` pour les familles
-  qualitatives) : 860 templates (en cours d'enrichissement vers ≥ 12
+  qualitatives) : 908 templates (en cours d'enrichissement vers ≥ 12
   familles réellement distinctes par notion — compréhension, comparaison,
   raisonnement conditionnel, calcul, erreur fréquente, mises en situation —
   plutôt qu'une simple variation de chiffres) génèrent des exercices avec
@@ -192,8 +193,8 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 
 ## Ce qui n'est PAS fait (volontairement, pour ce scaffold)
 
-- **2 des 103 notions du catalogue n'ont pas de cours rédigé** (module M08,
-  intitulés laissés « À venir » faute de confirmation) : 101 sont publiées
+- **2 des 107 notions du catalogue n'ont pas de cours rédigé** (module M08,
+  intitulés laissés « À venir » faute de confirmation) : 105 sont publiées
   (voir ci-dessus). Le catalogue affiche « À venir » pour les
   autres et elles ne comptent pas dans la couverture publiée, ni dans les
   quiz de chapitre/catégorie/mix personnalisé (un chapitre ou une catégorie
@@ -289,9 +290,9 @@ components/                  LanguageToggle, Formula (KaTeX serveur), PayoffChar
 components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/StaticQuizRunner.tsx = backend local/localStorage
 components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
-content/catalog/             catégories, chapitres, 103 notions (M01-M13), matrice de couverture
+content/catalog/             catégories, chapitres, 107 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   860 templates de questions à variantes (101 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   908 templates de questions à variantes (105 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN
