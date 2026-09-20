@@ -19,8 +19,8 @@ export const m06MouvementBrownien: LessonContent = {
     en: "It is the foundational building block of modern quantitative finance: the Black-Scholes model (M06-4), Itô's lemma (M06-3) and Monte-Carlo simulation (M06-7) all directly rely on Brownian motion to model asset price uncertainty over time.",
   },
   example: {
-    fr: "Le grain de pollen observé par Robert Brown en 1827, ballotté sans cesse par les chocs des molécules d'eau environnantes, a donné son nom au phénomène. En finance, ce n'est pas le prix lui-même mais souvent son logarithme qui suit un mouvement brownien (avec dérive), pour garantir que le prix reste positif — voir M06-2.",
-    en: "The pollen grain observed by Robert Brown in 1827, constantly jostled by surrounding water molecules, gave the phenomenon its name. In finance, it is often not the price itself but its logarithm that follows a Brownian motion (with drift), to guarantee the price stays positive — see M06-2.",
+    fr: "Le grain de pollen observé par Robert Brown en 1827, ballotté sans cesse par les chocs des molécules d'eau environnantes, a donné son nom au phénomène. En finance, ce n'est pas le prix lui-même mais souvent son logarithme qui suit un mouvement brownien (avec dérive), pour garantir que le prix reste positif — voir M06-2. En simulant avec Δt=0,25 an (donc √Δt=0,5) et des tirages Z=0,50 ; −1,20 ; 0,80 ; −0,30, on obtient la trajectoire W_0=0, W_0,25=0+0,5×0,50=0,25, W_0,5=0,25+0,5×(−1,20)=−0,35, W_0,75=−0,35+0,5×0,80=0,05, W_1=0,05+0,5×(−0,30)=−0,10 : une trajectoire qui zigzague sans tendance, exactement le comportement attendu (espérance nulle à tout instant).",
+    en: "The pollen grain observed by Robert Brown in 1827, constantly jostled by surrounding water molecules, gave the phenomenon its name. In finance, it is often not the price itself but its logarithm that follows a Brownian motion (with drift), to guarantee the price stays positive — see M06-2. Simulating with Δt=0.25 year (so √Δt=0.5) and draws Z=0.50, −1.20, 0.80, −0.30 gives the path W_0=0, W_0.25=0+0.5×0.50=0.25, W_0.5=0.25+0.5×(−1.20)=−0.35, W_0.75=−0.35+0.5×0.80=0.05, W_1=0.05+0.5×(−0.30)=−0.10: a path that zigzags with no trend, exactly the expected behavior (zero expectation at every instant).",
   },
   alternativeExplanation: {
     fr: "Imaginez lancer une pièce toutes les millisecondes et avancer d'un pas minuscule à droite (pile) ou à gauche (face) : en accélérant ce jeu à l'infini (des pas de plus en plus petits, de plus en plus fréquents), la trajectoire cumulée converge vers un mouvement brownien. C'est une marche aléatoire poussée à sa limite continue.",
@@ -36,9 +36,26 @@ export const m06MouvementBrownien: LessonContent = {
     units: { fr: "W_t sans dimension (ou dans l'unité du processus modélisé) ; t en années ou fraction d'année.", en: "W_t dimensionless (or in the modeled process's unit); t in years or a fraction of a year." },
     example: { fr: "À t=1 an, W_1 suit une loi normale d'écart-type 1 ; à t=0,25 an, l'écart-type est √0,25 = 0,5.", en: "At t=1 year, W_1 follows a normal distribution with standard deviation 1; at t=0.25 year, the standard deviation is √0.25 = 0.5." },
   },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Temps (années)", en: "Time (years)" },
+    yLabel: { fr: "W_t", en: "W_t" },
+    series: [
+      {
+        label: { fr: "Trajectoire simulée", en: "Simulated path" },
+        points: [
+          { x: 0, y: 0 },
+          { x: 0.25, y: 0.25 },
+          { x: 0.5, y: -0.35 },
+          { x: 0.75, y: 0.05 },
+          { x: 1, y: -0.1 },
+        ],
+      },
+    ],
+  },
   calculation: {
-    fr: "1) Pour simuler une trajectoire, discrétiser le temps en petits pas Δt. 2) À chaque pas, tirer Z ~ N(0,1). 3) Mettre à jour : W_{t+Δt} = W_t + √Δt × Z. 4) Répéter pour construire la trajectoire complète — c'est l'algorithme de simulation le plus simple d'un mouvement brownien.",
-    en: "1) To simulate a path, discretize time into small steps Δt. 2) At each step, draw Z ~ N(0,1). 3) Update: W_{t+Δt} = W_t + √Δt × Z. 4) Repeat to build the full path — the simplest simulation algorithm for Brownian motion.",
+    fr: "1) Pour simuler une trajectoire, discrétiser le temps en petits pas Δt (ici Δt=0,25, donc √Δt=0,5). 2) À chaque pas, tirer Z ~ N(0,1) (ici 0,50 ; −1,20 ; 0,80 ; −0,30). 3) Mettre à jour : W_{t+Δt} = W_t + √Δt × Z, ce qui donne successivement 0,25 ; −0,35 ; 0,05 ; −0,10. 4) Répéter pour construire la trajectoire complète — c'est l'algorithme de simulation le plus simple d'un mouvement brownien.",
+    en: "1) To simulate a path, discretize time into small steps Δt (here Δt=0.25, so √Δt=0.5). 2) At each step, draw Z ~ N(0,1) (here 0.50, −1.20, 0.80, −0.30). 3) Update: W_{t+Δt} = W_t + √Δt × Z, giving successively 0.25, −0.35, 0.05, −0.10. 4) Repeat to build the full path — the simplest simulation algorithm for Brownian motion.",
   },
   interpretation: {
     fr: "La variance croît linéairement avec le temps (Var = t), donc l'écart-type croît en √t : c'est pourquoi l'incertitude sur un horizon 4 fois plus long n'est multipliée que par 2, pas par 4 — une propriété qui structure toute la théorie de la volatilité (M08).",
@@ -63,5 +80,13 @@ export const m06MouvementBrownien: LessonContent = {
   advancedDemonstration: {
     fr: "Cette non-dérivabilité se justifie intuitivement : sur un petit intervalle Δt, l'accroissement typique est d'ordre √Δt (l'écart-type), donc le taux de variation (accroissement/Δt) est d'ordre 1/√Δt, qui diverge vers l'infini quand Δt → 0. C'est cette même échelle en √Δt qui explique pourquoi, dans le lemme d'Itô, le terme du second ordre (dW_t)² ne s'annule pas au premier ordre comme en calcul classique, mais se comporte comme dt — la clé de voûte de toute la construction qui mène à l'équation de Black-Scholes (M06-3, M06-4).",
     en: "This non-differentiability can be justified intuitively: over a small interval Δt, the typical increment is of order √Δt (the standard deviation), so the rate of change (increment/Δt) is of order 1/√Δt, which diverges to infinity as Δt → 0. This same √Δt scale is why, in Itô's lemma, the second-order term (dW_t)² does not vanish at first order as in ordinary calculus, but behaves like dt — the keystone of the entire construction leading to the Black-Scholes equation (M06-3, M06-4).",
+  },
+  businessApplication: {
+    fr: "Tout desk quant qui price un produit exotique sans formule fermée (barrière, autocall, panier — voir M10 et M11) simule en pratique des milliers de trajectoires de mouvement brownien par Monte Carlo (M06-7) pour estimer son prix : la qualité de cette simulation, et donc du prix obtenu, repose directement sur la bonne implémentation de la discrétisation W_{t+Δt}=W_t+√Δt×Z vue ici.",
+    en: "Any quant desk pricing an exotic product with no closed-form formula (barrier, autocall, basket — see M10 and M11) simulates in practice thousands of Brownian motion paths via Monte Carlo (M06-7) to estimate its price: the quality of this simulation, and hence of the resulting price, directly rests on correctly implementing the W_{t+Δt}=W_t+√Δt×Z discretization seen here.",
+  },
+  interviewQuestion: {
+    question: "How would you simulate a Brownian motion path in code, and why does the square-root-of-time scaling matter?",
+    answer: "I'd discretize time into small steps of size Δt, and at each step draw a standard normal Z and update the path as W(t+Δt) = W(t) + sqrt(Δt) × Z, starting from W(0)=0. The square-root scaling matters because Brownian motion's variance grows linearly with time, so its standard deviation — the natural scale of a random step — grows with the square root of time, not with time itself. If you scaled the step by Δt instead of sqrt(Δt), you'd get the wrong variance and the simulated path wouldn't match the process you're trying to model. This same sqrt(Δt) scaling is also why volatility scales with the square root of time when you annualize it, and why Itô's lemma's second-order term doesn't vanish the way it would in ordinary calculus.",
   },
 };
