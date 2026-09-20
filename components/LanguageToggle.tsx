@@ -20,14 +20,14 @@ export function LanguageToggle({ locale, label }: { locale: Locale; label: strin
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 font-mono text-[11px] font-semibold tracking-[0.1em] text-ink transition-colors hover:border-accent hover:text-accent"
+      className="interactive-lift inline-flex items-center gap-1.5 rounded-xl border border-line px-3 py-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-text hover:border-accent/50"
       aria-label={label}
     >
       <span>{locale === "fr" ? "FR" : "EN"}</span>
-      <span className="text-ink-faint" aria-hidden="true">
+      <span className="text-text-faint" aria-hidden="true">
         /
       </span>
-      <span className="text-ink-faint">{locale === "fr" ? "EN" : "FR"}</span>
+      <span className="text-text-faint">{locale === "fr" ? "EN" : "FR"}</span>
     </Link>
   );
 }

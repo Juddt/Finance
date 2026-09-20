@@ -7,7 +7,13 @@
     "formulas": "Formules",
     "progress": "Progression",
     "openMenu": "Ouvrir le menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "planDuCours": "Plan du cours",
+    "closePlan": "Fermer le plan du cours",
+    "modules": "Modules",
+    "searchPlaceholder": "Rechercher une notion (titre, mot-clé)…",
+    "searchNoResults": "Aucune notion trouvée",
+    "searchResultsLabel": "Résultats"
   },
   "languageToggle": "Switch to English",
   "home": {
@@ -15,6 +21,13 @@
     "subtitle": "Catégories, chapitres, notions et quiz — sachez ce que vous connaissez déjà et ce qu'il reste à apprendre.",
     "searchPlaceholder": "Rechercher une notion (FR/EN)…",
     "continueButton": "Continuer mon cours",
+    "resumeTitle": "Reprendre ma formation",
+    "resumeSubtitle": "Vous en étiez à :",
+    "startFresh": "Commencer le programme",
+    "nextReviewLabel": "Prochaine révision",
+    "nextReviewCount": "{count} notion(s) à réviser aujourd'hui",
+    "nextReviewNone": "Aucune révision due pour l'instant",
+    "catalogButton": "Voir le catalogue complet",
     "statsPublished": "Couverture du programme publié",
     "statsStudied": "Notions étudiées",
     "statsMastered": "Notions maîtrisées",
@@ -53,7 +66,14 @@
     "essential": "Essentiel",
     "minutes": "min",
     "chapterQuizLink": "Quiz du chapitre",
-    "categoryQuizLink": "Quiz de la catégorie"
+    "categoryQuizLink": "Quiz de la catégorie",
+    "breadcrumbCourses": "Cours",
+    "prevNotion": "Notion précédente",
+    "nextNotion": "Notion suivante",
+    "focusModeEnter": "Mode concentration",
+    "focusModeExit": "Quitter la concentration",
+    "newModule": "Nouveau module",
+    "newChapter": "Nouveau chapitre"
   },
   "quiz": {
     "questionOf": "Question {current} sur {total}",

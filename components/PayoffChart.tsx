@@ -44,7 +44,7 @@ function OptionPayoffChart({ chart, label, isCall }: { chart: ChartSpec; label: 
   const breakEvenX = xScale(breakEven);
 
   return (
-    <figure className="my-4 rounded-2xl bg-paper-sunken p-4">
+    <figure className="scroll-x-container my-4 rounded-xl border border-line bg-surface-2 p-4 text-text">
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label={label}>
         <line x1={padding} y1={zeroY} x2={width - padding} y2={zeroY} stroke="currentColor" strokeOpacity={0.3} strokeWidth={1} />
         <line x1={strikeX} y1={padding / 2} x2={strikeX} y2={height - padding / 2} stroke="currentColor" strokeOpacity={0.2} strokeDasharray="4 3" />
@@ -53,19 +53,19 @@ function OptionPayoffChart({ chart, label, isCall }: { chart: ChartSpec; label: 
           y1={padding / 2}
           x2={breakEvenX}
           y2={height - padding / 2}
-          stroke="var(--color-gain)"
-          strokeOpacity={0.6}
+          stroke="var(--color-accent)"
+          strokeOpacity={0.7}
           strokeDasharray="4 3"
         />
-        <path d={pathD} fill="none" stroke="var(--color-ink)" strokeWidth={2.5} />
+        <path d={pathD} fill="none" stroke="var(--color-text)" strokeWidth={2.5} />
         <text x={strikeX} y={height - 6} fontSize={11} fontFamily="var(--font-mono)" textAnchor="middle" fill="currentColor" opacity={0.6}>
           K
         </text>
-        <text x={breakEvenX} y={14} fontSize={11} fontFamily="var(--font-mono)" textAnchor="middle" fill="var(--color-gain)">
+        <text x={breakEvenX} y={14} fontSize={11} fontFamily="var(--font-mono)" textAnchor="middle" fill="var(--color-accent)">
           K+p
         </text>
       </svg>
-      <figcaption className="mt-2 text-center font-mono text-[11px] text-ink-faint">{label}</figcaption>
+      <figcaption className="mt-2 text-center font-mono text-[11px] text-text-faint">{label}</figcaption>
     </figure>
   );
 }

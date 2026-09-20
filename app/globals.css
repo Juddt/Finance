@@ -1,148 +1,137 @@
 @import "tailwindcss";
 
 /*
- * Identité visuelle : même famille que l'app Terminus (soirée) — fond crème
- * chaleureux, accent orange franc, cartes "ticket" à coins ronds et encoche
- * poinçonnée, typographie Unbounded (titres) + Work Sans (texte) + IBM Plex
- * Mono (petits libellés en capitales). Les tokens changent de valeur selon
- * prefers-color-scheme : le reste du code n'utilise jamais `dark:`.
+ * Identité "Finance Academy" : noir graphite + jaune acide, terminal de
+ * trading premium. Thème unique (pas de bascule clair/sombre — le noir
+ * graphite EST l'identité), tokens centralisés ici et mappés sur les
+ * classes Tailwind via @theme inline. Le reste du code n'utilise jamais de
+ * couleur Tailwind générique (neutral-*, sky-*, etc.), uniquement ces noms
+ * sémantiques.
  */
 :root {
-  --paper: #f3ead6;
-  --paper-raised: #ecdfc4;
-  --paper-sunken: #e4d4b4;
-  --ink: #1e1a14;
-  --ink-muted: rgba(30, 26, 20, 0.62);
-  --ink-faint: rgba(30, 26, 20, 0.42);
-  --rule: rgba(30, 26, 20, 0.14);
-  --accent: #e1502f;
-  --accent-bright: #eb6b4a;
-  --accent-deep: #b23e22;
-  --accent-ink: #1e1a14;
-  --loss: #c4342b;
-  --loss-soft: #f3d9d3;
-  --gain: #2e7d57;
-  --gain-soft: #dbe9de;
-  --mid: #b3801a;
-  --mid-soft: #f0e2c4;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #16130d;
-    --paper-raised: #201b13;
-    --paper-sunken: #2a2318;
-    --ink: #fbf4e7;
-    --ink-muted: rgba(251, 244, 231, 0.66);
-    --ink-faint: rgba(251, 244, 231, 0.4);
-    --rule: rgba(251, 244, 231, 0.14);
-    --accent: #eb6b4a;
-    --accent-bright: #f28a6e;
-    --accent-deep: #e1502f;
-    --accent-ink: #1e1a14;
-    --loss: #e2685f;
-    --loss-soft: #3a211d;
-    --gain: #6fbb90;
-    --gain-soft: #1f2f24;
-    --mid: #e0b054;
-    --mid-soft: #362a13;
-  }
+  --bg: #0b0d10;
+  --surface: #14181e;
+  --surface-2: #1d242d;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #e8ff3d;
+  --accent-bright: #f2ff7a;
+  --accent-deep: #b8cc1f;
+  --text: #f2f4f7;
+  --text-dim: #b2bbc8;
+  --text-faint: #8994a5;
+  --ink-on-accent: #0b0d10;
+  --success: #68d99a;
+  --success-soft: rgba(104, 217, 154, 0.14);
+  --danger: #ff7185;
+  --danger-soft: rgba(255, 113, 133, 0.14);
+  --info: #79bdff;
+  --info-soft: rgba(121, 189, 255, 0.14);
+  --warning: var(--accent-deep);
+  --warning-soft: rgba(184, 204, 31, 0.16);
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-paper-raised: var(--paper-raised);
-  --color-paper-sunken: var(--paper-sunken);
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-faint: var(--ink-faint);
-  --color-rule: var(--rule);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-bright: var(--accent-bright);
   --color-accent-deep: var(--accent-deep);
-  --color-accent-ink: var(--accent-ink);
-  --color-loss: var(--loss);
-  --color-loss-soft: var(--loss-soft);
-  --color-gain: var(--gain);
-  --color-gain-soft: var(--gain-soft);
-  --color-mid: var(--mid);
-  --color-mid-soft: var(--mid-soft);
-  --font-display: var(--font-unbounded);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-ink-on-accent: var(--ink-on-accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
   --font-sans: var(--font-work-sans);
   --font-mono: var(--font-plex-mono);
 }
 
 html {
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 ::selection {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-ink-on-accent);
 }
 
-/* Carte "ticket" : coins ronds généreux + encoche poinçonnée sur le bord
-   gauche (couleur = fond de page, pour créer l'illusion d'un trou). */
-.ticket {
-  position: relative;
-  border-radius: 18px;
+/* Physique d'interaction partagée par les boutons/cartes cliquables
+   (voir components/Button.tsx) : translation au survol sur pointeur fin
+   uniquement, tassement net au tap, retour au repos sans rebond. */
+@media (hover: hover) and (pointer: fine) {
+  .interactive-lift:hover {
+    transform: translateY(-2px);
+  }
 }
-.ticket::before {
-  content: "";
-  position: absolute;
-  left: -7px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--color-paper);
-  z-index: 1;
+.interactive-lift {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
 }
-
-/* Même principe mais encoches en haut/bas, pour une carte centrale (question
-   de quiz, moment fort) plutôt qu'une ligne de liste. */
-.ticket-v {
-  position: relative;
-  border-radius: 22px;
-}
-.ticket-v::before,
-.ticket-v::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--color-paper);
-  z-index: 1;
-}
-.ticket-v::before {
-  top: -11px;
-}
-.ticket-v::after {
-  bottom: -11px;
+.interactive-lift:active {
+  transform: scale(0.98);
 }
 
-@keyframes tickerBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+@media (prefers-reduced-motion: reduce) {
+  .interactive-lift,
+  .interactive-lift:hover,
+  .interactive-lift:active {
+    transform: none;
+    transition: none;
+  }
 }
-.animate-ticker-blink {
-  animation: tickerBlink 1.4s ease-in-out infinite;
+
+/* Repère de section de cours : petit trait vertical jaune + libellé mono. */
+.block-rule {
+  border-left: 2px solid var(--color-line);
+  padding-left: 1rem;
+}
+
+/* Mode concentration (page notion) : bascule une classe sur <html>, sans
+   contexte React — voir components/FocusModeToggle.tsx. */
+.focus-mode .focus-mode-hide {
+  display: none !important;
 }
 
 @keyframes popIn {
-  from { transform: scale(0.96); opacity: 0; }
+  from { transform: scale(0.97); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 .animate-pop-in {
-  animation: popIn 0.18s ease-out;
+  animation: popIn 0.16s ease-out;
+}
+
+@keyframes pulseDim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-pulse-dim {
+  animation: pulseDim 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-dim {
+    animation: none;
+  }
+}
+
+/* Défilement horizontal propre pour tableaux/code/équations larges sur mobile. */
+.scroll-x-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getConceptById } from "@/content/catalog";
 import type { Locale } from "@/i18n/config";
+import { ButtonLink } from "./Button";
 
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
@@ -48,25 +48,22 @@ export function RevisionsList({ locale, dict }: { locale: Locale; dict: Revision
 
   if (items === null) return null;
   if (items.length === 0) {
-    return <p className="rounded-2xl bg-paper-raised p-4 text-sm text-ink-muted">{dict.empty}</p>;
+    return <p className="rounded-xl border border-line bg-surface p-4 text-sm text-text-dim">{dict.empty}</p>;
   }
 
   return (
     <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item.conceptId} className="ticket flex items-center justify-between gap-3 bg-paper-raised p-4">
+        <li key={item.conceptId} className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface p-4">
           <div>
-            <p className="font-medium text-ink">{item.title}</p>
-            <p className="mt-0.5 font-mono text-[11px] text-ink-faint">
+            <p className="font-medium text-text">{item.title}</p>
+            <p className="mt-0.5 font-mono text-[11px] text-text-faint">
               {dict.dueSince.replace("{date}", new Date(item.dueAt).toLocaleDateString(locale))}
             </p>
           </div>
-          <Link
-            href={`/${locale}/lessons/${item.conceptId}`}
-            className="shrink-0 rounded-full bg-accent px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97]"
-          >
+          <ButtonLink href={`/${locale}/lessons/${item.conceptId}`} variant="primary" className="shrink-0 px-4 py-2 text-[13px]">
             {dict.reviewNow}
-          </Link>
+          </ButtonLink>
         </li>
       ))}
     </ul>

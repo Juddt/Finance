@@ -5,6 +5,7 @@ import { useState } from "react";
 import { chapters, concepts } from "@/content/catalog";
 import type { Locale } from "@/i18n/config";
 import type { SessionLength } from "@/lib/session-spec";
+import { Button } from "./Button";
 
 export interface CustomQuizDict {
   selectCategories: string;
@@ -51,13 +52,13 @@ export function CustomQuizBuilder({
 
   return (
     <div>
-      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">{dict.selectCategories}</p>
+      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-text-dim uppercase">{dict.selectCategories}</p>
       <div className="mb-5 flex flex-wrap gap-2">
         {categories.map((c) => (
           <label
             key={c.id}
-            className={`flex cursor-pointer items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[12px] transition-colors ${
-              selected.has(c.id) ? "bg-ink text-paper" : "bg-paper-sunken text-ink hover:bg-accent/15"
+            className={`interactive-lift flex cursor-pointer items-center gap-1.5 rounded-full border px-3.5 py-2 text-[13px] ${
+              selected.has(c.id) ? "border-accent bg-surface-2 text-text" : "border-line bg-surface-2 text-text-dim hover:border-accent/40"
             }`}
           >
             <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} className="sr-only" />
@@ -66,15 +67,15 @@ export function CustomQuizBuilder({
         ))}
       </div>
 
-      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">{dict.chooseLength}</p>
+      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-text-dim uppercase">{dict.chooseLength}</p>
       <div className="mb-5 flex flex-wrap gap-2">
         {([5, 10, 20, "continuous"] as SessionLength[]).map((l) => (
           <button
             key={l}
             type="button"
             onClick={() => setLength(l)}
-            className={`rounded-full px-3.5 py-1.5 font-mono text-[12px] transition-colors ${
-              length === l ? "bg-ink text-paper" : "bg-paper-sunken text-ink hover:bg-accent/15"
+            className={`interactive-lift rounded-full border px-3.5 py-2 text-[13px] ${
+              length === l ? "border-accent bg-surface-2 text-text" : "border-line bg-surface-2 text-text-dim hover:border-accent/40"
             }`}
           >
             {l === 5 ? dict.length5 : l === 10 ? dict.length10 : l === 20 ? dict.length20 : dict.lengthContinuous}
@@ -82,14 +83,9 @@ export function CustomQuizBuilder({
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={start}
-        disabled={selected.size === 0}
-        className="rounded-full bg-accent px-6 py-3 font-semibold text-accent-ink shadow-[0_10px_24px_-8px_rgba(225,80,47,0.45)] transition-transform active:scale-[0.97] disabled:opacity-40"
-      >
+      <Button onClick={start} disabled={selected.size === 0} variant="primary">
         {dict.startButton}
-      </button>
+      </Button>
     </div>
   );
 }

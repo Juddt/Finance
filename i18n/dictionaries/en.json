@@ -7,7 +7,13 @@
     "formulas": "Formulas",
     "progress": "Progress",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "planDuCours": "Course map",
+    "closePlan": "Close course map",
+    "modules": "Modules",
+    "searchPlaceholder": "Search a concept (title, keyword)…",
+    "searchNoResults": "No concept found",
+    "searchResultsLabel": "Results"
   },
   "languageToggle": "Passer en français",
   "home": {
@@ -15,6 +21,13 @@
     "subtitle": "Categories, chapters, concepts and quizzes — know what you already know, and what's left to learn.",
     "searchPlaceholder": "Search a concept (FR/EN)…",
     "continueButton": "Continue my course",
+    "resumeTitle": "Resume my training",
+    "resumeSubtitle": "You were at:",
+    "startFresh": "Start the curriculum",
+    "nextReviewLabel": "Next review",
+    "nextReviewCount": "{count} concept(s) due for review today",
+    "nextReviewNone": "No review due right now",
+    "catalogButton": "See the full catalog",
     "statsPublished": "Published curriculum coverage",
     "statsStudied": "Concepts studied",
     "statsMastered": "Concepts mastered",
@@ -53,7 +66,14 @@
     "essential": "Essential",
     "minutes": "min",
     "chapterQuizLink": "Chapter quiz",
-    "categoryQuizLink": "Category quiz"
+    "categoryQuizLink": "Category quiz",
+    "breadcrumbCourses": "Courses",
+    "prevNotion": "Previous concept",
+    "nextNotion": "Next concept",
+    "focusModeEnter": "Focus mode",
+    "focusModeExit": "Exit focus mode",
+    "newModule": "New module",
+    "newChapter": "New chapter"
   },
   "quiz": {
     "questionOf": "Question {current} of {total}",

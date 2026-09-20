@@ -10,9 +10,9 @@ export interface ConceptScore {
 }
 
 function scoreTone(pct: number): { bg: string; text: string } {
-  if (pct >= 80) return { bg: "bg-gain-soft", text: "text-gain" };
-  if (pct >= 50) return { bg: "bg-mid-soft", text: "text-mid" };
-  return { bg: "bg-loss-soft", text: "text-loss" };
+  if (pct >= 80) return { bg: "bg-success-soft", text: "text-success" };
+  if (pct >= 50) return { bg: "bg-warning-soft", text: "text-warning" };
+  return { bg: "bg-danger-soft", text: "text-danger" };
 }
 
 /**
@@ -52,7 +52,7 @@ export function LessonScoreBadge({
       <span className={`font-mono text-[12px] font-semibold tracking-[0.06em] ${tone.text}`}>
         {label}: {score.correct}/{score.total} &middot; {pct}%
       </span>
-      <a href={retryHref} className="font-mono text-[11px] font-semibold tracking-[0.08em] text-ink uppercase hover:text-accent hover:underline">
+      <a href={retryHref} className="font-mono text-[11px] font-semibold tracking-[0.08em] text-text uppercase hover:text-accent-bright hover:underline">
         {retryLabel}
       </a>
     </div>

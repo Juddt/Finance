@@ -17,11 +17,11 @@ export interface ProgressDict {
 
 const STATUS_ORDER: ConceptStatus[] = ["mastered", "in-progress", "fragile", "to-reactivate", "to-discover"];
 const STATUS_COLOR: Record<ConceptStatus, string> = {
-  mastered: "bg-gain",
+  mastered: "bg-success",
   "in-progress": "bg-accent",
-  fragile: "bg-mid",
-  "to-reactivate": "bg-loss",
-  "to-discover": "bg-rule",
+  fragile: "bg-warning",
+  "to-reactivate": "bg-danger",
+  "to-discover": "bg-line",
 };
 
 export function ProgressBoard({ locale, dict }: { locale: Locale; dict: ProgressDict }) {
@@ -79,12 +79,12 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
           }
 
           return (
-            <article key={category.id} className="ticket bg-paper-raised p-4">
+            <article key={category.id} className="rounded-xl border border-line bg-surface p-4">
               <div className="mb-3 flex items-center justify-between gap-2">
-                <h2 className="font-mono text-[12px] font-semibold tracking-[0.04em] text-ink">{category.title[locale]}</h2>
-                <span className="font-mono text-[10px] text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
+                <h2 className="font-mono text-[12px] font-semibold tracking-[0.04em] text-text">{category.title[locale]}</h2>
+                <span className="font-mono text-[10px] text-text-faint">{String(i + 1).padStart(2, "0")}</span>
               </div>
-              <div className="flex h-2.5 overflow-hidden rounded-full bg-paper-sunken">
+              <div className="flex h-2.5 overflow-hidden rounded-full bg-surface-2">
                 {STATUS_ORDER.map(
                   (status) =>
                     counts[status] > 0 && (
@@ -97,7 +97,7 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
                     )
                 )}
               </div>
-              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-ink-muted">
+              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-text-dim">
                 {STATUS_ORDER.map(
                   (status) =>
                     counts[status] > 0 && (

@@ -8,6 +8,7 @@ import type { GeneratedQuestionView } from "@/lib/question-templates";
 import type { SubmittedAnswer } from "@/lib/question-types";
 import type { AttemptResponse, DifficultyShift, SessionProgress } from "@/lib/quiz-session-types";
 import { PayoffChart } from "./PayoffChart";
+import { Button } from "./Button";
 
 export interface QuizDict {
   questionOf: string;
@@ -210,21 +211,21 @@ export function QuizShell({
 
   if (phase === "loading") {
     return (
-      <div className="rounded-3xl bg-paper-raised p-6 font-mono text-sm text-ink-faint">
-        <span className="animate-ticker-blink">…</span>
+      <div className="rounded-xl border border-line bg-surface p-6 font-mono text-sm text-text-faint">
+        <span className="animate-pulse-dim">…</span>
       </div>
     );
   }
 
   if (phase === "empty") {
-    return <div className="rounded-3xl bg-paper-raised p-6 text-sm text-ink-muted">{emptyMessage ?? "—"}</div>;
+    return <div className="rounded-xl border border-line bg-surface p-6 text-sm text-text-dim">{emptyMessage ?? "—"}</div>;
   }
 
   if (phase === "finished") {
     return (
-      <div className="ticket-v bg-accent p-8 text-center text-accent-ink">
-        <p className="font-display text-2xl font-bold">{dict.sessionDone}</p>
-        <p className="mt-2 opacity-80">
+      <div className="rounded-xl border border-accent/40 bg-surface p-8 text-center">
+        <p className="text-2xl font-bold text-text">{dict.sessionDone}</p>
+        <p className="mt-2 text-text-dim">
           {dict.sessionDoneSummary.replace("{correct}", String(progress.correctCount)).replace("{total}", String(progress.index))}
         </p>
       </div>
@@ -239,8 +240,8 @@ export function QuizShell({
   const letters = ["A", "B", "C", "D", "E", "F"];
 
   return (
-    <div className="rounded-3xl bg-paper-raised p-5 shadow-[0_2px_0_rgba(30,26,20,0.05)] sm:p-6">
-      <div className="mb-4 flex items-center justify-between gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">
+    <div className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+      <div className="mb-4 flex items-center justify-between gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-text-dim uppercase">
         <span>
           {isSimilar
             ? dict.similarExercise
@@ -248,20 +249,20 @@ export function QuizShell({
               ? dict.questionOf.replace("{current}", String(displayNumber)).replace("{total}", String(progress.total))
               : dict.questionCount.replace("{current}", String(displayNumber))}
         </span>
-        <span className="rounded-full bg-paper-sunken px-2 py-0.5 text-[10px] tracking-[0.1em] text-ink-faint">
+        <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] tracking-[0.1em] text-text-faint">
           {dict.difficulty[question.difficulty]}
         </span>
       </div>
 
       {difficultyShift && (
-        <p className="mb-4 rounded-full bg-paper-sunken px-3 py-1.5 font-mono text-[11px] text-ink-muted">
+        <p className="mb-4 rounded-lg bg-info-soft px-3 py-1.5 font-mono text-[11px] text-info">
           {difficultyShift === "up" ? dict.difficultyAdjustedUp : dict.difficultyAdjustedDown}
         </p>
       )}
 
       {question.chart && <PayoffChart chart={question.chart} label={dict.reviewChartLabel} />}
 
-      <p className="mb-5 font-display text-xl leading-snug font-semibold text-ink">{question.prompt}</p>
+      <p className="mb-5 text-xl leading-snug font-semibold text-text">{question.prompt}</p>
 
       {(question.kind === "mcq" || question.kind === "true_false") && question.choices && (
         <fieldset className="mb-5 space-y-2" disabled={Boolean(result)}>
@@ -272,22 +273,28 @@ export function QuizShell({
             return (
               <label
                 key={choice.id}
-                className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm transition-colors ${
+                className={`interactive-lift flex cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-3 text-[15px] ${
                   showAsRight
-                    ? "bg-gain text-white"
+                    ? "border-success bg-success-soft text-success"
                     : showAsWrong
-                      ? "bg-loss text-white"
+                      ? "border-danger bg-danger-soft text-danger"
                       : isSelected
-                        ? "bg-ink text-paper"
-                        : "bg-paper-sunken text-ink hover:bg-accent/15"
+                        ? "border-accent bg-surface-2 text-text"
+                        : "border-line bg-surface-2 text-text hover:border-accent/40"
                 }`}
               >
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px] font-semibold ${
-                    isSelected || showAsRight || showAsWrong ? "bg-white/20" : "bg-paper text-ink-faint"
+                    showAsRight
+                      ? "bg-success text-ink-on-accent"
+                      : showAsWrong
+                        ? "bg-danger text-ink-on-accent"
+                        : isSelected
+                          ? "bg-accent text-ink-on-accent"
+                          : "bg-bg text-text-faint"
                   }`}
                 >
-                  {letters[i] ?? i + 1}
+                  {showAsRight ? "✓" : showAsWrong ? "✗" : (letters[i] ?? i + 1)}
                 </span>
                 <input
                   type="radio"
@@ -313,10 +320,10 @@ export function QuizShell({
             value={numericValue}
             disabled={Boolean(result)}
             onChange={(e) => setNumericValue(e.target.value)}
-            className="w-48 rounded-full bg-paper-sunken px-4 py-2.5 font-mono text-sm text-ink outline-none focus:ring-2 focus:ring-accent"
+            className="w-48 rounded-xl border border-line bg-surface-2 px-4 py-2.5 font-mono text-sm text-text outline-none focus:border-accent"
           />
-          {question.numericUnit && <span className="ml-2 text-sm text-ink-muted">{question.numericUnit}</span>}
-          {question.numericTolerance && <p className="mt-1 font-mono text-xs text-ink-faint">{question.numericTolerance}</p>}
+          {question.numericUnit && <span className="ml-2 text-sm text-text-dim">{question.numericUnit}</span>}
+          {question.numericTolerance && <p className="mt-1 font-mono text-xs text-text-faint">{question.numericTolerance}</p>}
         </div>
       )}
 
@@ -328,7 +335,7 @@ export function QuizShell({
             value={textValue}
             disabled={Boolean(result)}
             onChange={(e) => setTextValue(e.target.value)}
-            className="w-64 rounded-full bg-paper-sunken px-4 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-accent"
+            className="w-64 rounded-xl border border-line bg-surface-2 px-4 py-2.5 text-sm text-text outline-none focus:border-accent"
           />
         </div>
       )}
@@ -336,80 +343,63 @@ export function QuizShell({
       {question.hint && !result && (
         <div className="mb-5">
           {showHint ? (
-            <p className="font-mono text-xs text-ink-muted">
+            <p className="font-mono text-xs text-text-dim">
               {dict.hint}: {question.hint}
             </p>
           ) : (
-            <button type="button" onClick={() => setShowHint(true)} className="font-mono text-xs font-medium text-accent hover:underline">
+            <button type="button" onClick={() => setShowHint(true)} className="font-mono text-xs font-medium text-accent-bright hover:underline">
               {dict.showHint}
             </button>
           )}
         </div>
       )}
 
-      {error && <p className="mb-3 font-mono text-sm text-loss">{error}</p>}
+      {error && <p className="mb-3 font-mono text-sm text-danger">{error}</p>}
 
       {!result ? (
-        <button
-          onClick={submit}
-          disabled={submitting || !sessionId}
-          className="rounded-full bg-accent px-6 py-3 font-semibold text-accent-ink shadow-[0_10px_24px_-8px_rgba(225,80,47,0.45)] transition-transform active:scale-[0.97] disabled:opacity-50"
-        >
+        <Button onClick={submit} disabled={submitting || !sessionId} variant="primary">
           {dict.validate}
-        </button>
+        </Button>
       ) : (
         <div className="space-y-3">
-          <p className={`font-mono text-sm font-semibold tracking-[0.04em] uppercase ${result.isCorrect ? "text-gain" : "text-loss"}`}>
-            {result.isCorrect ? `✓ ${dict.correct}` : `✗ ${dict.incorrect}`}
+          <p
+            className={`flex items-center gap-1.5 text-sm font-semibold tracking-[0.02em] uppercase ${result.isCorrect ? "text-success" : "text-danger"}`}
+          >
+            <span aria-hidden="true">{result.isCorrect ? "✓" : "✗"}</span>
+            {result.isCorrect ? dict.correct : dict.incorrect}
           </p>
-          <p className="text-sm text-ink">
+          <p className="text-sm text-text">
             <span className="font-semibold">{dict.explanation}: </span>
             {result.explanation}
           </p>
           {result.calculation && (
-            <p className="font-mono text-[13px] text-ink">
+            <p className="font-mono text-[13px] text-text">
               <span className="font-sans font-semibold">{dict.calculation}: </span>
               {result.calculation}
             </p>
           )}
-          <p className="text-sm text-ink-muted">
-            <span className="font-semibold text-ink">{dict.commonMistake}: </span>
+          <p className="text-sm text-text-dim">
+            <span className="font-semibold text-text">{dict.commonMistake}: </span>
             {result.commonMistake}
           </p>
-          <Link href={`/${locale}/lessons/${question.conceptId}`} className="inline-block font-mono text-xs font-medium text-accent hover:underline">
+          <Link
+            href={`/${locale}/lessons/${question.conceptId}`}
+            className="inline-block font-mono text-xs font-medium text-accent-bright hover:underline"
+          >
             {conceptLabel(locale, question.conceptId)}
           </Link>
 
           <div className="flex flex-wrap items-center gap-2 pt-2">
-            <button
-              onClick={trySimilar}
-              disabled={submitting}
-              className="rounded-full bg-paper-sunken px-4 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase transition-colors hover:bg-ink hover:text-paper disabled:opacity-50"
-            >
+            <Button onClick={trySimilar} disabled={submitting} variant="secondary">
               {dict.similarExercise}
-            </button>
-            {!isLastCounted && (
-              <button
-                onClick={goNext}
-                disabled={submitting}
-                className="rounded-full bg-accent px-5 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97] disabled:opacity-50"
-              >
-                {progress.total === null ? dict.continueSession : dict.next}
-              </button>
-            )}
-            {isLastCounted && (
-              <button
-                onClick={goNext}
-                disabled={submitting}
-                className="rounded-full bg-accent px-5 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97] disabled:opacity-50"
-              >
-                {dict.finish}
-              </button>
-            )}
+            </Button>
+            <Button onClick={goNext} disabled={submitting} variant="primary">
+              {isLastCounted ? dict.finish : progress.total === null ? dict.continueSession : dict.next}
+            </Button>
             {progress.total === null && (
-              <button onClick={endEarly} className="px-2 py-2 font-mono text-[11px] font-medium text-ink-faint hover:underline">
+              <Button onClick={endEarly} variant="tertiary">
                 {dict.endSession}
-              </button>
+              </Button>
             )}
           </div>
         </div>

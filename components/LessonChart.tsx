@@ -1,8 +1,8 @@
 import type { LessonChart as LessonChartSpec } from "@/lib/lesson-types";
 
-const PALETTE = ["var(--color-accent)", "var(--color-gain)", "var(--color-loss)", "var(--color-mid)", "var(--color-ink-muted)"];
-const REF_COLOR = "var(--color-loss)";
-const TREND_COLOR = "var(--color-mid)";
+const PALETTE = ["var(--color-accent)", "var(--color-success)", "var(--color-danger)", "var(--color-info)", "var(--color-text-dim)"];
+const REF_COLOR = "var(--color-danger)";
+const TREND_COLOR = "var(--color-info)";
 const POINT_COLOR = "var(--color-accent)";
 
 /**
@@ -215,10 +215,10 @@ function RefLine({
 
 function Legend({ items }: { items: { label: string; color: string }[] }) {
   return (
-    <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 font-mono text-[10px] tracking-wide text-ink-muted uppercase">
+    <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 font-mono text-[10px] tracking-wide text-text-dim uppercase">
       {items.map((item, i) => (
         <span key={i} className="inline-flex items-center gap-1.5">
-          <span className="inline-block h-2 w-2" style={{ backgroundColor: item.color }} />
+          <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: item.color }} />
           {item.label}
         </span>
       ))}
@@ -228,9 +228,9 @@ function Legend({ items }: { items: { label: string; color: string }[] }) {
 
 function ChartFrame({ children, caption }: { children: React.ReactNode; caption?: string }) {
   return (
-    <figure className="my-2 rounded-2xl bg-paper-raised p-4">
+    <figure className="scroll-x-container my-2 rounded-xl border border-line bg-surface p-4 text-text">
       {children}
-      {caption && <figcaption className="mt-2 text-center font-mono text-[11px] text-ink-faint">{caption}</figcaption>}
+      {caption && <figcaption className="mt-2 text-center font-mono text-[11px] text-text-faint">{caption}</figcaption>}
     </figure>
   );
 }

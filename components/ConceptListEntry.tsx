@@ -11,9 +11,9 @@ export interface ConceptScore {
 }
 
 function scoreTone(pct: number): { text: string; badgeBg: string; badgeText: string } {
-  if (pct >= 80) return { text: "text-gain", badgeBg: "bg-gain-soft", badgeText: "text-gain" };
-  if (pct >= 50) return { text: "text-mid", badgeBg: "bg-mid-soft", badgeText: "text-mid" };
-  return { text: "text-loss", badgeBg: "bg-loss-soft", badgeText: "text-loss" };
+  if (pct >= 80) return { text: "text-success", badgeBg: "bg-success-soft", badgeText: "text-success" };
+  if (pct >= 50) return { text: "text-warning", badgeBg: "bg-warning-soft", badgeText: "text-warning" };
+  return { text: "text-danger", badgeBg: "bg-danger-soft", badgeText: "text-danger" };
 }
 
 /**
@@ -57,7 +57,7 @@ export function ConceptListEntry({
   return (
     <li className="flex items-center justify-between gap-2 py-1">
       {isPublished ? (
-        <Link href={href} title={score ? completedTitle : undefined} className={`hover:underline ${tone ? tone.text : "text-ink"}`}>
+        <Link href={href} title={score ? completedTitle : undefined} className={`hover:underline ${tone ? tone.text : "text-text"}`}>
           {score && (
             <span aria-hidden="true" className="mr-1 font-mono text-[10px]">
               &#9679;
@@ -66,9 +66,9 @@ export function ConceptListEntry({
           {title}
         </Link>
       ) : (
-        <span className="text-ink-faint">{title}</span>
+        <span className="text-text-faint">{title}</span>
       )}
-      <span className="shrink-0 font-mono text-[10px] text-ink-faint">
+      <span className="shrink-0 font-mono text-[10px] text-text-faint">
         {!isPublished ? (
           comingSoonLabel
         ) : score && tone ? (
