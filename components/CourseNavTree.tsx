@@ -26,7 +26,6 @@ export function CourseNavTree({ locale, onNavigate }: { locale: Locale; onNaviga
         {sortedCategories.map((category) => {
           const categoryChapters = chapters.filter((ch) => ch.categoryId === category.id).sort((a, b) => a.position - b.position);
           const isActiveModule = category.id === activeCategoryId;
-          const code = `M${String(category.position).padStart(2, "0")}`;
 
           return (
             <li key={category.id}>
@@ -40,8 +39,7 @@ export function CourseNavTree({ locale, onNavigate }: { locale: Locale; onNaviga
                       <path d="M5 3l6 5-6 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  <span className="font-mono text-[10px] text-text-faint">{code}</span>
-                  <span className="truncate">{category.title[locale]}</span>
+                  <span className="min-w-0 flex-1">{category.shortTitle[locale]}</span>
                 </summary>
                 <ul className="mt-1 ml-[26px] space-y-2 border-l border-line pl-3">
                   {categoryChapters.map((chapter) => {

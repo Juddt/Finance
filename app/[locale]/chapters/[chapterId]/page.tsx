@@ -32,6 +32,7 @@ export default async function ChapterPage({
   const chapterConcepts = getConceptsForChapter(chapterId);
   const stats = getChapterStats(chapterId);
   const firstPublishedId = chapterConcepts.find((c) => c.status === "published")?.id ?? null;
+  const chapterMinutes = chapterConcepts.reduce((sum, c) => sum + c.estimatedMinutes, 0);
 
   const userId = isStaticExport ? null : await getUserId();
   const progressMap = userId ? await getConceptProgressMap(userId) : {};
@@ -66,6 +67,22 @@ export default async function ChapterPage({
         <p className="mt-3 font-mono text-[11px] text-text-faint">
           {dict.chapterPage.publishedCount.replace("{published}", String(stats.publishedConcepts)).replace("{total}", String(stats.totalConcepts))}
         </p>
+        {/* Niveau, prérequis (du module) et durée (du chapitre) : déplacés ici depuis la carte d'accueil, allégée — voir demande "alléger les cartes". */}
+        {category && (
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-text-faint">
+            <span>
+              <span className="text-text-dim">{dict.home.level}:</span> {category.level[locale]}
+            </span>
+            <span>
+              <span className="text-text-dim">{dict.home.prerequisites}:</span> {category.prerequisites[locale]}
+            </span>
+            {chapterMinutes > 0 && (
+              <span>
+                ~{chapterMinutes} {dict.lesson.minutes}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="mt-5">
           <ChapterResumeButton

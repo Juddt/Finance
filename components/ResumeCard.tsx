@@ -14,18 +14,19 @@ export interface ResumeCardDict {
 }
 
 /**
- * "Reprendre ma formation" : pointe vers la dernière notion consultée
- * (localStorage, voir TrackLastVisited) si elle existe, sinon vers la
- * première notion publiée — cohérent en build serveur comme statique,
- * sans dépendre d'un cookie de session (voir demande "état existant").
+ * Bouton principal d'accueil. Le libellé (« Reprendre mon cours » vs
+ * « Commencer le programme ») dépend uniquement de la présence d'un
+ * historique local — l'eyebrow au-dessus reste neutre pour ne jamais se
+ * contredire avec le bouton (voir demande "harmoniser le bouton principal").
+ * Cible la dernière notion consultée (localStorage, voir TrackLastVisited)
+ * si elle existe, sinon la première notion publiée — cohérent en build
+ * serveur comme statique, sans dépendre d'un cookie de session.
  */
 export function ResumeCard({ locale, dict, firstPublishedId }: { locale: Locale; dict: ResumeCardDict; firstPublishedId: string | null }) {
   const [lastId, setLastId] = useState<string | null>(null);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     setLastId(getLastVisitedConcept());
-    setReady(true);
   }, []);
 
   const targetId = lastId ?? firstPublishedId;
@@ -34,16 +35,19 @@ export function ResumeCard({ locale, dict, firstPublishedId }: { locale: Locale;
   if (!concept) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-4">
-      <ButtonLink href={`/${locale}/lessons/${targetId}`} variant="primary">
-        {lastId ? dict.continueButton : dict.startFresh}
-        <span aria-hidden="true">&rarr;</span>
-      </ButtonLink>
-      {ready && lastId && (
-        <p className="text-sm text-text-dim">
-          {dict.resumeSubtitle} <span className="font-medium text-text">{concept.title[locale]}</span>
-        </p>
-      )}
+    <div>
+      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.3em] text-text-faint uppercase">{dict.resumeTitle}</p>
+      <div className="flex flex-wrap items-center gap-4">
+        <ButtonLink href={`/${locale}/lessons/${targetId}`} variant="primary">
+          {lastId ? dict.continueButton : dict.startFresh}
+          <span aria-hidden="true">&rarr;</span>
+        </ButtonLink>
+        {lastId && (
+          <p className="text-sm text-text-dim">
+            {dict.resumeSubtitle} <span className="font-medium text-text">{concept.title[locale]}</span>
+          </p>
+        )}
+      </div>
     </div>
   );
 }

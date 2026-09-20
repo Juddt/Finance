@@ -14,6 +14,7 @@ export const categories: CategoryDef[] = [
     color: "amber",
     position: 1,
     title: { fr: "Bases : banques, marchés et mathématiques financières", en: "Fundamentals: banks, markets & financial maths" },
+    shortTitle: { fr: "Fondamentaux", en: "Fundamentals" },
     summary: {
       fr: "Organisation des marchés, rôle des banques, mathématiques financières de base et microstructure.",
       en: "Market organization, role of banks, basic financial maths and microstructure.",
@@ -28,6 +29,7 @@ export const categories: CategoryDef[] = [
     color: "sky",
     position: 2,
     title: { fr: "Taux et crédit", en: "Rates & credit" },
+    shortTitle: { fr: "Taux et crédit", en: "Rates & credit" },
     summary: {
       fr: "Obligations, duration/convexité, crédit, FRA et swaps de taux.",
       en: "Bonds, duration/convexity, credit, FRAs and interest rate swaps.",
@@ -42,6 +44,7 @@ export const categories: CategoryDef[] = [
     color: "emerald",
     position: 3,
     title: { fr: "Produits dérivés", en: "Derivatives" },
+    shortTitle: { fr: "Produits dérivés", en: "Derivatives" },
     summary: {
       fr: "Forwards/futures, options vanilles, corrélation/dispersion, barrières/digitales, structurés et autocalls.",
       en: "Forwards/futures, vanilla options, correlation/dispersion, barriers/digitals, structured products and autocalls.",
@@ -56,6 +59,7 @@ export const categories: CategoryDef[] = [
     color: "violet",
     position: 4,
     title: { fr: "Modèles quantitatifs", en: "Quantitative models" },
+    shortTitle: { fr: "Modèles quantitatifs", en: "Quant. models" },
     summary: {
       fr: "Mouvement brownien, Black-Scholes, Greeks et couverture dynamique, volatilité et variance.",
       en: "Brownian motion, Black-Scholes, Greeks and dynamic hedging, volatility and variance.",
@@ -70,6 +74,7 @@ export const categories: CategoryDef[] = [
     color: "rose",
     position: 5,
     title: { fr: "Gestion de portefeuille", en: "Portfolio management" },
+    shortTitle: { fr: "Portefeuille", en: "Portfolio" },
     summary: {
       fr: "Diversification, Markowitz, CAPM, allocation et attribution de performance.",
       en: "Diversification, Markowitz, CAPM, allocation and performance attribution.",
@@ -84,6 +89,7 @@ export const categories: CategoryDef[] = [
     color: "red",
     position: 6,
     title: { fr: "Risques et réglementation", en: "Risk & regulation" },
+    shortTitle: { fr: "Risques et réglementation", en: "Risk & regulation" },
     summary: {
       fr: "VaR, Expected Shortfall, ratios de risque ajusté, Bâle III/IV, MiFID II, EMIR.",
       en: "VaR, Expected Shortfall, risk-adjusted ratios, Basel III/IV, MiFID II, EMIR.",
@@ -98,6 +104,7 @@ export const categories: CategoryDef[] = [
     color: "indigo",
     position: 7,
     title: { fr: "Machine learning appliqué à la finance", en: "Machine learning for finance" },
+    shortTitle: { fr: "Machine learning", en: "Machine learning" },
     summary: {
       fr: "Régression, arbres, séries temporelles, KNN/SVM, deep learning et bonnes pratiques.",
       en: "Regression, trees, time series, KNN/SVM, deep learning and best practices.",
@@ -112,6 +119,7 @@ export const categories: CategoryDef[] = [
     color: "teal",
     position: 8,
     title: { fr: "Outils et préparation aux entretiens", en: "Tools & interview prep" },
+    shortTitle: { fr: "Outils et entretiens", en: "Tools & interviews" },
     summary: {
       fr: "Python/Excel/VBA/SQL/R pour la finance, questions techniques et brainteasers d'entretien.",
       en: "Python/Excel/VBA/SQL/R for finance, technical interview questions and brainteasers.",

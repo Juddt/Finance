@@ -15,6 +15,8 @@ export interface CategoryDef {
   color: string;
   position: number;
   title: Bi;
+  /** Intitulé court pour les espaces étroits (nav latérale) — voir demande "noms courts". */
+  shortTitle: Bi;
   summary: Bi;
   level: Bi;
   prerequisites: Bi;
