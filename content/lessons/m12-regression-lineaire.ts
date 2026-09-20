@@ -19,8 +19,8 @@ export const m12RegressionLineaire: LessonContent = {
     en: "What data/output? Numerical input variables (features), a continuous output value (target). How to train/evaluate it? Fit β on a training set, then evaluate on a separate test set using R² (explained variance) and mean squared error (MSE). Why this model? Its simplicity makes it an essential baseline: any more complex model must demonstrate it significantly outperforms linear regression to justify its added complexity.",
   },
   example: {
-    fr: "Prédire le rendement à l'échéance (yield to maturity) d'une obligation d'entreprise à partir de sa duration, de son spread de crédit et de sa notation encodée numériquement : un modèle linéaire donnera des coefficients directement interprétables (« chaque année de duration supplémentaire ajoute X points de base »), utile pour un desk obligataire qui veut comprendre le \"pourquoi\" autant que la prédiction elle-même.",
-    en: "Predicting a corporate bond's yield to maturity from its duration, credit spread and numerically encoded rating: a linear model gives directly interpretable coefficients (\"each extra year of duration adds X basis points\"), useful for a bond desk that wants to understand the \"why\" as much as the prediction itself.",
+    fr: "Prédire le rendement à l'échéance (YTM) d'une obligation d'entreprise à partir de sa duration et de son spread de crédit. Modèle ajusté : YTM(%)=1,5+0,15×Duration(années)+0,01×Spread(pb). Pour une obligation de duration=5 ans et spread=150pb : YTM=1,5+0,15×5+0,01×150=1,5+0,75+1,5=3,75%. Le coefficient 0,15 s'interprète directement : « chaque année de duration supplémentaire ajoute 0,15 point de pourcentage de rendement, toutes choses égales par ailleurs » — une lecture impossible avec un modèle non-interprétable comme une forêt aléatoire.",
+    en: "Predicting a corporate bond's yield to maturity (YTM) from its duration and credit spread. Fitted model: YTM(%)=1.5+0.15×Duration(years)+0.01×Spread(bp). For a bond with duration=5 years and spread=150bp: YTM=1.5+0.15×5+0.01×150=1.5+0.75+1.5=3.75%. The 0.15 coefficient is directly interpretable: \"each extra year of duration adds 0.15 percentage points of yield, all else equal\" — a reading impossible with a non-interpretable model like a random forest.",
   },
   alternativeExplanation: {
     fr: "Imaginez régler plusieurs curseurs (un par variable) pour que la somme pondérée des curseurs colle le mieux possible à une cible : la régression linéaire trouve automatiquement le meilleur réglage de chaque curseur, celui qui minimise l'écart moyen au carré entre la prédiction et la vraie valeur sur les données observées.",
@@ -34,11 +34,24 @@ export const m12RegressionLineaire: LessonContent = {
     ],
     assumptions: { fr: "OLS classique suppose une relation linéaire, des résidus indépendants et de variance constante (homoscédasticité) ; la régularisation nécessite des variables normalisées (même échelle) pour que λ pénalise équitablement.", en: "Classic OLS assumes a linear relationship, independent residuals with constant variance (homoscedasticity); regularization requires normalized variables (same scale) so λ penalizes fairly." },
     units: { fr: "Coefficients dans l'unité de y par unité de x.", en: "Coefficients in y's unit per unit of x." },
-    example: { fr: "λ=0 : régression linéaire classique (OLS). λ grand : les coefficients β sont fortement rétrécis vers 0, réduisant la variance du modèle au prix d'un léger biais.", en: "λ=0: classic linear regression (OLS). Large λ: the β coefficients are strongly shrunk toward 0, reducing the model's variance at the cost of a slight bias." },
+    example: { fr: "λ=0 (OLS) donne β_duration=0,20 ; avec λ=2 (Ridge), ce même coefficient est rétréci vers β_duration=0,15 — une réduction de 25% qui limite la variance du modèle au prix d'un léger biais.", en: "λ=0 (OLS) gives β_duration=0.20; with λ=2 (Ridge), this same coefficient shrinks to β_duration=0.15 — a 25% reduction that limits the model's variance at the cost of a slight bias." },
+  },
+  chart: {
+    kind: "scatter",
+    xLabel: { fr: "Duration (années)", en: "Duration (years)" },
+    yLabel: { fr: "YTM observé (%)", en: "Observed YTM (%)" },
+    trendLine: true,
+    points: [
+      { x: 2, y: 2.3 },
+      { x: 4, y: 2.9 },
+      { x: 5, y: 3.2 },
+      { x: 7, y: 3.8 },
+      { x: 9, y: 4.3 },
+    ],
   },
   calculation: {
-    fr: "1) Séparer les données en un jeu d'entraînement et un jeu de test (jamais évaluer sur les données d'entraînement). 2) Normaliser les variables si une régularisation est utilisée. 3) Ajuster β en minimisant la fonction de perte sur le jeu d'entraînement. 4) Évaluer sur le jeu de test avec R² et MSE, jamais sur le jeu d'entraînement (qui donnerait une performance artificiellement optimiste).",
-    en: "1) Split the data into a training set and a test set (never evaluate on the training data). 2) Normalize variables if regularization is used. 3) Fit β by minimizing the loss function on the training set. 4) Evaluate on the test set with R² and MSE, never on the training set (which would give an artificially optimistic performance).",
+    fr: "1) Séparer les données en un jeu d'entraînement et un jeu de test (jamais évaluer sur les données d'entraînement). 2) Normaliser les variables si une régularisation est utilisée. 3) Ajuster β en minimisant la fonction de perte sur le jeu d'entraînement : ici β0=1,5, β_duration=0,15, β_spread=0,01. 4) Évaluer sur le jeu de test avec R² et MSE, jamais sur le jeu d'entraînement (qui donnerait une performance artificiellement optimiste).",
+    en: "1) Split the data into a training set and a test set (never evaluate on the training data). 2) Normalize variables if regularization is used. 3) Fit β by minimizing the loss function on the training set: here β0=1.5, β_duration=0.15, β_spread=0.01. 4) Evaluate on the test set with R² and MSE, never on the training set (which would give an artificially optimistic performance).",
   },
   pythonExample: {
     fr: `from sklearn.linear_model import Ridge
@@ -97,5 +110,13 @@ print("Coefficients:", dict(zip(X.columns, model.coef_)))`,
   advancedDemonstration: {
     fr: "La solution OLS a une forme fermée, β̂ = (XᵀX)⁻¹Xᵀy, dérivée en annulant le gradient de la somme des carrés des résidus — mais cette inversion matricielle devient instable si les colonnes de X sont fortement corrélées (multicolinéarité), un problème que la régularisation Ridge résout élégamment en ajoutant λI à XᵀX avant inversion, garantissant que la matrice reste inversible même en cas de colinéarité parfaite. Lasso, en revanche, n'a pas de solution fermée (sa pénalité L1 n'est pas différentiable en zéro) et nécessite des méthodes d'optimisation itératives (descente de coordonnées), mais offre en échange une sélection automatique de variables — une propriété que Ridge n'a pas.",
     en: "The OLS solution has a closed form, β̂ = (XᵀX)⁻¹Xᵀy, derived by zeroing the residual sum of squares' gradient — but this matrix inversion becomes unstable if X's columns are strongly correlated (multicollinearity), a problem Ridge regularization elegantly solves by adding λI to XᵀX before inversion, guaranteeing the matrix stays invertible even under perfect collinearity. Lasso, by contrast, has no closed form (its L1 penalty isn't differentiable at zero) and requires iterative optimization methods (coordinate descent), but offers automatic variable selection in exchange — a property Ridge lacks.",
+  },
+  businessApplication: {
+    fr: "Un desk obligataire ou une équipe de recherche crédit utilise une régression linéaire pour construire un \"fair value model\" du rendement d'une obligation à partir de ses caractéristiques, puis repère les obligations dont le rendement observé s'écarte significativement de cette prédiction (cheap/rich analysis) comme candidates potentielles à l'achat ou à la vente — une application directe où l'interprétabilité des coefficients permet d'expliquer précisément pourquoi une obligation semble mal valorisée.",
+    en: "A bond desk or credit research team uses linear regression to build a \"fair value model\" of a bond's yield from its characteristics, then flags bonds whose observed yield significantly deviates from this prediction (cheap/rich analysis) as potential buy or sell candidates — a direct application where coefficient interpretability lets them precisely explain why a bond looks mispriced.",
+  },
+  interviewQuestion: {
+    question: "You fit a linear regression predicting bond yield from duration and credit spread, and get a duration coefficient of 0.15. How would you explain that number to a non-technical stakeholder, and what would make you distrust it?",
+    answer: "I'd say: holding the credit spread constant, each additional year of duration is associated with about 0.15 percentage points of extra yield in this dataset. I'd be careful to call it an association, not a causal effect. What would make me distrust it: if duration and spread are themselves highly correlated in my data (multicollinearity), the coefficient split between them can become unstable — I'd check that before trusting the individual number. I'd also want to see the R² and the out-of-sample performance on a test set, since evaluating on the same data used to fit the model would give an artificially optimistic read. And I'd sanity-check the coefficient's sign and magnitude against market intuition — a duration coefficient that's negative or implausibly large would be a red flag before I'd use it for anything real like a cheap/rich screen.",
   },
 };

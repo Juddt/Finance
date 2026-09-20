@@ -25,8 +25,8 @@ export const m10DoublesBarrieres: LessonContent = {
     en: "Double barriers let you express a very targeted market view: \"I believe the market will stay within a precise range\", in exchange for a much lower premium than a single-barrier option — but with increased knock-out risk, since there are now TWO ways to trigger the exit.",
   },
   example: {
-    fr: "Une action à 100 avec un call double knock-out, barrières à 85 et 120. Si l'action évolue entre 90 et 115 pendant toute la durée du contrat et termine à 110, l'option paie normalement max(110−K,0). Mais si l'action grimpe brièvement à 121 à un moment quelconque (même une seule minute), l'option est immédiatement et définitivement knock-out, quelle que soit son évolution ultérieure — y compris si elle retombe ensuite à 110.",
-    en: "A stock at 100 with a double knock-out call, barriers at 85 and 120. If the stock trades between 90 and 115 throughout the contract's life and ends at 110, the option normally pays max(110−K,0). But if the stock briefly spikes to 121 at any point (even for one minute), the option is immediately and permanently knocked out, whatever it does afterward — including if it later falls back to 110.",
+    fr: "Une action à 100 avec un call double knock-out de strike K=100, barrières à 85 et 120, rebate=2 (par action), sur 1 000 actions de notionnel. Si l'action évolue entre 90 et 115 pendant toute la durée du contrat et termine à 110, l'option reste vivante et paie max(110−100,0)=10 par action, soit 10×1 000=10 000. Mais si l'action grimpe brièvement à 121 à un moment quelconque (même une seule minute), l'option est immédiatement et définitivement knock-out : elle ne paie que le rebate, 2×1 000=2 000, quelle que soit son évolution ultérieure — y compris si elle retombe ensuite à 110, où elle aurait sinon valu 10 000.",
+    en: "A stock at 100 with a double knock-out call of strike K=100, barriers at 85 and 120, rebate=2 (per share), on a 1,000-share notional. If the stock trades between 90 and 115 throughout the contract's life and ends at 110, the option stays alive and pays max(110−100,0)=10 per share, i.e. 10×1,000=10,000. But if the stock briefly spikes to 121 at any point (even for one minute), the option is immediately and permanently knocked out: it only pays the rebate, 2×1,000=2,000, whatever it does afterward — including if it later falls back to 110, where it would otherwise have been worth 10,000.",
   },
   alternativeExplanation: {
     fr: "Une barrière simple est comme un précipice d'un seul côté du chemin ; une double-barrière, c'est marcher sur une corde raide étroite avec un précipice DE CHAQUE CÔTÉ. Rester en vie demande de rester précisément dans le couloir central, ce qui est plus exigeant qu'éviter un seul danger — mais rend aussi le \"billet\" beaucoup moins cher, puisque peu de trajectoires y parviennent.",
@@ -40,11 +40,43 @@ export const m10DoublesBarrieres: LessonContent = {
     ],
     assumptions: { fr: "Condition de survie pour une option double knock-out ; sans rebate.", en: "Survival condition for a double knock-out option; no rebate." },
     units: { fr: "Condition logique, sans unité.", en: "A logical condition, with no unit." },
-    example: { fr: "H_down=85, H_up=120, trajectoire entre 90 et 115 : vivant. Trajectoire touchant 121 à un instant : mort (knock-out), quelle que soit la suite.", en: "H_down=85, H_up=120, path between 90 and 115: alive. A path touching 121 at any instant: dead (knocked out), whatever follows." },
+    example: { fr: "H_down=85, H_up=120, K=100, trajectoire entre 90 et 115 terminant à 110 : vivant, payoff=max(110−100,0)=10 par action. Trajectoire touchant 121 à un instant puis retombant à 110 : mort (knock-out), payoff=rebate=2 par action seulement.", en: "H_down=85, H_up=120, K=100, a path between 90 and 115 ending at 110: alive, payoff=max(110−100,0)=10 per share. A path touching 121 at some point then falling back to 110: dead (knocked out), payoff=rebate=2 per share only." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Temps (fraction de la durée du contrat)", en: "Time (fraction of contract life)" },
+    yLabel: { fr: "Prix du sous-jacent", en: "Underlying price" },
+    series: [
+      {
+        label: { fr: "Trajectoire vivante (paie 10)", en: "Alive path (pays 10)" },
+        points: [
+          { x: 0, y: 100 },
+          { x: 0.25, y: 105 },
+          { x: 0.5, y: 112 },
+          { x: 0.75, y: 108 },
+          { x: 1, y: 110 },
+        ],
+      },
+      {
+        label: { fr: "Trajectoire knock-out (paie rebate=2)", en: "Knock-out path (pays rebate=2)" },
+        points: [
+          { x: 0, y: 100 },
+          { x: 0.25, y: 108 },
+          { x: 0.5, y: 118 },
+          { x: 0.6, y: 121 },
+          { x: 0.75, y: 115 },
+          { x: 1, y: 110 },
+        ],
+      },
+    ],
+    refLines: [
+      { label: { fr: "Barrière haute 120", en: "Upper barrier 120" }, y: 120 },
+      { label: { fr: "Barrière basse 85", en: "Lower barrier 85" }, y: 85 },
+    ],
   },
   calculation: {
-    fr: "1) Identifier les deux barrières H_down et H_up. 2) Observer la trajectoire complète du sous-jacent (selon la fréquence d'observation prévue). 3) Vérifier si le minimum de la trajectoire est resté strictement au-dessus de H_down ET si le maximum est resté strictement en dessous de H_up. 4) Si les deux conditions sont vérifiées, calculer le payoff normalement ; sinon, l'option est knock-out (payoff = rebate, souvent 0).",
-    en: "1) Identify both barriers H_down and H_up. 2) Observe the underlying's full path (per the specified observation frequency). 3) Check whether the path's minimum stayed strictly above H_down AND its maximum stayed strictly below H_up. 4) If both conditions hold, compute the payoff normally; otherwise, the option is knocked out (payoff = rebate, often 0).",
+    fr: "1) Identifier les deux barrières H_down et H_up : ici 85 et 120. 2) Observer la trajectoire complète du sous-jacent (selon la fréquence d'observation prévue). 3) Vérifier si le minimum de la trajectoire est resté strictement au-dessus de H_down ET si le maximum est resté strictement en dessous de H_up : dans le scénario \"vivant\", le maximum est 112 (<120), l'option survit ; dans le scénario \"knock-out\", le maximum atteint 121 (>120) à t=0,6, l'option meurt immédiatement à cet instant. 4) Si les deux conditions sont vérifiées, calculer le payoff normalement (10 par action pour K=100 et un prix final de 110) ; sinon, l'option est knock-out (payoff = rebate = 2 par action).",
+    en: "1) Identify both barriers H_down and H_up: here 85 and 120. 2) Observe the underlying's full path (per the specified observation frequency). 3) Check whether the path's minimum stayed strictly above H_down AND its maximum stayed strictly below H_up: in the \"alive\" scenario, the maximum is 112 (<120), the option survives; in the \"knock-out\" scenario, the maximum reaches 121 (>120) at t=0.6, the option dies immediately at that instant. 4) If both conditions hold, compute the payoff normally (10 per share for K=100 and a final price of 110); otherwise, the option is knocked out (payoff = rebate = 2 per share).",
   },
   interpretation: {
     fr: "Plus le corridor [H_down, H_up] est étroit, plus la prime de l'option double-barrière est faible (car la probabilité de survie diminue), et plus le risque de knock-out (dans un sens ou dans l'autre) est élevé. C'est un arbitrage direct entre coût et probabilité de succès, contrôlable en ajustant la largeur du corridor.",
@@ -69,5 +101,13 @@ export const m10DoublesBarrieres: LessonContent = {
   advancedDemonstration: {
     fr: "Le pricing exact d'une option double-barrière sous Black-Scholes nécessite une série infinie de termes issus de la méthode des images (reflection principle) appliquée successivement aux deux barrières — une formule de Kunitomo-Ikeda, sensiblement plus complexe que les formules à barrière simple. En pratique, cette série converge rapidement (quelques termes suffisent pour une précision satisfaisante) et est aussi couramment approchée par simulation Monte-Carlo (M06-7) pour des structures encore plus complexes (barrières à fenêtre temporelle limitée, corridors à niveaux variables dans le temps).",
     en: "Exact pricing of a double-barrier option under Black-Scholes requires an infinite series of terms from the method of images (reflection principle) applied successively to both barriers — a Kunitomo-Ikeda formula, noticeably more complex than single-barrier formulas. In practice, this series converges quickly (a few terms suffice for satisfactory precision) and is also commonly approximated via Monte-Carlo simulation (M06-7) for even more complex structures (time-windowed barriers, corridors with time-varying levels).",
+  },
+  businessApplication: {
+    fr: "Un desk de dérivés actions structure des doubles-barrières pour des clients ayant une vue de marché très précise (\"je pense que l'action va rester dans cette fourchette\"), en échange d'une prime nettement réduite par rapport à une option vanille ou à barrière simple ; le risk management du desk doit alors surveiller en continu les deux distances aux barrières, puisqu'un franchissement de l'une OU l'autre modifie instantanément et discontinûment la valeur de la position (voir M10-5, Greeks des barrières).",
+    en: "An equity derivatives desk structures double barriers for clients with a very precise market view (\"I think the stock will stay within this range\"), in exchange for a markedly reduced premium versus a vanilla or single-barrier option; the desk's risk management must then continuously monitor both distances to the barriers, since breaching either one instantly and discontinuously changes the position's value (see M10-5, barrier Greeks).",
+  },
+  interviewQuestion: {
+    question: "A client holds a double knock-out call. The stock briefly touches the upper barrier intraday, then falls back well within the range by the close. What happened to the option, and why does that surprise some clients?",
+    answer: "The option is knocked out, permanently, the moment the barrier was touched — it doesn't matter that the stock fell back within the range afterward. This surprises clients because they intuitively think of the option's value based on where the stock ends up, like a vanilla option, but a barrier option's payoff depends on the entire path, not just the endpoint. Once the barrier condition triggers, the option's fate is sealed for the rest of its life, and at most it pays a small pre-agreed rebate instead of its full payoff. I'd explain that this path-dependency is exactly what makes double barriers so much cheaper than a vanilla option — the client is being compensated with a lower premium precisely for accepting this all-or-nothing risk on the barrier being touched.",
   },
 };

@@ -39,8 +39,8 @@ function LineChart({ chart, locale, caption }: { chart: Extract<LessonChartSpec,
     <ChartFrame caption={caption}>
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label={caption}>
         <AxisLines xScale={xScale} yScale={yScale} xMin={xMin} xMax={xMax} yMin={yMin} yMax={yMax} />
-        {(chart.refLines ?? []).map((ref, i) => (
-          <RefLine key={i} ref={ref} xScale={xScale} yScale={yScale} locale={locale} />
+        {(chart.refLines ?? []).map((refLine, i) => (
+          <RefLine key={i} refLine={refLine} xScale={xScale} yScale={yScale} locale={locale} />
         ))}
         {chart.series.map((s, i) => {
           const d = s.points.map((p, j) => `${j === 0 ? "M" : "L"}${xScale(p.x).toFixed(1)},${yScale(p.y).toFixed(1)}`).join(" ");
@@ -175,34 +175,34 @@ function AxisLines({
 }
 
 function RefLine({
-  ref,
+  refLine,
   xScale,
   yScale,
   locale,
 }: {
-  ref: { label: { fr: string; en: string }; x?: number; y?: number };
+  refLine: { label: { fr: string; en: string }; x?: number; y?: number };
   xScale: (x: number) => number;
   yScale: (y: number) => number;
   locale: "fr" | "en";
 }) {
-  if (ref.x !== undefined) {
-    const x = xScale(ref.x);
+  if (refLine.x !== undefined) {
+    const x = xScale(refLine.x);
     return (
       <>
         <line x1={x} y1={PADDING_TOP} x2={x} y2={HEIGHT - PADDING_BOTTOM} stroke="#059669" strokeOpacity={0.5} strokeDasharray="4 3" />
         <text x={x} y={PADDING_TOP + 10} fontSize={10} textAnchor="middle" fill="#059669">
-          {ref.label[locale]}
+          {refLine.label[locale]}
         </text>
       </>
     );
   }
-  if (ref.y !== undefined) {
-    const y = yScale(ref.y);
+  if (refLine.y !== undefined) {
+    const y = yScale(refLine.y);
     return (
       <>
         <line x1={PADDING_LEFT} y1={y} x2={WIDTH - PADDING_RIGHT} y2={y} stroke="#059669" strokeOpacity={0.5} strokeDasharray="4 3" />
         <text x={WIDTH - PADDING_RIGHT} y={y - 4} fontSize={10} textAnchor="end" fill="#059669">
-          {ref.label[locale]}
+          {refLine.label[locale]}
         </text>
       </>
     );
