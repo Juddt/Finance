@@ -48,23 +48,22 @@ export function RevisionsList({ locale, dict }: { locale: Locale; dict: Revision
 
   if (items === null) return null;
   if (items.length === 0) {
-    return <p className="text-sm text-neutral-600 dark:text-neutral-300">{dict.empty}</p>;
+    return <p className="border border-rule bg-paper-raised p-4 text-sm text-ink-muted">{dict.empty}</p>;
   }
 
   return (
-    <ul className="space-y-2">
+    <ul className="divide-y divide-rule border border-rule">
       {items.map((item) => (
-        <li
-          key={item.conceptId}
-          className="flex items-center justify-between rounded-xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-900"
-        >
+        <li key={item.conceptId} className="flex items-center justify-between gap-3 bg-paper p-4">
           <div>
-            <p className="font-medium">{item.title}</p>
-            <p className="text-xs text-neutral-500">{dict.dueSince.replace("{date}", new Date(item.dueAt).toLocaleDateString(locale))}</p>
+            <p className="font-medium text-ink">{item.title}</p>
+            <p className="mt-0.5 font-mono text-[11px] text-ink-faint">
+              {dict.dueSince.replace("{date}", new Date(item.dueAt).toLocaleDateString(locale))}
+            </p>
           </div>
           <Link
             href={`/${locale}/lessons/${item.conceptId}`}
-            className="rounded-full bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-white dark:bg-white dark:text-neutral-900"
+            className="clip-corner-sm shrink-0 bg-ink px-3 py-1.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink"
           >
             {dict.reviewNow}
           </Link>

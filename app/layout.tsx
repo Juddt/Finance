@@ -10,7 +10,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body style={{ background: "#f2ede0" }}>{children}</body>
+      {/* Couleur de repli tant que globals.css (chargé par app/[locale]/layout.tsx) n'est pas
+          encore appliqué ; var(--paper) reprend ensuite le thème clair/sombre courant — sans
+          ça ce fond resterait figé en clair même en dark (voir attributs fusionnés par le
+          parseur HTML quand app/[locale]/layout.tsx redéclare aussi <html>/<body>). */}
+      <body style={{ background: "var(--paper, #f2ede0)" }}>{children}</body>
     </html>
   );
 }

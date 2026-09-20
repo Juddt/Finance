@@ -51,32 +51,30 @@ export function CustomQuizBuilder({
 
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">{dict.selectCategories}</p>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">{dict.selectCategories}</p>
+      <div className="mb-5 flex flex-wrap gap-2">
         {categories.map((c) => (
           <label
             key={c.id}
-            className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm ${
-              selected.has(c.id) ? "border-neutral-900 dark:border-white" : "border-black/10 dark:border-white/10"
+            className={`flex cursor-pointer items-center gap-1.5 border px-3 py-1.5 font-mono text-[12px] transition-colors ${
+              selected.has(c.id) ? "border-ink bg-ink text-paper" : "border-rule text-ink hover:border-ink"
             }`}
           >
-            <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} className="h-3.5 w-3.5" />
+            <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} className="sr-only" />
             {c.label} ({c.count})
           </label>
         ))}
       </div>
 
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">{dict.chooseLength}</p>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">{dict.chooseLength}</p>
+      <div className="mb-5 flex flex-wrap gap-2">
         {([5, 10, 20, "continuous"] as SessionLength[]).map((l) => (
           <button
             key={l}
             type="button"
             onClick={() => setLength(l)}
-            className={`rounded-full border px-3 py-1.5 text-sm ${
-              length === l
-                ? "border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900"
-                : "border-black/10 dark:border-white/10"
+            className={`border px-3 py-1.5 font-mono text-[12px] transition-colors ${
+              length === l ? "border-ink bg-ink text-paper" : "border-rule text-ink hover:border-ink"
             }`}
           >
             {l === 5 ? dict.length5 : l === 10 ? dict.length10 : l === 20 ? dict.length20 : dict.lengthContinuous}
@@ -88,7 +86,7 @@ export function CustomQuizBuilder({
         type="button"
         onClick={start}
         disabled={selected.size === 0}
-        className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-40 dark:bg-white dark:text-neutral-900"
+        className="clip-corner-sm bg-ink px-5 py-2.5 font-mono text-[12px] font-semibold tracking-[0.08em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-40"
       >
         {dict.startButton}
       </button>

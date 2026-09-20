@@ -44,20 +44,28 @@ function OptionPayoffChart({ chart, label, isCall }: { chart: ChartSpec; label: 
   const breakEvenX = xScale(breakEven);
 
   return (
-    <figure className="my-2">
+    <figure className="clip-corner-sm my-4 border border-rule bg-paper p-4">
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label={label}>
         <line x1={padding} y1={zeroY} x2={width - padding} y2={zeroY} stroke="currentColor" strokeOpacity={0.3} strokeWidth={1} />
-        <line x1={strikeX} y1={padding / 2} x2={strikeX} y2={height - padding / 2} stroke="currentColor" strokeOpacity={0.15} strokeDasharray="4 3" />
-        <line x1={breakEvenX} y1={padding / 2} x2={breakEvenX} y2={height - padding / 2} stroke="#059669" strokeOpacity={0.4} strokeDasharray="4 3" />
-        <path d={pathD} fill="none" stroke="#2563eb" strokeWidth={2.5} />
-        <text x={strikeX} y={height - 6} fontSize={11} textAnchor="middle" fill="currentColor" opacity={0.6}>
+        <line x1={strikeX} y1={padding / 2} x2={strikeX} y2={height - padding / 2} stroke="currentColor" strokeOpacity={0.2} strokeDasharray="4 3" />
+        <line
+          x1={breakEvenX}
+          y1={padding / 2}
+          x2={breakEvenX}
+          y2={height - padding / 2}
+          stroke="var(--color-gain)"
+          strokeOpacity={0.6}
+          strokeDasharray="4 3"
+        />
+        <path d={pathD} fill="none" stroke="var(--color-ink)" strokeWidth={2.5} />
+        <text x={strikeX} y={height - 6} fontSize={11} fontFamily="var(--font-mono)" textAnchor="middle" fill="currentColor" opacity={0.6}>
           K
         </text>
-        <text x={breakEvenX} y={14} fontSize={11} textAnchor="middle" fill="#059669">
+        <text x={breakEvenX} y={14} fontSize={11} fontFamily="var(--font-mono)" textAnchor="middle" fill="var(--color-gain)">
           K+p
         </text>
       </svg>
-      <figcaption className="mt-1 text-center text-xs text-neutral-500">{label}</figcaption>
+      <figcaption className="mt-2 text-center font-mono text-[11px] text-ink-faint">{label}</figcaption>
     </figure>
   );
 }

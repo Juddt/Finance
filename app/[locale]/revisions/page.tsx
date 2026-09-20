@@ -9,10 +9,16 @@ export default async function RevisionsPage({ params }: { params: Promise<{ loca
   const dict = await getDictionary(locale);
 
   return (
-    <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
-      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{dict.revisionsPage.title}</h1>
-      <p className="mt-2 mb-6 text-neutral-600 dark:text-neutral-300">{dict.revisionsPage.subtitle}</p>
-      <RevisionsList locale={locale} dict={dict.revisionsPage} />
+    <div className="flex-1">
+      <div className="grid-ledger border-b border-rule">
+        <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
+          <h1 className="font-display text-4xl leading-[1.02] font-semibold tracking-tight italic sm:text-5xl">{dict.revisionsPage.title}</h1>
+          <p className="mt-4 max-w-xl text-ink-muted">{dict.revisionsPage.subtitle}</p>
+        </div>
+      </div>
+      <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
+        <RevisionsList locale={locale} dict={dict.revisionsPage} />
+      </div>
     </div>
   );
 }

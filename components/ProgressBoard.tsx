@@ -17,11 +17,11 @@ export interface ProgressDict {
 
 const STATUS_ORDER: ConceptStatus[] = ["mastered", "in-progress", "fragile", "to-reactivate", "to-discover"];
 const STATUS_COLOR: Record<ConceptStatus, string> = {
-  mastered: "bg-emerald-500",
-  "in-progress": "bg-sky-500",
-  fragile: "bg-amber-500",
-  "to-reactivate": "bg-red-500",
-  "to-discover": "bg-neutral-300 dark:bg-neutral-700",
+  mastered: "bg-gain",
+  "in-progress": "bg-accent",
+  fragile: "bg-mid",
+  "to-reactivate": "bg-loss",
+  "to-discover": "bg-rule",
 };
 
 export function ProgressBoard({ locale, dict }: { locale: Locale; dict: ProgressDict }) {
@@ -56,10 +56,10 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-px border border-rule bg-rule">
       {categories
         .sort((a, b) => a.position - b.position)
-        .map((category) => {
+        .map((category, i) => {
           const categoryConceptIds = new Set(
             chapters.filter((ch) => ch.categoryId === category.id).flatMap((ch) => concepts.filter((c) => c.chapterId === ch.id).map((c) => c.id))
           );
@@ -79,12 +79,12 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
           }
 
           return (
-            <article
-              key={category.id}
-              className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-900"
-            >
-              <h2 className="mb-2 text-sm font-semibold">{category.title[locale]}</h2>
-              <div className="flex h-3 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
+            <article key={category.id} className="bg-paper p-4">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h2 className="font-mono text-[12px] font-semibold tracking-[0.04em] text-ink">{category.title[locale]}</h2>
+                <span className="font-mono text-[10px] text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <div className="flex h-2 overflow-hidden border border-rule bg-paper-raised">
                 {STATUS_ORDER.map(
                   (status) =>
                     counts[status] > 0 && (
@@ -97,12 +97,12 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
                     )
                 )}
               </div>
-              <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-600 dark:text-neutral-300">
+              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-ink-muted">
                 {STATUS_ORDER.map(
                   (status) =>
                     counts[status] > 0 && (
                       <li key={status} className="flex items-center gap-1.5">
-                        <span className={`inline-block h-2 w-2 rounded-full ${STATUS_COLOR[status]}`} />
+                        <span className={`inline-block h-2 w-2 ${STATUS_COLOR[status]}`} />
                         {statusLabel[status]} ({counts[status]})
                       </li>
                     )

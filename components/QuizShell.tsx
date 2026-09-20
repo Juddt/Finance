@@ -209,22 +209,22 @@ export function QuizShell({
   }
 
   if (phase === "loading") {
-    return <div className="rounded-2xl border border-black/10 p-5 text-sm text-neutral-500 dark:border-white/10">…</div>;
-  }
-
-  if (phase === "empty") {
     return (
-      <div className="rounded-2xl border border-black/10 bg-white p-5 text-sm text-neutral-600 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
-        {emptyMessage ?? "—"}
+      <div className="border border-rule bg-paper-raised p-6 font-mono text-sm text-ink-faint">
+        <span className="animate-ticker-blink">…</span>
       </div>
     );
   }
 
+  if (phase === "empty") {
+    return <div className="border border-rule bg-paper-raised p-6 text-sm text-ink-muted">{emptyMessage ?? "—"}</div>;
+  }
+
   if (phase === "finished") {
     return (
-      <div className="rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-neutral-900">
-        <p className="text-lg font-semibold">{dict.sessionDone}</p>
-        <p className="mt-1 text-neutral-600 dark:text-neutral-300">
+      <div className="clip-corner border border-rule bg-ink p-6 text-paper">
+        <p className="font-display text-2xl font-semibold italic">{dict.sessionDone}</p>
+        <p className="mt-2 text-paper/70">
           {dict.sessionDoneSummary.replace("{correct}", String(progress.correctCount)).replace("{total}", String(progress.index))}
         </p>
       </div>
@@ -236,10 +236,11 @@ export function QuizShell({
   // progress.index compte les questions déjà répondues : tant que la correction de la
   // question courante est affichée, son propre numéro reste index (pas index+1).
   const displayNumber = result ? progress.index : progress.index + 1;
+  const letters = ["A", "B", "C", "D", "E", "F"];
 
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-neutral-900">
-      <div className="mb-3 flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+    <div className="border border-rule bg-paper-raised p-5 sm:p-6">
+      <div className="mb-4 flex items-center justify-between gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">
         <span>
           {isSimilar
             ? dict.similarExercise
@@ -247,40 +248,52 @@ export function QuizShell({
               ? dict.questionOf.replace("{current}", String(displayNumber)).replace("{total}", String(progress.total))
               : dict.questionCount.replace("{current}", String(displayNumber))}
         </span>
-        <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] normal-case tracking-normal text-neutral-500 dark:bg-neutral-800">
-          {dict.difficulty[question.difficulty]}
-        </span>
+        <span className="border border-rule px-1.5 py-0.5 text-[10px] tracking-[0.1em] text-ink-faint">{dict.difficulty[question.difficulty]}</span>
       </div>
 
       {difficultyShift && (
-        <p className="mb-3 rounded-lg bg-sky-50 px-3 py-1.5 text-xs text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">
+        <p className="mb-4 border-l-2 border-accent bg-paper px-3 py-1.5 font-mono text-[11px] text-ink-muted">
           {difficultyShift === "up" ? dict.difficultyAdjustedUp : dict.difficultyAdjustedDown}
         </p>
       )}
 
       {question.chart && <PayoffChart chart={question.chart} label={dict.reviewChartLabel} />}
 
-      <p className={`mb-4 text-base font-medium ${question.isScenario ? "italic" : ""}`}>{question.prompt}</p>
+      <p className={`mb-5 font-display text-xl leading-snug font-medium text-ink ${question.isScenario ? "italic" : ""}`}>{question.prompt}</p>
 
       {(question.kind === "mcq" || question.kind === "true_false") && question.choices && (
-        <fieldset className="mb-4 space-y-2" disabled={Boolean(result)}>
-          {question.choices.map((choice) => {
+        <fieldset className="mb-5 space-y-2" disabled={Boolean(result)}>
+          {question.choices.map((choice, i) => {
             const isSelected = selected === choice.id;
             const showAsWrong = Boolean(result) && isSelected && !result!.isCorrect;
             const showAsRight = Boolean(result) && isSelected && result!.isCorrect;
             return (
               <label
                 key={choice.id}
-                className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
-                  isSelected ? "border-neutral-900 dark:border-white" : "border-black/10 dark:border-white/10"
-                } ${showAsWrong ? "bg-red-50 dark:bg-red-950/30" : ""} ${showAsRight ? "bg-emerald-50 dark:bg-emerald-950/30" : ""}`}
+                className={`flex cursor-pointer items-center gap-3 border px-3.5 py-2.5 text-sm transition-colors ${
+                  showAsRight
+                    ? "border-gain bg-gain-soft text-gain"
+                    : showAsWrong
+                      ? "border-loss bg-loss-soft text-loss"
+                      : isSelected
+                        ? "border-ink bg-ink text-paper"
+                        : "border-rule text-ink hover:border-ink"
+                }`}
               >
+                <span
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center border font-mono text-[11px] font-semibold ${
+                    isSelected || showAsRight || showAsWrong ? "border-current" : "border-rule text-ink-faint"
+                  }`}
+                >
+                  {letters[i] ?? i + 1}
+                </span>
                 <input
                   type="radio"
                   name={question.instanceId}
                   value={choice.id}
                   checked={selected === choice.id}
                   onChange={() => setSelected(choice.id)}
+                  className="sr-only"
                 />
                 {choice.label}
               </label>
@@ -290,7 +303,7 @@ export function QuizShell({
       )}
 
       {question.kind === "numeric" && (
-        <div className="mb-4">
+        <div className="mb-5">
           <input
             type="text"
             inputMode="decimal"
@@ -298,77 +311,70 @@ export function QuizShell({
             value={numericValue}
             disabled={Boolean(result)}
             onChange={(e) => setNumericValue(e.target.value)}
-            className="w-48 rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/15 dark:bg-neutral-800"
+            className="w-48 border-0 border-b border-rule bg-transparent px-1 py-2 font-mono text-sm text-ink focus:border-ink focus:outline-none"
           />
-          {question.numericUnit && <span className="ml-2 text-sm text-neutral-500">{question.numericUnit}</span>}
-          {question.numericTolerance && <p className="mt-1 text-xs text-neutral-400">{question.numericTolerance}</p>}
+          {question.numericUnit && <span className="ml-2 text-sm text-ink-muted">{question.numericUnit}</span>}
+          {question.numericTolerance && <p className="mt-1 font-mono text-xs text-ink-faint">{question.numericTolerance}</p>}
         </div>
       )}
 
       {question.kind === "fill_blank" && (
-        <div className="mb-4">
+        <div className="mb-5">
           <input
             type="text"
             placeholder={question.fillBlankPlaceholder ?? dict.fillBlankPlaceholder}
             value={textValue}
             disabled={Boolean(result)}
             onChange={(e) => setTextValue(e.target.value)}
-            className="w-64 rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/15 dark:bg-neutral-800"
+            className="w-64 border-0 border-b border-rule bg-transparent px-1 py-2 text-sm text-ink focus:border-ink focus:outline-none"
           />
         </div>
       )}
 
       {question.hint && !result && (
-        <div className="mb-4">
+        <div className="mb-5">
           {showHint ? (
-            <p className="text-xs text-neutral-500">
-              💡 {dict.hint}: {question.hint}
+            <p className="font-mono text-xs text-ink-muted">
+              {dict.hint}: {question.hint}
             </p>
           ) : (
-            <button
-              type="button"
-              onClick={() => setShowHint(true)}
-              className="text-xs font-medium text-sky-700 underline-offset-2 hover:underline dark:text-sky-300"
-            >
+            <button type="button" onClick={() => setShowHint(true)} className="tick-underline font-mono text-xs font-medium text-ink">
               {dict.showHint}
             </button>
           )}
         </div>
       )}
 
-      {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
+      {error && <p className="mb-3 font-mono text-sm text-loss">{error}</p>}
 
       {!result ? (
         <button
           onClick={submit}
           disabled={submitting || !sessionId}
-          className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+          className="clip-corner-sm bg-ink px-5 py-2.5 font-mono text-[12px] font-semibold tracking-[0.08em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
         >
           {dict.validate}
         </button>
       ) : (
-        <div className="space-y-2">
-          <p className={`font-semibold ${result.isCorrect ? "text-emerald-600" : "text-red-600"}`}>
+        <div className="space-y-3">
+          <p className={`font-mono text-sm font-semibold tracking-[0.04em] uppercase ${result.isCorrect ? "text-gain" : "text-loss"}`}>
             {result.isCorrect ? `✓ ${dict.correct}` : `✗ ${dict.incorrect}`}
           </p>
-          <p className="text-sm">
-            <span className="font-medium">{dict.explanation}: </span>
+          <p className="text-sm text-ink">
+            <span className="font-semibold">{dict.explanation}: </span>
             {result.explanation}
           </p>
           {result.calculation && (
-            <p className="text-sm">
-              <span className="font-medium">{dict.calculation}: </span>
+            <p className="font-mono text-[13px] text-ink">
+              <span className="font-sans font-semibold">{dict.calculation}: </span>
               {result.calculation}
             </p>
           )}
-          <p className="text-sm text-neutral-500">
-            <span className="font-medium">{dict.commonMistake}: </span>
+          <p className="text-sm text-ink-muted">
+            <span className="font-semibold text-ink">{dict.commonMistake}: </span>
             {result.commonMistake}
           </p>
-          <Link
-            href={`/${locale}/lessons/${question.conceptId}`}
-            className="inline-block text-xs font-medium text-sky-700 underline-offset-2 hover:underline dark:text-sky-300"
-          >
+          <Link href={`/${locale}/lessons/${question.conceptId}`} className="tick-underline inline-block font-mono text-xs font-medium text-ink">
             {conceptLabel(locale, question.conceptId)}
           </Link>
 
@@ -376,7 +382,7 @@ export function QuizShell({
             <button
               onClick={trySimilar}
               disabled={submitting}
-              className="rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-800 disabled:opacity-50 dark:border-neutral-700 dark:text-neutral-100"
+              className="border border-rule px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase transition-colors hover:border-ink hover:bg-ink hover:text-paper disabled:opacity-50"
             >
               {dict.similarExercise}
             </button>
@@ -384,7 +390,7 @@ export function QuizShell({
               <button
                 onClick={goNext}
                 disabled={submitting}
-                className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+                className="clip-corner-sm bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
               >
                 {progress.total === null ? dict.continueSession : dict.next}
               </button>
@@ -393,16 +399,13 @@ export function QuizShell({
               <button
                 onClick={goNext}
                 disabled={submitting}
-                className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-neutral-900"
+                className="clip-corner-sm bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
               >
                 {dict.finish}
               </button>
             )}
             {progress.total === null && (
-              <button
-                onClick={endEarly}
-                className="rounded-full px-4 py-2 text-sm font-medium text-neutral-500 hover:underline"
-              >
+              <button onClick={endEarly} className="tick-underline px-2 py-2 font-mono text-[11px] font-medium text-ink-muted">
                 {dict.endSession}
               </button>
             )}
