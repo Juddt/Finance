@@ -15,9 +15,22 @@ export const m01: ConceptDef[] = [
     },
   },
   {
-    id: "m01-banques-centrales",
+    id: "m01-indicateurs-macro",
     chapterId: "m01",
     sourceRef: "M01-2",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "published",
+    title: { fr: "Indicateurs macroéconomiques : PIB, inflation, emploi", en: "Macroeconomic indicators: GDP, inflation, employment" },
+    objective: {
+      fr: "Lire et interpréter les principaux indicateurs macroéconomiques (PIB, inflation, emploi) et comprendre leur impact sur les marchés.",
+      en: "Read and interpret the main macroeconomic indicators (GDP, inflation, employment) and understand their market impact.",
+    },
+  },
+  {
+    id: "m01-banques-centrales",
+    chapterId: "m01",
+    sourceRef: "M01-3",
     level: "essential",
     estimatedMinutes: 6,
     status: "published",
@@ -30,7 +43,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-classes-actifs",
     chapterId: "m01",
-    sourceRef: "M01-3",
+    sourceRef: "M01-4",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -43,7 +56,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-arbitrage",
     chapterId: "m01",
-    sourceRef: "M01-4",
+    sourceRef: "M01-5",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -56,7 +69,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-vente-decouvert",
     chapterId: "m01",
-    sourceRef: "M01-5",
+    sourceRef: "M01-6",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -69,7 +82,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-taux-change",
     chapterId: "m01",
-    sourceRef: "M01-6",
+    sourceRef: "M01-7",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -82,7 +95,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-parite-taux",
     chapterId: "m01",
-    sourceRef: "M01-7",
+    sourceRef: "M01-8",
     level: "advanced",
     estimatedMinutes: 7,
     status: "published",
@@ -95,7 +108,7 @@ export const m01: ConceptDef[] = [
   {
     id: "m01-microstructure-rappels",
     chapterId: "m01",
-    sourceRef: "M01-8",
+    sourceRef: "M01-9",
     level: "essential",
     estimatedMinutes: 4,
     status: "published",

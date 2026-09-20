@@ -41,9 +41,22 @@ export const m04: ConceptDef[] = [
     },
   },
   {
-    id: "m04-mono-multi-courbe",
+    id: "m04-clearing-csa",
     chapterId: "m04",
     sourceRef: "M04-4",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "published",
+    title: { fr: "Clearing central, ISDA-CSA et appels de marge", en: "Central clearing, ISDA-CSA & margin calls" },
+    objective: {
+      fr: "Décrire le rôle d'une chambre de compensation (CCP), le cadre ISDA-CSA du bilatéral, et le mécanisme des appels de marge (initiale, variation).",
+      en: "Describe a central counterparty's (CCP) role, the bilateral ISDA-CSA framework, and the margin call mechanism (initial, variation).",
+    },
+  },
+  {
+    id: "m04-mono-multi-courbe",
+    chapterId: "m04",
+    sourceRef: "M04-5",
     level: "advanced",
     estimatedMinutes: 6,
     status: "published",
@@ -56,7 +69,7 @@ export const m04: ConceptDef[] = [
   {
     id: "m04-dv01-swap",
     chapterId: "m04",
-    sourceRef: "M04-5",
+    sourceRef: "M04-6",
     level: "advanced",
     estimatedMinutes: 5,
     status: "published",
@@ -64,6 +77,19 @@ export const m04: ConceptDef[] = [
     objective: {
       fr: "Calculer le DV01 d'un swap et l'utiliser pour couvrir le risque de taux, avec ses limites.",
       en: "Compute a swap's DV01 and use it to hedge rate risk, with its limits.",
+    },
+  },
+  {
+    id: "m04-swap-inflation",
+    chapterId: "m04",
+    sourceRef: "M04-7",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "published",
+    title: { fr: "Swaps et obligations indexées inflation", en: "Inflation swaps & inflation-linked bonds" },
+    objective: {
+      fr: "Décrire le mécanisme d'une obligation indexée inflation et d'un swap d'inflation, et le lien entre les deux via l'inflation break-even.",
+      en: "Describe how an inflation-linked bond and an inflation swap work, and the link between the two via break-even inflation.",
     },
   },
 ];

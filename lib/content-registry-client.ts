@@ -25,7 +25,9 @@ import { m03PricingObligation } from "@/content/lessons/m03-pricing-obligation";
 import { m03Convexite } from "@/content/lessons/m03-convexite";
 import { m03Cds } from "@/content/lessons/m03-cds";
 import { m03TauxSansRisque } from "@/content/lessons/m03-taux-sans-risque";
+import { m03RepoCollateral } from "@/content/lessons/m03-repo-collateral";
 import { m03Dv01 } from "@/content/lessons/m03-dv01";
+import { m03ObligationsConvertibles } from "@/content/lessons/m03-obligations-convertibles";
 import { m05CallPut } from "@/content/lessons/m05-call-put";
 import { m05ItmAtmOtm } from "@/content/lessons/m05-itm-atm-otm";
 import { m05PariteCallPut } from "@/content/lessons/m05-parite-call-put";
@@ -33,9 +35,12 @@ import { m05StrategiesClassiques } from "@/content/lessons/m05-strategies-classi
 import { m04Fra } from "@/content/lessons/m04-fra";
 import { m04SwapFixeVariable } from "@/content/lessons/m04-swap-fixe-variable";
 import { m04PricingSwap } from "@/content/lessons/m04-pricing-swap";
+import { m04ClearingCsa } from "@/content/lessons/m04-clearing-csa";
 import { m04MonoMultiCourbe } from "@/content/lessons/m04-mono-multi-courbe";
 import { m04Dv01Swap } from "@/content/lessons/m04-dv01-swap";
+import { m04SwapInflation } from "@/content/lessons/m04-swap-inflation";
 import { m01OrganisationBanque } from "@/content/lessons/m01-organisation-banque";
+import { m01IndicateursMacro } from "@/content/lessons/m01-indicateurs-macro";
 import { m01BanquesCentrales } from "@/content/lessons/m01-banques-centrales";
 import { m01ClassesActifs } from "@/content/lessons/m01-classes-actifs";
 import { m01Arbitrage } from "@/content/lessons/m01-arbitrage";
@@ -90,6 +95,7 @@ import { m12DeepLearningIntro } from "@/content/lessons/m12-deep-learning-intro"
 import { m12MethodologieMl } from "@/content/lessons/m12-methodologie-ml";
 import { m13InteretsComposes } from "@/content/lessons/m13-interets-composes";
 import { m13ActualisationAnnuites } from "@/content/lessons/m13-actualisation-annuites";
+import { m13DcfComparables } from "@/content/lessons/m13-dcf-comparables";
 import { m13CovarianceDiversification } from "@/content/lessons/m13-covariance-diversification";
 import { m13MarkowitzFrontiere } from "@/content/lessons/m13-markowitz-frontiere";
 import { m13CapmSml } from "@/content/lessons/m13-capm-sml";
@@ -120,7 +126,9 @@ import { templates as m03PricingObligationTemplates } from "@/content/question-t
 import { templates as m03ConvexiteTemplates } from "@/content/question-templates/m03-convexite";
 import { templates as m03CdsTemplates } from "@/content/question-templates/m03-cds";
 import { templates as m03TauxSansRisqueTemplates } from "@/content/question-templates/m03-taux-sans-risque";
+import { templates as m03RepoCollateralTemplates } from "@/content/question-templates/m03-repo-collateral";
 import { templates as m03Dv01Templates } from "@/content/question-templates/m03-dv01";
+import { templates as m03ObligationsConvertiblesTemplates } from "@/content/question-templates/m03-obligations-convertibles";
 import { templates as m05CallPutTemplates } from "@/content/question-templates/m05-call-put";
 import { templates as m05ItmAtmOtmTemplates } from "@/content/question-templates/m05-itm-atm-otm";
 import { templates as m05PariteCallPutTemplates } from "@/content/question-templates/m05-parite-call-put";
@@ -128,9 +136,12 @@ import { templates as m05StrategiesClassiquesTemplates } from "@/content/questio
 import { templates as m04FraTemplates } from "@/content/question-templates/m04-fra";
 import { templates as m04SwapFixeVariableTemplates } from "@/content/question-templates/m04-swap-fixe-variable";
 import { templates as m04PricingSwapTemplates } from "@/content/question-templates/m04-pricing-swap";
+import { templates as m04ClearingCsaTemplates } from "@/content/question-templates/m04-clearing-csa";
 import { templates as m04MonoMultiCourbeTemplates } from "@/content/question-templates/m04-mono-multi-courbe";
 import { templates as m04Dv01SwapTemplates } from "@/content/question-templates/m04-dv01-swap";
+import { templates as m04SwapInflationTemplates } from "@/content/question-templates/m04-swap-inflation";
 import { templates as m01OrganisationBanqueTemplates } from "@/content/question-templates/m01-organisation-banque";
+import { templates as m01IndicateursMacroTemplates } from "@/content/question-templates/m01-indicateurs-macro";
 import { templates as m01BanquesCentralesTemplates } from "@/content/question-templates/m01-banques-centrales";
 import { templates as m01ClassesActifsTemplates } from "@/content/question-templates/m01-classes-actifs";
 import { templates as m01ArbitrageTemplates } from "@/content/question-templates/m01-arbitrage";
@@ -185,6 +196,7 @@ import { templates as m12DeepLearningIntroTemplates } from "@/content/question-t
 import { templates as m12MethodologieMlTemplates } from "@/content/question-templates/m12-methodologie-ml";
 import { templates as m13InteretsComposesTemplates } from "@/content/question-templates/m13-interets-composes";
 import { templates as m13ActualisationAnnuitesTemplates } from "@/content/question-templates/m13-actualisation-annuites";
+import { templates as m13DcfComparablesTemplates } from "@/content/question-templates/m13-dcf-comparables";
 import { templates as m13CovarianceDiversificationTemplates } from "@/content/question-templates/m13-covariance-diversification";
 import { templates as m13MarkowitzFrontiereTemplates } from "@/content/question-templates/m13-markowitz-frontiere";
 import { templates as m13CapmSmlTemplates } from "@/content/question-templates/m13-capm-sml";
@@ -217,7 +229,9 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m03-convexite": m03Convexite,
   "m03-cds": m03Cds,
   "m03-taux-sans-risque": m03TauxSansRisque,
+  "m03-repo-collateral": m03RepoCollateral,
   "m03-dv01": m03Dv01,
+  "m03-obligations-convertibles": m03ObligationsConvertibles,
   "m05-call-put": m05CallPut,
   "m05-itm-atm-otm": m05ItmAtmOtm,
   "m05-parite-call-put": m05PariteCallPut,
@@ -225,9 +239,12 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m04-fra": m04Fra,
   "m04-swap-fixe-variable": m04SwapFixeVariable,
   "m04-pricing-swap": m04PricingSwap,
+  "m04-clearing-csa": m04ClearingCsa,
   "m04-mono-multi-courbe": m04MonoMultiCourbe,
   "m04-dv01-swap": m04Dv01Swap,
+  "m04-swap-inflation": m04SwapInflation,
   "m01-organisation-banque": m01OrganisationBanque,
+  "m01-indicateurs-macro": m01IndicateursMacro,
   "m01-banques-centrales": m01BanquesCentrales,
   "m01-classes-actifs": m01ClassesActifs,
   "m01-arbitrage": m01Arbitrage,
@@ -282,6 +299,7 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m12-methodologie-ml": m12MethodologieMl,
   "m13-interets-composes": m13InteretsComposes,
   "m13-actualisation-annuites": m13ActualisationAnnuites,
+  "m13-dcf-comparables": m13DcfComparables,
   "m13-covariance-diversification": m13CovarianceDiversification,
   "m13-markowitz-frontiere": m13MarkowitzFrontiere,
   "m13-capm-sml": m13CapmSml,
@@ -315,7 +333,9 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m03-convexite": m03ConvexiteTemplates,
   "m03-cds": m03CdsTemplates,
   "m03-taux-sans-risque": m03TauxSansRisqueTemplates,
+  "m03-repo-collateral": m03RepoCollateralTemplates,
   "m03-dv01": m03Dv01Templates,
+  "m03-obligations-convertibles": m03ObligationsConvertiblesTemplates,
   "m05-call-put": m05CallPutTemplates,
   "m05-itm-atm-otm": m05ItmAtmOtmTemplates,
   "m05-parite-call-put": m05PariteCallPutTemplates,
@@ -323,9 +343,12 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m04-fra": m04FraTemplates,
   "m04-swap-fixe-variable": m04SwapFixeVariableTemplates,
   "m04-pricing-swap": m04PricingSwapTemplates,
+  "m04-clearing-csa": m04ClearingCsaTemplates,
   "m04-mono-multi-courbe": m04MonoMultiCourbeTemplates,
   "m04-dv01-swap": m04Dv01SwapTemplates,
+  "m04-swap-inflation": m04SwapInflationTemplates,
   "m01-organisation-banque": m01OrganisationBanqueTemplates,
+  "m01-indicateurs-macro": m01IndicateursMacroTemplates,
   "m01-banques-centrales": m01BanquesCentralesTemplates,
   "m01-classes-actifs": m01ClassesActifsTemplates,
   "m01-arbitrage": m01ArbitrageTemplates,
@@ -380,6 +403,7 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m12-methodologie-ml": m12MethodologieMlTemplates,
   "m13-interets-composes": m13InteretsComposesTemplates,
   "m13-actualisation-annuites": m13ActualisationAnnuitesTemplates,
+  "m13-dcf-comparables": m13DcfComparablesTemplates,
   "m13-covariance-diversification": m13CovarianceDiversificationTemplates,
   "m13-markowitz-frontiere": m13MarkowitzFrontiereTemplates,
   "m13-capm-sml": m13CapmSmlTemplates,

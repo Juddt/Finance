@@ -34,6 +34,19 @@ export const m13: ConceptDef[] = [
       en: "Discount cash flows, value annuities and read yields and rate curves.",
     },
   },
+  {
+    id: "m13-dcf-comparables",
+    chapterId: "fin-math",
+    sourceRef: "M13-mathfin-c",
+    level: "advanced",
+    estimatedMinutes: 8,
+    status: "published",
+    title: { fr: "Valorisation actions : DCF et méthode des comparables", en: "Equity valuation: DCF & comparables" },
+    objective: {
+      fr: "Valoriser une action par actualisation des flux de trésorerie disponibles (DCF) et par la méthode des multiples comparables.",
+      en: "Value a share by discounting free cash flows (DCF) and by the comparable multiples method.",
+    },
+  },
 
   // Gestion de portefeuille -> chapitre gestion-portefeuille
   {

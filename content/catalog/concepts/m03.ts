@@ -80,9 +80,22 @@ export const m03: ConceptDef[] = [
     },
   },
   {
-    id: "m03-taux-sans-risque",
+    id: "m03-repo-collateral",
     chapterId: "m03",
     sourceRef: "M03-7",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "published",
+    title: { fr: "Marché du repo et prêt de titres", en: "Repo market & securities lending" },
+    objective: {
+      fr: "Décrire le mécanisme d'une mise en pension (repo), le rôle du collatéral et de la décote, et le lien avec le taux sans risque.",
+      en: "Describe how a repurchase agreement (repo) works, the role of collateral and haircuts, and the link to the risk-free rate.",
+    },
+  },
+  {
+    id: "m03-taux-sans-risque",
+    chapterId: "m03",
+    sourceRef: "M03-8",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -95,7 +108,7 @@ export const m03: ConceptDef[] = [
   {
     id: "m03-dv01",
     chapterId: "m03",
-    sourceRef: "M03-8",
+    sourceRef: "M03-9",
     level: "advanced",
     estimatedMinutes: 6,
     status: "published",
@@ -103,6 +116,19 @@ export const m03: ConceptDef[] = [
     objective: {
       fr: "Définir et calculer le DV01 (PV01), son unité et sa convention de signe.",
       en: "Define and compute DV01 (PV01), its unit and sign convention.",
+    },
+  },
+  {
+    id: "m03-obligations-convertibles",
+    chapterId: "m03",
+    sourceRef: "M03-10",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "published",
+    title: { fr: "Obligations convertibles", en: "Convertible bonds" },
+    objective: {
+      fr: "Décrire une obligation convertible comme obligation + option de conversion en actions, et situer son prix entre plancher obligataire et valeur de conversion.",
+      en: "Describe a convertible bond as a bond + conversion option into equity, and locate its price between the bond floor and the conversion value.",
     },
   },
 ];
