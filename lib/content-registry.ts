@@ -16,6 +16,9 @@ import { m03Cds } from "@/content/lessons/m03-cds";
 import { m03TauxSansRisque } from "@/content/lessons/m03-taux-sans-risque";
 import { m03RepoCollateral } from "@/content/lessons/m03-repo-collateral";
 import { m03Dv01 } from "@/content/lessons/m03-dv01";
+import { m03Cs01 } from "@/content/lessons/m03-cs01";
+import { m03SensibiliteCourbe } from "@/content/lessons/m03-sensibilite-courbe";
+import { m03CarryRollDown } from "@/content/lessons/m03-carry-roll-down";
 import { m03ObligationsConvertibles } from "@/content/lessons/m03-obligations-convertibles";
 import { m05CallPut } from "@/content/lessons/m05-call-put";
 import { m05ItmAtmOtm } from "@/content/lessons/m05-itm-atm-otm";
@@ -121,6 +124,9 @@ import { templates as m03CdsTemplates } from "@/content/question-templates/m03-c
 import { templates as m03TauxSansRisqueTemplates } from "@/content/question-templates/m03-taux-sans-risque";
 import { templates as m03RepoCollateralTemplates } from "@/content/question-templates/m03-repo-collateral";
 import { templates as m03Dv01Templates } from "@/content/question-templates/m03-dv01";
+import { templates as m03Cs01Templates } from "@/content/question-templates/m03-cs01";
+import { templates as m03SensibiliteCourbeTemplates } from "@/content/question-templates/m03-sensibilite-courbe";
+import { templates as m03CarryRollDownTemplates } from "@/content/question-templates/m03-carry-roll-down";
 import { templates as m03ObligationsConvertiblesTemplates } from "@/content/question-templates/m03-obligations-convertibles";
 import { templates as m05CallPutTemplates } from "@/content/question-templates/m05-call-put";
 import { templates as m05ItmAtmOtmTemplates } from "@/content/question-templates/m05-itm-atm-otm";
@@ -233,6 +239,9 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m03-taux-sans-risque": m03TauxSansRisque,
   "m03-repo-collateral": m03RepoCollateral,
   "m03-dv01": m03Dv01,
+  "m03-cs01": m03Cs01,
+  "m03-sensibilite-courbe": m03SensibiliteCourbe,
+  "m03-carry-roll-down": m03CarryRollDown,
   "m03-obligations-convertibles": m03ObligationsConvertibles,
   "m05-call-put": m05CallPut,
   "m05-itm-atm-otm": m05ItmAtmOtm,
@@ -341,6 +350,9 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m03-taux-sans-risque": m03TauxSansRisqueTemplates,
   "m03-repo-collateral": m03RepoCollateralTemplates,
   "m03-dv01": m03Dv01Templates,
+  "m03-cs01": m03Cs01Templates,
+  "m03-sensibilite-courbe": m03SensibiliteCourbeTemplates,
+  "m03-carry-roll-down": m03CarryRollDownTemplates,
   "m03-obligations-convertibles": m03ObligationsConvertiblesTemplates,
   "m05-call-put": m05CallPutTemplates,
   "m05-itm-atm-otm": m05ItmAtmOtmTemplates,
