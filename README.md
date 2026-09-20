@@ -152,6 +152,15 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   côté serveur, les écritures sont sérialisées pour éviter une course entre
   requêtes concurrentes — y compris pour ne jamais compter deux fois la même
   réponse en cas de double clic ou de retry réseau.
+- **Note du quiz par notion, visible avant d'ouvrir le cours** (`lib/store.ts`
+  `conceptQuizScores`, `lib/quiz-engine-client.ts` pour le build statique,
+  `components/ConceptListEntry.tsx` et `components/LessonScoreBadge.tsx`) :
+  le quiz intégré à une notion (mode "concept") a une longueur fixe (tous ses
+  templates) ; sa complétion fige un score correct/total, affiché directement
+  dans la liste catalogue (lien coloré vert ≥80%, orange ≥50%, rouge sinon +
+  badge "x/y") et en haut de la page notion, pour repérer une mauvaise note
+  et y retourner sans avoir à rouvrir le cours. Écrasé à chaque nouvelle
+  tentative complète.
 - **Moteur de révision espacée** (`lib/srs.ts`) : portage TypeScript testé du
   script du document (intervalles 1/3/7/14/30/60 jours, anti-inflation en cas
   de révision anticipée ou de correction déjà vue le même jour, échec →

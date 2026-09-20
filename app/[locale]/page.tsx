@@ -2,10 +2,11 @@ import Link from "next/link";
 import { categories, chapters, concepts } from "@/content/catalog";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { getUserId } from "@/lib/session";
-import { getCatalogStats } from "@/lib/store";
+import { getCatalogStats, getConceptQuizScores } from "@/lib/store";
 import { notFound } from "next/navigation";
 import { getPublishedConceptIds } from "@/lib/content-registry";
 import { LiveStatTile } from "@/components/LiveStatTile";
+import { ConceptListEntry } from "@/components/ConceptListEntry";
 
 // Build GitHub Pages (export statique) : cookies() n'est pas disponible (pas de
 // serveur) — la progression personnelle est alors lue en localStorage, côté
@@ -21,6 +22,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
   const userId = isStaticExport ? null : await getUserId();
   const stats = await getCatalogStats(userId);
   const statsByCategory = new Map(stats.map((s) => [s.categoryId, s]));
+  const conceptScores = await getConceptQuizScores(userId);
 
   const totals = stats.reduce(
     (acc, s) => ({
@@ -120,21 +122,16 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
                         {concepts
                           .filter((c) => c.chapterId === chapter.id)
                           .map((concept) => (
-                            <li key={concept.id} className="flex items-center justify-between gap-2">
-                              {concept.status === "published" ? (
-                                <Link
-                                  href={`/${locale}/lessons/${concept.id}`}
-                                  className="text-neutral-800 underline-offset-2 hover:underline dark:text-neutral-100"
-                                >
-                                  {concept.title[locale]}
-                                </Link>
-                              ) : (
-                                <span className="text-neutral-500 dark:text-neutral-400">{concept.title[locale]}</span>
-                              )}
-                              <span className="shrink-0 text-xs text-neutral-400">
-                                {concept.status === "published" ? "" : dict.home.comingSoon}
-                              </span>
-                            </li>
+                            <ConceptListEntry
+                              key={concept.id}
+                              conceptId={concept.id}
+                              href={`/${locale}/lessons/${concept.id}`}
+                              title={concept.title[locale]}
+                              isPublished={concept.status === "published"}
+                              comingSoonLabel={dict.home.comingSoon}
+                              completedTitle={dict.home.completedTitle}
+                              serverScore={conceptScores[concept.id] ?? null}
+                            />
                           ))}
                       </ul>
                     </details>

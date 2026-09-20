@@ -38,14 +38,22 @@ interface CachedAttempt {
   commonMistake: string;
 }
 
+/** Miroir localStorage de ConceptQuizScoreRecord (lib/store.ts) : note du dernier quiz complété d'une notion. */
+export interface LocalConceptQuizScore {
+  correct: number;
+  total: number;
+  completedAt: string;
+}
+
 interface LocalData {
   reviewCards: Record<string, LocalReviewCard>; // templateId -> card
   conceptProgress: Record<string, ConceptStatus>; // conceptId -> status
+  conceptQuizScores: Record<string, LocalConceptQuizScore>; // conceptId -> score
   attemptCache: Record<string, CachedAttempt>; // instanceId -> résultat (idempotence)
 }
 
 function emptyData(): LocalData {
-  return { reviewCards: {}, conceptProgress: {}, attemptCache: {} };
+  return { reviewCards: {}, conceptProgress: {}, conceptQuizScores: {}, attemptCache: {} };
 }
 
 function loadData(): LocalData {
@@ -83,6 +91,8 @@ interface LocalSession {
   answered: AnsweredEntry[];
   recentTemplateIds: string[];
   currentInstance: GeneratedQuestion | null;
+  /** conceptId si mode "concept" à une seule notion (quiz de la page notion) — sert à figer la note à la complétion. */
+  scoreConceptId: string | null;
 }
 
 // Sessions éphémères, en mémoire pour la durée de la page (pas de backend à interroger).
@@ -153,8 +163,10 @@ export function createLocalSession(locale: "fr" | "en", spec: SessionSpec): Crea
   const templatePoolIds = resolveTemplatePool(spec, data);
   const id = createLocalSessionId();
 
+  const scoreConceptId = spec.mode === "concept" && spec.conceptIds.length === 1 ? spec.conceptIds[0] : null;
+
   if (templatePoolIds.length === 0) {
-    sessions.set(id, { id, locale, length: 0, templatePoolIds: [], answered: [], recentTemplateIds: [], currentInstance: null });
+    sessions.set(id, { id, locale, length: 0, templatePoolIds: [], answered: [], recentTemplateIds: [], currentInstance: null, scoreConceptId });
     return { sessionId: id, question: null, progress: { index: 0, total: 0, correctCount: 0 }, empty: true };
   }
 
@@ -167,6 +179,7 @@ export function createLocalSession(locale: "fr" | "en", spec: SessionSpec): Crea
     answered: [],
     recentTemplateIds: [],
     currentInstance: null,
+    scoreConceptId,
   };
   const { instance } = generateNextQuestion(session);
   session.currentInstance = instance;
@@ -281,9 +294,22 @@ export function submitLocalAttempt(input: LocalAttemptInput): LocalAttemptResult
       .filter((c): c is LocalReviewCard => Boolean(c));
     status = deriveConceptStatus(cardsForConcept, now);
     data.conceptProgress[instance.conceptId] = status;
-    saveData(data);
 
     session.answered.push({ templateId: instance.templateId, isCorrect, difficulty: instance.difficulty, counted: input.counted });
+
+    // Le quiz d'une notion (mode "concept") a une longueur fixe (voir
+    // createLocalSession) : sa complétion marque le cours comme "fait" et
+    // fige sa note, affichée dans le catalogue avant même d'ouvrir le cours.
+    if (session.scoreConceptId && isSessionDone(session)) {
+      const p = computeProgress(session);
+      data.conceptQuizScores[session.scoreConceptId] = {
+        correct: p.correctCount,
+        total: p.total ?? p.index,
+        completedAt: now.toISOString(),
+      };
+    }
+
+    saveData(data);
   } else {
     status = data.conceptProgress[instance.conceptId] ?? "to-discover";
     const existingCard = data.reviewCards[instance.templateId];
@@ -332,6 +358,11 @@ export function hasLocalMistakesToReview(): boolean {
 /** Lu côté client après montage (localStorage n'existe pas pendant le rendu statique). */
 export function getLocalConceptProgress(): Record<string, ConceptStatus> {
   return loadData().conceptProgress;
+}
+
+/** Note du dernier quiz complété pour chaque notion (voir submitLocalAttempt), lue côté client après montage. */
+export function getLocalConceptQuizScores(): Record<string, LocalConceptQuizScore> {
+  return loadData().conceptQuizScores;
 }
 
 /** Trois mesures globales (voir doc section 1), calculées depuis le catalogue + la progression locale. */

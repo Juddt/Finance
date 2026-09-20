@@ -24,10 +24,13 @@
     "concepts": "concepts",
     "comingSoon": "Coming soon",
     "openLesson": "Open the lesson",
-    "clarificationBadge": "Title to confirm"
+    "clarificationBadge": "Title to confirm",
+    "completedTitle": "Lesson completed — quiz done"
   },
   "lesson": {
     "objective": "Objective",
+    "lastScore": "Last result on this concept's quiz",
+    "retryQuiz": "Retake the quiz",
     "intuition": "Intuition",
     "definition": "Definition",
     "utility": "Why it matters",

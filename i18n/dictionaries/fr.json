@@ -24,10 +24,13 @@
     "concepts": "notions",
     "comingSoon": "À venir",
     "openLesson": "Ouvrir le cours",
-    "clarificationBadge": "Intitulé à confirmer"
+    "clarificationBadge": "Intitulé à confirmer",
+    "completedTitle": "Cours terminé — quiz complété"
   },
   "lesson": {
     "objective": "Objectif",
+    "lastScore": "Dernier résultat au quiz de cette notion",
+    "retryQuiz": "Refaire le quiz",
     "intuition": "Intuition",
     "definition": "Définition",
     "utility": "Utilité",

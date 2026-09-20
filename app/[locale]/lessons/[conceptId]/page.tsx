@@ -4,8 +4,13 @@ import { Suspense } from "react";
 import { chapters, getConceptById } from "@/content/catalog";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { getPublishedConceptIds, lessonsByConceptId } from "@/lib/content-registry";
+import { getUserId } from "@/lib/session";
+import { getConceptQuizScore } from "@/lib/store";
 import { Formula } from "@/components/Formula";
 import { QuizSlot } from "@/components/QuizSlot";
+import { LessonScoreBadge } from "@/components/LessonScoreBadge";
+
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
 // Requis par `output: "export"` (build GitHub Pages) : toutes les valeurs de
 // conceptId doivent être connues au build. Sans effet sur le build normal.
@@ -28,6 +33,9 @@ export default async function LessonPage({
   if (!concept || !lesson || concept.status !== "published") notFound();
   const chapter = chapters.find((ch) => ch.id === concept.chapterId);
 
+  const userId = isStaticExport ? null : await getUserId();
+  const score = await getConceptQuizScore(userId, conceptId);
+
   return (
     <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
       <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">
@@ -38,6 +46,14 @@ export default async function LessonPage({
         <span className="font-medium">{dict.lesson.objective}: </span>
         {concept.objective[locale]}
       </p>
+
+      <LessonScoreBadge
+        conceptId={conceptId}
+        label={dict.lesson.lastScore}
+        retryHref="#quiz"
+        retryLabel={dict.lesson.retryQuiz}
+        serverScore={score}
+      />
 
       {lesson.prerequisiteReminder && (
         <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-100">
@@ -153,7 +169,7 @@ export default async function LessonPage({
 
       <hr className="my-8 border-black/10 dark:border-white/10" />
 
-      <h2 className="mb-4 text-xl font-semibold">{dict.lesson.startQuiz}</h2>
+      <h2 id="quiz" className="mb-4 scroll-mt-20 text-xl font-semibold">{dict.lesson.startQuiz}</h2>
       <Suspense fallback={null}>
         <QuizSlot
           spec={{ mode: "concept", conceptIds: [conceptId] }}

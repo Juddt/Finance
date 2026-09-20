@@ -76,6 +76,21 @@ interface ConceptProgressRecord {
   lastStudiedAt: string | null;
 }
 
+/**
+ * Résultat du dernier quiz "propre à la notion" (mode "concept", session
+ * bornée au nombre de templates de la notion — voir createStudySession) :
+ * sert à marquer un cours comme complété et à afficher sa note, avant même
+ * d'ouvrir la page (voir la liste catalogue). Écrasé à chaque nouvelle
+ * tentative complète, pour refléter toujours le dernier essai.
+ */
+interface ConceptQuizScoreRecord {
+  userId: string;
+  conceptId: string;
+  correct: number;
+  total: number;
+  completedAt: string;
+}
+
 interface PersistedData {
   profiles: Record<string, Profile>;
   studySessions: Record<string, StudySession>;
@@ -83,6 +98,7 @@ interface PersistedData {
   attemptIdempotency: Record<string, string>; // `${userId}:${instanceId}` -> attempt id
   reviewCards: Record<string, ReviewCardRecord>; // `${userId}:${templateId}`
   conceptProgress: Record<string, ConceptProgressRecord>; // `${userId}:${conceptId}`
+  conceptQuizScores: Record<string, ConceptQuizScoreRecord>; // `${userId}:${conceptId}`
   bookmarks: Record<string, true>; // `${userId}:${conceptId}`
 }
 
@@ -94,6 +110,7 @@ function emptyData(): PersistedData {
     attemptIdempotency: {},
     reviewCards: {},
     conceptProgress: {},
+    conceptQuizScores: {},
     bookmarks: {},
   };
 }
@@ -181,6 +198,31 @@ export async function getCatalogStats(userId: string | null): Promise<CategorySt
 
 function getCategoryIdForConcept(chapterId: string): string | null {
   return chapters.find((c) => c.id === chapterId)?.categoryId ?? null;
+}
+
+export interface ConceptQuizScoreView {
+  correct: number;
+  total: number;
+  completedAt: string;
+}
+
+/** Note du dernier quiz complété pour chaque notion, indexée par conceptId (voir submitAttempt). */
+export async function getConceptQuizScores(userId: string | null): Promise<Record<string, ConceptQuizScoreView>> {
+  if (!userId) return {};
+  const data = await readData();
+  const result: Record<string, ConceptQuizScoreView> = {};
+  for (const record of Object.values(data.conceptQuizScores)) {
+    if (record.userId !== userId) continue;
+    result[record.conceptId] = { correct: record.correct, total: record.total, completedAt: record.completedAt };
+  }
+  return result;
+}
+
+export async function getConceptQuizScore(userId: string | null, conceptId: string): Promise<ConceptQuizScoreView | null> {
+  if (!userId) return null;
+  const data = await readData();
+  const record = data.conceptQuizScores[progressKey(userId, conceptId)];
+  return record ? { correct: record.correct, total: record.total, completedAt: record.completedAt } : null;
 }
 
 function progressKey(userId: string, conceptId: string) {
@@ -452,6 +494,21 @@ export async function submitAttempt(input: AttemptInput): Promise<AttemptResult>
         counted: input.counted,
         answeredAt: attempt.answeredAt,
       });
+
+      // Le quiz d'une notion (mode "concept") a une longueur fixe (voir
+      // createStudySession) : sa complétion marque le cours comme "fait" et
+      // fige sa note, affichée dans le catalogue avant même d'ouvrir le cours.
+      if (session.spec.mode === "concept" && session.spec.conceptIds.length === 1 && isSessionDone(session)) {
+        const conceptId = session.spec.conceptIds[0];
+        const p = computeProgress(session);
+        data.conceptQuizScores[progressKey(input.userId, conceptId)] = {
+          userId: input.userId,
+          conceptId,
+          correct: p.correctCount,
+          total: p.total ?? p.index,
+          completedAt: attempt.answeredAt,
+        };
+      }
     } else {
       status = data.conceptProgress[progressKey(input.userId, instance.conceptId)]?.status ?? "to-discover";
       nextDueAt = data.reviewCards[reviewKey(input.userId, instance.templateId)]?.dueAt ?? null;
