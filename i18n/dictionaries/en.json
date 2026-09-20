@@ -5,7 +5,9 @@
     "revisions": "Reviews",
     "quiz": "Quiz",
     "formulas": "Formulas",
-    "progress": "Progress"
+    "progress": "Progress",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "languageToggle": "Passer en français",
   "home": {

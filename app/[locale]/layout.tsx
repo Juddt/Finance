@@ -7,6 +7,7 @@ import "../globals.css";
 import "katex/dist/katex.min.css";
 import { getDictionary, isLocale, locales, type Locale } from "@/i18n/config";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { MobileNav } from "@/components/MobileNav";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -35,7 +36,7 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50">
         <header className="sticky top-0 z-10 border-b border-black/10 bg-neutral-50/90 backdrop-blur dark:border-white/10 dark:bg-neutral-950/90">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+          <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
             <Link href={`/${locale}`} className="text-lg font-semibold tracking-tight">
               {dict.brand}
             </Link>
@@ -48,9 +49,12 @@ export default async function LocaleLayout({
               </span>
               <Link href={`/${locale}/progress`}>{dict.nav.progress}</Link>
             </nav>
-            <Suspense fallback={null}>
-              <LanguageToggle locale={locale as Locale} label={dict.languageToggle} />
-            </Suspense>
+            <div className="flex items-center gap-2">
+              <Suspense fallback={null}>
+                <LanguageToggle locale={locale as Locale} label={dict.languageToggle} />
+              </Suspense>
+              <MobileNav locale={locale as Locale} nav={dict.nav} />
+            </div>
           </div>
         </header>
         <main className="flex flex-1 flex-col">{children}</main>
