@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           encore appliqué ; var(--paper) reprend ensuite le thème clair/sombre courant — sans
           ça ce fond resterait figé en clair même en dark (voir attributs fusionnés par le
           parseur HTML quand app/[locale]/layout.tsx redéclare aussi <html>/<body>). */}
-      <body style={{ background: "var(--paper, #f2ede0)" }}>{children}</body>
+      <body style={{ background: "var(--paper, #f3ead6)" }}>{children}</body>
     </html>
   );
 }

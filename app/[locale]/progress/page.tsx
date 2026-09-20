@@ -10,13 +10,11 @@ export default async function ProgressPage({ params }: { params: Promise<{ local
 
   return (
     <div className="flex-1">
-      <div className="grid-ledger border-b border-rule">
-        <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
-          <h1 className="font-display text-4xl leading-[1.02] font-semibold tracking-tight italic sm:text-5xl">{dict.progressPage.title}</h1>
-          <p className="mt-4 max-w-xl text-ink-muted">{dict.progressPage.subtitle}</p>
-        </div>
-      </div>
       <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
+        <h1 className="font-display text-3xl leading-[1.1] font-bold tracking-tight sm:text-4xl">{dict.progressPage.title}</h1>
+        <p className="mt-4 max-w-xl text-ink-muted">{dict.progressPage.subtitle}</p>
+      </div>
+      <div className="mx-auto w-full max-w-2xl px-4 pb-10 sm:px-6">
         <ProgressBoard locale={locale} dict={dict.progressPage} />
       </div>
     </div>

@@ -48,13 +48,13 @@ export function RevisionsList({ locale, dict }: { locale: Locale; dict: Revision
 
   if (items === null) return null;
   if (items.length === 0) {
-    return <p className="border border-rule bg-paper-raised p-4 text-sm text-ink-muted">{dict.empty}</p>;
+    return <p className="rounded-2xl bg-paper-raised p-4 text-sm text-ink-muted">{dict.empty}</p>;
   }
 
   return (
-    <ul className="divide-y divide-rule border border-rule">
+    <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item.conceptId} className="flex items-center justify-between gap-3 bg-paper p-4">
+        <li key={item.conceptId} className="ticket flex items-center justify-between gap-3 bg-paper-raised p-4">
           <div>
             <p className="font-medium text-ink">{item.title}</p>
             <p className="mt-0.5 font-mono text-[11px] text-ink-faint">
@@ -63,7 +63,7 @@ export function RevisionsList({ locale, dict }: { locale: Locale; dict: Revision
           </div>
           <Link
             href={`/${locale}/lessons/${item.conceptId}`}
-            className="clip-corner-sm shrink-0 bg-ink px-3 py-1.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink"
+            className="shrink-0 rounded-full bg-accent px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97]"
           >
             {dict.reviewNow}
           </Link>

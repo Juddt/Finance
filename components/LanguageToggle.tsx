@@ -20,7 +20,7 @@ export function LanguageToggle({ locale, label }: { locale: Locale; label: strin
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1.5 border border-rule px-2.5 py-1.5 font-mono text-[11px] font-semibold tracking-[0.1em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+      className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 font-mono text-[11px] font-semibold tracking-[0.1em] text-ink transition-colors hover:border-accent hover:text-accent"
       aria-label={label}
     >
       <span>{locale === "fr" ? "FR" : "EN"}</span>

@@ -56,7 +56,7 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
   };
 
   return (
-    <div className="space-y-px border border-rule bg-rule">
+    <div className="space-y-4">
       {categories
         .sort((a, b) => a.position - b.position)
         .map((category, i) => {
@@ -79,12 +79,12 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
           }
 
           return (
-            <article key={category.id} className="bg-paper p-4">
+            <article key={category.id} className="ticket bg-paper-raised p-4">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <h2 className="font-mono text-[12px] font-semibold tracking-[0.04em] text-ink">{category.title[locale]}</h2>
                 <span className="font-mono text-[10px] text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
               </div>
-              <div className="flex h-2 overflow-hidden border border-rule bg-paper-raised">
+              <div className="flex h-2.5 overflow-hidden rounded-full bg-paper-sunken">
                 {STATUS_ORDER.map(
                   (status) =>
                     counts[status] > 0 && (
@@ -102,7 +102,7 @@ export function ProgressBoard({ locale, dict }: { locale: Locale; dict: Progress
                   (status) =>
                     counts[status] > 0 && (
                       <li key={status} className="flex items-center gap-1.5">
-                        <span className={`inline-block h-2 w-2 ${STATUS_COLOR[status]}`} />
+                        <span className={`inline-block h-2 w-2 rounded-full ${STATUS_COLOR[status]}`} />
                         {statusLabel[status]} ({counts[status]})
                       </li>
                     )

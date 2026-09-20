@@ -60,7 +60,7 @@ export function QuizSessionPage({ locale, dict, hubDict }: { locale: Locale; dic
 
   return (
     <div>
-      <h1 className="mb-5 font-display text-2xl font-semibold tracking-tight italic sm:text-3xl">{title}</h1>
+      <h1 className="mb-5 font-display text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
       <QuizSlot spec={spec} locale={locale} dict={dict} emptyMessage={emptyMessage} />
     </div>
   );

@@ -39,22 +39,18 @@ export default async function LessonPage({
 
   return (
     <div className="flex-1">
-      <div className="grid-ledger border-b border-rule">
-        <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
-          <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.2em] text-ink-muted uppercase">
-            {chapter?.title[locale]} &middot; {dict.lesson.essential} &middot; {concept.estimatedMinutes} {dict.lesson.minutes}
-          </p>
-          <h1 className="font-display text-4xl leading-[1.02] font-semibold tracking-tight italic sm:text-5xl">
-            {concept.title[locale]}
-          </h1>
-          <p className="mt-4 max-w-xl text-ink-muted">
-            <span className="font-semibold text-ink">{dict.lesson.objective}: </span>
-            {concept.objective[locale]}
-          </p>
-        </div>
+      <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
+        <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.2em] text-ink-muted uppercase">
+          {chapter?.title[locale]} &middot; {dict.lesson.essential} &middot; {concept.estimatedMinutes} {dict.lesson.minutes}
+        </p>
+        <h1 className="font-display text-3xl leading-[1.1] font-bold tracking-tight sm:text-4xl">{concept.title[locale]}</h1>
+        <p className="mt-4 max-w-xl text-ink-muted">
+          <span className="font-semibold text-ink">{dict.lesson.objective}: </span>
+          {concept.objective[locale]}
+        </p>
       </div>
 
-      <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6">
+      <div className="mx-auto w-full max-w-3xl px-4 pb-8 sm:px-6">
         <LessonScoreBadge
           conceptId={conceptId}
           label={dict.lesson.lastScore}
@@ -64,7 +60,7 @@ export default async function LessonPage({
         />
 
         {lesson.prerequisiteReminder && (
-          <div className="mb-8 border-l-2 border-ink bg-paper-raised p-4">
+          <div className="mb-8 rounded-2xl bg-paper-raised p-4">
             <p className="mb-1 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">
               {dict.lesson.prerequisiteReminder}
             </p>
@@ -78,7 +74,7 @@ export default async function LessonPage({
                     <li key={id}>
                       <Link
                         href={`/${locale}/lessons/${id}`}
-                        className="border border-rule bg-paper px-2.5 py-1 font-mono text-[11px] font-medium text-ink hover:border-ink"
+                        className="rounded-full bg-paper-sunken px-3 py-1 font-mono text-[11px] font-medium text-ink hover:text-accent"
                       >
                         {prereq.title[locale]}
                       </Link>
@@ -91,7 +87,7 @@ export default async function LessonPage({
         )}
 
         {lesson.glossary && lesson.glossary.length > 0 && (
-          <div className="mb-10 border border-rule p-4">
+          <div className="mb-10 rounded-2xl bg-paper-raised p-4">
             <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">{dict.lesson.glossary}</p>
             <dl className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
               {lesson.glossary.map((g) => (
@@ -107,22 +103,27 @@ export default async function LessonPage({
         <div className="space-y-10">
           <section>
             <SectionLabel>{dict.lesson.intuition}</SectionLabel>
-            <p className="font-display text-2xl leading-snug font-medium">{lesson.intuition[locale]}</p>
+            <p className="font-display text-xl leading-snug font-semibold">{lesson.intuition[locale]}</p>
           </section>
 
           <Section title={dict.lesson.definition} body={lesson.definition[locale]} />
           <Section title={dict.lesson.utility} body={lesson.utility[locale]} />
 
-          <section className="border-l-2 border-accent bg-paper-raised p-4">
+          <section className="ticket bg-paper-raised p-4">
             <SectionLabel>{dict.lesson.example}</SectionLabel>
             <p className="text-[15px] leading-relaxed text-ink">{lesson.example[locale]}</p>
           </section>
 
           {lesson.alternativeExplanation && (
-            <details className="group border border-rule p-4 open:bg-paper-raised">
+            <details className="group rounded-2xl bg-paper-raised p-4 open:bg-paper-sunken">
               <summary className="flex cursor-pointer list-none items-center justify-between font-mono text-[11px] font-semibold tracking-[0.14em] text-ink uppercase">
                 {dict.lesson.alternativeExplanation}
-                <span className="font-mono text-ink-faint transition-transform group-open:rotate-45">+</span>
+                <span
+                  className="flex h-5 w-5 items-center justify-center rounded-full bg-paper-sunken font-mono text-ink-faint transition-transform group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
               </summary>
               <p className="mt-3 text-sm text-ink-muted">{lesson.alternativeExplanation[locale]}</p>
             </details>
@@ -130,10 +131,10 @@ export default async function LessonPage({
 
           <section>
             <SectionLabel>{dict.lesson.formula}</SectionLabel>
-            <div className="clip-corner border border-rule bg-ink px-5 py-6 text-lg text-paper">
+            <div className="rounded-2xl bg-ink px-5 py-6 text-lg text-paper">
               <Formula latex={lesson.formula.latex} />
             </div>
-            <div className="mt-3 space-y-2 border border-t-0 border-rule p-4 text-sm text-ink-muted">
+            <div className="mt-3 space-y-2 rounded-2xl bg-paper-raised p-4 text-sm text-ink-muted">
               <p className="font-mono text-[11px] font-semibold tracking-[0.1em] text-ink uppercase">{dict.lesson.variables}</p>
               <ul className="space-y-1">
                 {lesson.formula.variables.map((v) => (
@@ -156,7 +157,7 @@ export default async function LessonPage({
                 {lesson.formula.units[locale]}
               </p>
               <p className="font-mono text-[13px] text-ink">
-                <span className="font-semibold text-ink-muted font-sans">{dict.lesson.example}: </span>
+                <span className="font-sans font-semibold text-ink-muted">{dict.lesson.example}: </span>
                 {lesson.formula.example[locale]}
               </p>
             </div>
@@ -169,7 +170,7 @@ export default async function LessonPage({
           {lesson.pythonExample && (
             <section>
               <SectionLabel>{dict.lesson.pythonExample}</SectionLabel>
-              <pre className="clip-corner overflow-x-auto border border-rule bg-ink p-4 text-xs text-paper">
+              <pre className="overflow-x-auto rounded-2xl bg-ink p-4 text-xs text-paper">
                 <code className="font-mono">{lesson.pythonExample[locale]}</code>
               </pre>
             </section>
@@ -177,30 +178,30 @@ export default async function LessonPage({
 
           <Section title={dict.lesson.interpretation} body={lesson.interpretation[locale]} />
 
-          <section className="border-l-2 border-loss bg-loss-soft p-4">
+          <section className="rounded-2xl bg-loss-soft p-4">
             <p className="mb-1 font-mono text-[11px] font-semibold tracking-[0.14em] text-loss uppercase">{dict.lesson.pitfalls}</p>
             <p className="text-sm text-ink">{lesson.pitfalls[locale]}</p>
           </section>
 
           {lesson.businessApplication && (
-            <section className="border-l-2 border-gain bg-gain-soft p-4">
+            <section className="rounded-2xl bg-gain-soft p-4">
               <p className="mb-1 font-mono text-[11px] font-semibold tracking-[0.14em] text-gain uppercase">{dict.lesson.businessApplication}</p>
               <p className="text-sm text-ink">{lesson.businessApplication[locale]}</p>
             </section>
           )}
 
           {lesson.interviewQuestion && (
-            <div className="border border-ink">
-              <p className="border-b border-ink bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-paper uppercase">
+            <div className="overflow-hidden rounded-2xl bg-paper-raised">
+              <p className="bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-paper uppercase">
                 {dict.lesson.interviewQuestion}
               </p>
               <div className="p-4">
                 <p className="flex gap-2 text-sm font-medium text-ink">
-                  <span className="font-mono font-bold text-accent-ink">Q.</span>
+                  <span className="font-mono font-bold text-accent">Q.</span>
                   {lesson.interviewQuestion.question}
                 </p>
                 <details className="mt-3">
-                  <summary className="cursor-pointer font-mono text-[11px] font-semibold tracking-[0.1em] text-ink-muted uppercase hover:text-ink">
+                  <summary className="cursor-pointer font-mono text-[11px] font-semibold tracking-[0.1em] text-ink-muted uppercase hover:text-accent">
                     {dict.lesson.interviewAnswerReveal}
                   </summary>
                   <p className="mt-2 flex gap-2 text-sm text-ink-muted">
@@ -217,8 +218,8 @@ export default async function LessonPage({
             <ol className="space-y-2">
               {lesson.keyPoints[locale].map((point, i) => (
                 <li key={point} className="flex gap-3 text-sm">
-                  <span className="shrink-0 font-mono text-sm font-semibold text-accent-ink">
-                    <span className="bg-accent px-1.5 py-0.5">{i + 1}</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-[12px] font-semibold text-accent-ink">
+                    {i + 1}
                   </span>
                   <span className="pt-0.5">{point}</span>
                 </li>
@@ -226,10 +227,15 @@ export default async function LessonPage({
             </ol>
           </section>
 
-          <details className="group border border-rule p-4 open:bg-paper-raised">
+          <details className="group rounded-2xl bg-paper-raised p-4 open:bg-paper-sunken">
             <summary className="flex cursor-pointer list-none items-center justify-between font-mono text-[11px] font-semibold tracking-[0.14em] text-ink uppercase">
               {dict.lesson.advanced}
-              <span className="font-mono text-ink-faint transition-transform group-open:rotate-45">+</span>
+              <span
+                className="flex h-5 w-5 items-center justify-center rounded-full bg-paper-sunken font-mono text-ink-faint transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
             </summary>
             <p className="mt-3 text-sm text-ink-muted">{lesson.advancedDemonstration[locale]}</p>
           </details>
@@ -237,7 +243,7 @@ export default async function LessonPage({
 
         <div className="my-10 border-t border-rule" />
 
-        <h2 id="quiz" className="mb-5 scroll-mt-24 font-display text-3xl font-semibold tracking-tight italic">
+        <h2 id="quiz" className="mb-5 scroll-mt-24 font-display text-2xl font-bold tracking-tight sm:text-3xl">
           {dict.lesson.startQuiz}
         </h2>
         <Suspense fallback={null}>
@@ -251,12 +257,12 @@ export default async function LessonPage({
 
         {chapter && (
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[12px] font-medium">
-            <Link href={`/${locale}/quiz/session?mode=chapter&chapterId=${chapter.id}&length=10`} className="tick-underline pb-0.5 text-ink">
+            <Link href={`/${locale}/quiz/session?mode=chapter&chapterId=${chapter.id}&length=10`} className="text-ink hover:text-accent hover:underline">
               {dict.lesson.chapterQuizLink}
             </Link>
             <Link
               href={`/${locale}/quiz/session?mode=category&categoryId=${chapter.categoryId}&length=10`}
-              className="tick-underline pb-0.5 text-ink"
+              className="text-ink hover:text-accent hover:underline"
             >
               {dict.lesson.categoryQuizLink}
             </Link>
@@ -270,7 +276,7 @@ export default async function LessonPage({
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="mb-2 flex items-center gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">
-      <span className="h-1 w-1 bg-accent" aria-hidden="true" />
+      <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
       {children}
     </p>
   );

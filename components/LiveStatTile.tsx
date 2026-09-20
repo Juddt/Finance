@@ -35,11 +35,10 @@ export function LiveStatTile({
   }, [liveKind]);
 
   return (
-    <div className="relative border border-rule bg-paper-raised px-5 py-4">
-      <span className="absolute top-0 left-0 h-[3px] w-8 bg-accent" aria-hidden="true" />
-      <div className="font-mono text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl">{display}</div>
-      <div className="mt-1 font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">{label}</div>
-      <span className="absolute right-4 bottom-3 font-mono text-[10px] text-ink-faint">{String(index).padStart(2, "0")}</span>
+    <div className="ticket relative bg-paper-raised px-5 py-4">
+      <div className="font-display text-3xl font-bold tracking-tight tabular-nums sm:text-4xl">{display}</div>
+      <div className="mt-1.5 font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">{label}</div>
+      <span className="absolute top-4 right-4 font-mono text-[10px] text-ink-faint">{String(index).padStart(2, "0")}</span>
     </div>
   );
 }

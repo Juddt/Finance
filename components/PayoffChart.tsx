@@ -44,7 +44,7 @@ function OptionPayoffChart({ chart, label, isCall }: { chart: ChartSpec; label: 
   const breakEvenX = xScale(breakEven);
 
   return (
-    <figure className="clip-corner-sm my-4 border border-rule bg-paper p-4">
+    <figure className="my-4 rounded-2xl bg-paper-sunken p-4">
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label={label}>
         <line x1={padding} y1={zeroY} x2={width - padding} y2={zeroY} stroke="currentColor" strokeOpacity={0.3} strokeWidth={1} />
         <line x1={strikeX} y1={padding / 2} x2={strikeX} y2={height - padding / 2} stroke="currentColor" strokeOpacity={0.2} strokeDasharray="4 3" />

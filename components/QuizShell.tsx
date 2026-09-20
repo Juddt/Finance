@@ -210,21 +210,21 @@ export function QuizShell({
 
   if (phase === "loading") {
     return (
-      <div className="border border-rule bg-paper-raised p-6 font-mono text-sm text-ink-faint">
+      <div className="rounded-3xl bg-paper-raised p-6 font-mono text-sm text-ink-faint">
         <span className="animate-ticker-blink">…</span>
       </div>
     );
   }
 
   if (phase === "empty") {
-    return <div className="border border-rule bg-paper-raised p-6 text-sm text-ink-muted">{emptyMessage ?? "—"}</div>;
+    return <div className="rounded-3xl bg-paper-raised p-6 text-sm text-ink-muted">{emptyMessage ?? "—"}</div>;
   }
 
   if (phase === "finished") {
     return (
-      <div className="clip-corner border border-rule bg-ink p-6 text-paper">
-        <p className="font-display text-2xl font-semibold italic">{dict.sessionDone}</p>
-        <p className="mt-2 text-paper/70">
+      <div className="ticket-v bg-accent p-8 text-center text-accent-ink">
+        <p className="font-display text-2xl font-bold">{dict.sessionDone}</p>
+        <p className="mt-2 opacity-80">
           {dict.sessionDoneSummary.replace("{correct}", String(progress.correctCount)).replace("{total}", String(progress.index))}
         </p>
       </div>
@@ -239,7 +239,7 @@ export function QuizShell({
   const letters = ["A", "B", "C", "D", "E", "F"];
 
   return (
-    <div className="border border-rule bg-paper-raised p-5 sm:p-6">
+    <div className="rounded-3xl bg-paper-raised p-5 shadow-[0_2px_0_rgba(30,26,20,0.05)] sm:p-6">
       <div className="mb-4 flex items-center justify-between gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-muted uppercase">
         <span>
           {isSimilar
@@ -248,18 +248,20 @@ export function QuizShell({
               ? dict.questionOf.replace("{current}", String(displayNumber)).replace("{total}", String(progress.total))
               : dict.questionCount.replace("{current}", String(displayNumber))}
         </span>
-        <span className="border border-rule px-1.5 py-0.5 text-[10px] tracking-[0.1em] text-ink-faint">{dict.difficulty[question.difficulty]}</span>
+        <span className="rounded-full bg-paper-sunken px-2 py-0.5 text-[10px] tracking-[0.1em] text-ink-faint">
+          {dict.difficulty[question.difficulty]}
+        </span>
       </div>
 
       {difficultyShift && (
-        <p className="mb-4 border-l-2 border-accent bg-paper px-3 py-1.5 font-mono text-[11px] text-ink-muted">
+        <p className="mb-4 rounded-full bg-paper-sunken px-3 py-1.5 font-mono text-[11px] text-ink-muted">
           {difficultyShift === "up" ? dict.difficultyAdjustedUp : dict.difficultyAdjustedDown}
         </p>
       )}
 
       {question.chart && <PayoffChart chart={question.chart} label={dict.reviewChartLabel} />}
 
-      <p className={`mb-5 font-display text-xl leading-snug font-medium text-ink ${question.isScenario ? "italic" : ""}`}>{question.prompt}</p>
+      <p className="mb-5 font-display text-xl leading-snug font-semibold text-ink">{question.prompt}</p>
 
       {(question.kind === "mcq" || question.kind === "true_false") && question.choices && (
         <fieldset className="mb-5 space-y-2" disabled={Boolean(result)}>
@@ -270,19 +272,19 @@ export function QuizShell({
             return (
               <label
                 key={choice.id}
-                className={`flex cursor-pointer items-center gap-3 border px-3.5 py-2.5 text-sm transition-colors ${
+                className={`flex cursor-pointer items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm transition-colors ${
                   showAsRight
-                    ? "border-gain bg-gain-soft text-gain"
+                    ? "bg-gain text-white"
                     : showAsWrong
-                      ? "border-loss bg-loss-soft text-loss"
+                      ? "bg-loss text-white"
                       : isSelected
-                        ? "border-ink bg-ink text-paper"
-                        : "border-rule text-ink hover:border-ink"
+                        ? "bg-ink text-paper"
+                        : "bg-paper-sunken text-ink hover:bg-accent/15"
                 }`}
               >
                 <span
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center border font-mono text-[11px] font-semibold ${
-                    isSelected || showAsRight || showAsWrong ? "border-current" : "border-rule text-ink-faint"
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px] font-semibold ${
+                    isSelected || showAsRight || showAsWrong ? "bg-white/20" : "bg-paper text-ink-faint"
                   }`}
                 >
                   {letters[i] ?? i + 1}
@@ -311,7 +313,7 @@ export function QuizShell({
             value={numericValue}
             disabled={Boolean(result)}
             onChange={(e) => setNumericValue(e.target.value)}
-            className="w-48 border-0 border-b border-rule bg-transparent px-1 py-2 font-mono text-sm text-ink focus:border-ink focus:outline-none"
+            className="w-48 rounded-full bg-paper-sunken px-4 py-2.5 font-mono text-sm text-ink outline-none focus:ring-2 focus:ring-accent"
           />
           {question.numericUnit && <span className="ml-2 text-sm text-ink-muted">{question.numericUnit}</span>}
           {question.numericTolerance && <p className="mt-1 font-mono text-xs text-ink-faint">{question.numericTolerance}</p>}
@@ -326,7 +328,7 @@ export function QuizShell({
             value={textValue}
             disabled={Boolean(result)}
             onChange={(e) => setTextValue(e.target.value)}
-            className="w-64 border-0 border-b border-rule bg-transparent px-1 py-2 text-sm text-ink focus:border-ink focus:outline-none"
+            className="w-64 rounded-full bg-paper-sunken px-4 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-accent"
           />
         </div>
       )}
@@ -338,7 +340,7 @@ export function QuizShell({
               {dict.hint}: {question.hint}
             </p>
           ) : (
-            <button type="button" onClick={() => setShowHint(true)} className="tick-underline font-mono text-xs font-medium text-ink">
+            <button type="button" onClick={() => setShowHint(true)} className="font-mono text-xs font-medium text-accent hover:underline">
               {dict.showHint}
             </button>
           )}
@@ -351,7 +353,7 @@ export function QuizShell({
         <button
           onClick={submit}
           disabled={submitting || !sessionId}
-          className="clip-corner-sm bg-ink px-5 py-2.5 font-mono text-[12px] font-semibold tracking-[0.08em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
+          className="rounded-full bg-accent px-6 py-3 font-semibold text-accent-ink shadow-[0_10px_24px_-8px_rgba(225,80,47,0.45)] transition-transform active:scale-[0.97] disabled:opacity-50"
         >
           {dict.validate}
         </button>
@@ -374,15 +376,15 @@ export function QuizShell({
             <span className="font-semibold text-ink">{dict.commonMistake}: </span>
             {result.commonMistake}
           </p>
-          <Link href={`/${locale}/lessons/${question.conceptId}`} className="tick-underline inline-block font-mono text-xs font-medium text-ink">
+          <Link href={`/${locale}/lessons/${question.conceptId}`} className="inline-block font-mono text-xs font-medium text-accent hover:underline">
             {conceptLabel(locale, question.conceptId)}
           </Link>
 
-          <div className="flex flex-wrap gap-2 pt-2">
+          <div className="flex flex-wrap items-center gap-2 pt-2">
             <button
               onClick={trySimilar}
               disabled={submitting}
-              className="border border-rule px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase transition-colors hover:border-ink hover:bg-ink hover:text-paper disabled:opacity-50"
+              className="rounded-full bg-paper-sunken px-4 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase transition-colors hover:bg-ink hover:text-paper disabled:opacity-50"
             >
               {dict.similarExercise}
             </button>
@@ -390,7 +392,7 @@ export function QuizShell({
               <button
                 onClick={goNext}
                 disabled={submitting}
-                className="clip-corner-sm bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
+                className="rounded-full bg-accent px-5 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97] disabled:opacity-50"
               >
                 {progress.total === null ? dict.continueSession : dict.next}
               </button>
@@ -399,13 +401,13 @@ export function QuizShell({
               <button
                 onClick={goNext}
                 disabled={submitting}
-                className="clip-corner-sm bg-ink px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.06em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-50"
+                className="rounded-full bg-accent px-5 py-2.5 font-mono text-[11px] font-semibold tracking-[0.06em] text-accent-ink uppercase transition-transform active:scale-[0.97] disabled:opacity-50"
               >
                 {dict.finish}
               </button>
             )}
             {progress.total === null && (
-              <button onClick={endEarly} className="tick-underline px-2 py-2 font-mono text-[11px] font-medium text-ink-muted">
+              <button onClick={endEarly} className="px-2 py-2 font-mono text-[11px] font-medium text-ink-faint hover:underline">
                 {dict.endSession}
               </button>
             )}

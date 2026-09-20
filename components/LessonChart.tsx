@@ -82,7 +82,7 @@ function BarChart({ chart, locale, caption }: { chart: Extract<LessonChartSpec, 
           const barHeight = Math.abs(zeroY - yScale(b.value));
           return (
             <g key={i}>
-              <rect x={cx - barWidth / 2} y={barY} width={barWidth} height={Math.max(barHeight, 1)} fill={PALETTE[i % PALETTE.length]} rx={0} />
+              <rect x={cx - barWidth / 2} y={barY} width={barWidth} height={Math.max(barHeight, 1)} fill={PALETTE[i % PALETTE.length]} rx={6} />
               <text x={cx} y={HEIGHT - PADDING_BOTTOM + 16} fontSize={10} fontFamily="var(--font-mono)" textAnchor="middle" fill="currentColor" opacity={0.7}>
                 {b.label[locale]}
               </text>
@@ -228,7 +228,7 @@ function Legend({ items }: { items: { label: string; color: string }[] }) {
 
 function ChartFrame({ children, caption }: { children: React.ReactNode; caption?: string }) {
   return (
-    <figure className="clip-corner-sm my-2 border border-rule bg-paper-raised p-4">
+    <figure className="my-2 rounded-2xl bg-paper-raised p-4">
       {children}
       {caption && <figcaption className="mt-2 text-center font-mono text-[11px] text-ink-faint">{caption}</figcaption>}
     </figure>

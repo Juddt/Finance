@@ -57,14 +57,10 @@ export function ConceptListEntry({
   return (
     <li className="flex items-center justify-between gap-2 py-1">
       {isPublished ? (
-        <Link
-          href={href}
-          title={score ? completedTitle : undefined}
-          className={`tick-underline pb-0.5 ${tone ? tone.text : "text-ink"}`}
-        >
+        <Link href={href} title={score ? completedTitle : undefined} className={`hover:underline ${tone ? tone.text : "text-ink"}`}>
           {score && (
             <span aria-hidden="true" className="mr-1 font-mono text-[10px]">
-              &#9632;
+              &#9679;
             </span>
           )}
           {title}
@@ -76,7 +72,7 @@ export function ConceptListEntry({
         {!isPublished ? (
           comingSoonLabel
         ) : score && tone ? (
-          <span className={`px-1.5 py-0.5 font-semibold tracking-wide ${tone.badgeBg} ${tone.badgeText}`}>
+          <span className={`rounded-full px-2 py-0.5 font-semibold tracking-wide ${tone.badgeBg} ${tone.badgeText}`}>
             {score.correct}/{score.total}
           </span>
         ) : null}

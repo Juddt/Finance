@@ -56,8 +56,8 @@ export function CustomQuizBuilder({
         {categories.map((c) => (
           <label
             key={c.id}
-            className={`flex cursor-pointer items-center gap-1.5 border px-3 py-1.5 font-mono text-[12px] transition-colors ${
-              selected.has(c.id) ? "border-ink bg-ink text-paper" : "border-rule text-ink hover:border-ink"
+            className={`flex cursor-pointer items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[12px] transition-colors ${
+              selected.has(c.id) ? "bg-ink text-paper" : "bg-paper-sunken text-ink hover:bg-accent/15"
             }`}
           >
             <input type="checkbox" checked={selected.has(c.id)} onChange={() => toggle(c.id)} className="sr-only" />
@@ -73,8 +73,8 @@ export function CustomQuizBuilder({
             key={l}
             type="button"
             onClick={() => setLength(l)}
-            className={`border px-3 py-1.5 font-mono text-[12px] transition-colors ${
-              length === l ? "border-ink bg-ink text-paper" : "border-rule text-ink hover:border-ink"
+            className={`rounded-full px-3.5 py-1.5 font-mono text-[12px] transition-colors ${
+              length === l ? "bg-ink text-paper" : "bg-paper-sunken text-ink hover:bg-accent/15"
             }`}
           >
             {l === 5 ? dict.length5 : l === 10 ? dict.length10 : l === 20 ? dict.length20 : dict.lengthContinuous}
@@ -86,7 +86,7 @@ export function CustomQuizBuilder({
         type="button"
         onClick={start}
         disabled={selected.size === 0}
-        className="clip-corner-sm bg-ink px-5 py-2.5 font-mono text-[12px] font-semibold tracking-[0.08em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-40"
+        className="rounded-full bg-accent px-6 py-3 font-semibold text-accent-ink shadow-[0_10px_24px_-8px_rgba(225,80,47,0.45)] transition-transform active:scale-[0.97] disabled:opacity-40"
       >
         {dict.startButton}
       </button>

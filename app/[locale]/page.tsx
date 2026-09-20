@@ -41,34 +41,35 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
 
   return (
     <div className="flex-1">
-      <section className="grid-ledger relative overflow-hidden border-b border-rule">
+      <section className="relative overflow-hidden">
         <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-          <p className="mb-4 font-mono text-[11px] font-semibold tracking-[0.3em] text-ink-muted uppercase">
+          <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border-2 border-accent">
+            <span className="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true" />
+          </div>
+          <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.3em] text-ink-muted uppercase">
             {locale === "fr" ? "Programme complet — 8 catégories" : "Full curriculum — 8 categories"}
           </p>
-          <h1 className="max-w-3xl font-display text-[2.75rem] leading-[0.98] font-semibold tracking-tight italic sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-3xl font-display text-4xl leading-[1.05] font-bold tracking-tight sm:text-5xl lg:text-6xl">
             {dict.home.title}
           </h1>
           <p className="mt-5 max-w-xl text-lg text-ink-muted">{dict.home.subtitle}</p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             {continueHref && (
               <Link
                 href={continueHref}
-                className="clip-corner-sm inline-flex items-center gap-2 bg-ink px-5 py-3 font-mono text-[12px] font-semibold tracking-[0.08em] text-paper uppercase transition-colors hover:bg-accent hover:text-accent-ink"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 font-semibold text-accent-ink shadow-[0_10px_24px_-8px_rgba(225,80,47,0.45)] transition-transform active:scale-[0.97]"
               >
                 {dict.home.continueButton}
                 <span aria-hidden="true">&rarr;</span>
               </Link>
             )}
-            <div className="relative">
-              <input
-                type="search"
-                placeholder={dict.home.searchPlaceholder}
-                disabled
-                title={locale === "fr" ? "Recherche : à venir" : "Search: coming soon"}
-                className="w-64 max-w-full border-0 border-b border-rule bg-transparent px-1 py-3 text-sm text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none"
-              />
-            </div>
+            <input
+              type="search"
+              placeholder={dict.home.searchPlaceholder}
+              disabled
+              title={locale === "fr" ? "Recherche : à venir" : "Search: coming soon"}
+              className="w-64 max-w-full rounded-full border border-rule bg-paper-raised px-4 py-3.5 text-sm text-ink-faint placeholder:text-ink-faint focus:border-accent focus:outline-none"
+            />
           </div>
         </div>
       </section>
@@ -80,7 +81,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
           <LiveStatTile index={3} label={dict.home.statsMastered} value={String(totals.masteredConcepts)} liveKind="mastered" />
         </section>
 
-        <section className="grid grid-cols-1 gap-px border border-rule bg-rule sm:grid-cols-2 xl:grid-cols-3">
+        <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {sortedCategories.map((category, i) => {
             const categoryChapters = chapters
               .filter((ch) => ch.categoryId === category.id)
@@ -97,18 +98,18 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
             const complete = s.totalConcepts > 0 && s.publishedConcepts === s.totalConcepts;
 
             return (
-              <article key={category.id} className="flex flex-col bg-paper p-5">
+              <article key={category.id} className="ticket flex flex-col bg-paper-raised p-5 shadow-[0_2px_0_rgba(30,26,20,0.05)]">
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <span className="font-mono text-[10px] text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
                   <span
-                    className={`px-1.5 py-0.5 font-mono text-[10px] font-semibold tracking-wide ${
-                      complete ? "bg-gain-soft text-gain" : "bg-paper-raised text-ink-muted"
+                    className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold tracking-wide ${
+                      complete ? "bg-gain-soft text-gain" : "bg-paper-sunken text-ink-muted"
                     }`}
                   >
                     {s.publishedConcepts}/{s.totalConcepts}
                   </span>
                 </div>
-                <h2 className="font-display text-xl font-semibold tracking-tight">{category.title[locale]}</h2>
+                <h2 className="font-display text-xl font-bold tracking-tight">{category.title[locale]}</h2>
                 <p className="mt-1.5 mb-3 text-sm text-ink-muted">{category.summary[locale]}</p>
                 <dl className="mb-3 grid grid-cols-2 gap-x-3 gap-y-1 font-mono text-[11px] text-ink-faint">
                   <div>
@@ -125,16 +126,19 @@ export default async function CatalogPage({ params }: { params: Promise<{ locale
                   </div>
                 </dl>
 
-                <div className="mt-auto divide-y divide-rule border-t border-rule">
+                <div className="mt-auto space-y-1 border-t border-rule pt-2">
                   {categoryChapters.map((chapter) => (
-                    <details key={chapter.id} className="group py-2">
+                    <details key={chapter.id} className="group rounded-xl py-1.5 open:bg-paper-sunken open:px-2">
                       <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
                         {chapter.title[locale]}
-                        <span className="font-mono text-ink-faint transition-transform group-open:rotate-45" aria-hidden="true">
+                        <span
+                          className="flex h-5 w-5 items-center justify-center rounded-full bg-paper-sunken font-mono text-ink-faint transition-transform group-open:rotate-45"
+                          aria-hidden="true"
+                        >
                           +
                         </span>
                       </summary>
-                      <ul className="mt-2 space-y-0.5 border-l border-rule pl-3 text-sm">
+                      <ul className="mt-2 space-y-0.5 pl-1 text-sm">
                         {concepts
                           .filter((c) => c.chapterId === chapter.id)
                           .map((concept) => (

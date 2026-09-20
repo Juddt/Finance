@@ -9,10 +9,10 @@ export interface ConceptScore {
   total: number;
 }
 
-function scoreTone(pct: number): { border: string; bg: string; text: string } {
-  if (pct >= 80) return { border: "border-gain", bg: "bg-gain-soft", text: "text-gain" };
-  if (pct >= 50) return { border: "border-mid", bg: "bg-mid-soft", text: "text-mid" };
-  return { border: "border-loss", bg: "bg-loss-soft", text: "text-loss" };
+function scoreTone(pct: number): { bg: string; text: string } {
+  if (pct >= 80) return { bg: "bg-gain-soft", text: "text-gain" };
+  if (pct >= 50) return { bg: "bg-mid-soft", text: "text-mid" };
+  return { bg: "bg-loss-soft", text: "text-loss" };
 }
 
 /**
@@ -48,11 +48,11 @@ export function LessonScoreBadge({
   const tone = scoreTone(pct);
 
   return (
-    <div className={`mb-8 flex flex-wrap items-center justify-between gap-3 border-l-2 ${tone.border} ${tone.bg} px-4 py-3`}>
+    <div className={`mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl ${tone.bg} px-4 py-3`}>
       <span className={`font-mono text-[12px] font-semibold tracking-[0.06em] ${tone.text}`}>
         {label}: {score.correct}/{score.total} &middot; {pct}%
       </span>
-      <a href={retryHref} className="tick-underline font-mono text-[11px] font-semibold tracking-[0.08em] text-ink uppercase">
+      <a href={retryHref} className="font-mono text-[11px] font-semibold tracking-[0.08em] text-ink uppercase hover:text-accent hover:underline">
         {retryLabel}
       </a>
     </div>
