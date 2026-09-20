@@ -9,6 +9,7 @@ import { getConceptQuizScore } from "@/lib/store";
 import { Formula } from "@/components/Formula";
 import { QuizSlot } from "@/components/QuizSlot";
 import { LessonScoreBadge } from "@/components/LessonScoreBadge";
+import { LessonChart } from "@/components/LessonChart";
 
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
@@ -140,6 +141,8 @@ export default async function LessonPage({
 
         <Section title={dict.lesson.calculation} body={lesson.calculation[locale]} />
 
+        {lesson.chart && <LessonChart chart={lesson.chart} locale={locale} />}
+
         {lesson.pythonExample && (
           <section>
             <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">{dict.lesson.pythonExample}</h2>
@@ -151,6 +154,25 @@ export default async function LessonPage({
 
         <Section title={dict.lesson.interpretation} body={lesson.interpretation[locale]} />
         <Section title={dict.lesson.pitfalls} body={lesson.pitfalls[locale]} warn />
+
+        {lesson.businessApplication && (
+          <Section title={dict.lesson.businessApplication} body={lesson.businessApplication[locale]} />
+        )}
+
+        {lesson.interviewQuestion && (
+          <details className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950/20">
+            <summary className="cursor-pointer text-sm font-semibold text-emerald-900 dark:text-emerald-200">
+              {dict.lesson.interviewQuestion}
+            </summary>
+            <p className="mt-3 text-sm font-medium text-emerald-950 dark:text-emerald-100">{lesson.interviewQuestion.question}</p>
+            <details className="mt-3">
+              <summary className="cursor-pointer text-xs font-medium text-emerald-800 underline-offset-2 hover:underline dark:text-emerald-300">
+                {dict.lesson.interviewAnswerReveal}
+              </summary>
+              <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-100">{lesson.interviewQuestion.answer}</p>
+            </details>
+          </details>
+        )}
 
         <section>
           <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">{dict.lesson.keyPoints}</h2>
