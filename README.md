@@ -72,14 +72,14 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   bilingue par segment `/fr`, `/en` (`proxy.ts` + `app/[locale]`), dictionnaires
   d'interface FR/EN (`i18n/`).
 - **Catalogue complet** : les 13 modules du document (M01–M13) sont
-  entièrement transcrits en 8 catégories / 19 chapitres / **110 notions**
+  entièrement transcrits en 8 catégories / 19 chapitres / **112 notions**
   (`content/catalog/`), avec titre + objectif bilingues et référence à la
   ligne source du cadrage (`sourceRef`, ex. `M02-4`) pour chaque notion. Une
   matrice de couverture (`getCoverageMatrix()`) est générée directement depuis
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **108 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+- **110 notions publiées de bout en bout** (`content/lessons/`, liste exacte
   des IDs dans `lib/content-registry.ts`), couvrant treize modules désormais
   complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (13/13, avec
   indicateurs macro, anticipations de taux directeurs, actions/dividendes,
@@ -88,9 +88,10 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   (13/13, avec repo/collatéral avant le taux sans risque, CS01/DV01 par
   maturité (key rate duration, pentification/aplatissement)/carry & roll-down
   après le DV01, et les obligations convertibles en clôture), M04 FRA & swaps
-  de taux (7/7, avec clearing
-  central/ISDA-CSA avant le cadre multi-courbe et les swaps d'inflation en
-  clôture), M05 Options vanilles & stratégies (4/4), M06 Brownien &
+  de taux (9/9, avec clearing
+  central/ISDA-CSA suivi d'exposition future/CVA puis de la construction de
+  courbe zéro-coupon par bootstrap, avant le cadre multi-courbe et les swaps
+  d'inflation en clôture), M05 Options vanilles & stratégies (4/4), M06 Brownien &
   Black-Scholes (7/7), M07 Greeks & couverture dynamique (6/6), M08
   Volatilité & variance (6/8 — 2 intitulés laissés `upcoming` faute de
   confirmation, voir section « Ce qui reste à valider »), M09
@@ -115,7 +116,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
   `content/question-templates/`, PRNG seedé dans `lib/prng.ts`, fabriques
   mutualisées dans `lib/question-template-kit.ts` pour les familles
-  qualitatives) : 944 templates (en cours d'enrichissement vers ≥ 12
+  qualitatives) : 968 templates (en cours d'enrichissement vers ≥ 12
   familles réellement distinctes par notion — compréhension, comparaison,
   raisonnement conditionnel, calcul, erreur fréquente, mises en situation —
   plutôt qu'une simple variation de chiffres) génèrent des exercices avec
@@ -195,8 +196,8 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 
 ## Ce qui n'est PAS fait (volontairement, pour ce scaffold)
 
-- **2 des 110 notions du catalogue n'ont pas de cours rédigé** (module M08,
-  intitulés laissés « À venir » faute de confirmation) : 108 sont publiées
+- **2 des 112 notions du catalogue n'ont pas de cours rédigé** (module M08,
+  intitulés laissés « À venir » faute de confirmation) : 110 sont publiées
   (voir ci-dessus). Le catalogue affiche « À venir » pour les
   autres et elles ne comptent pas dans la couverture publiée, ni dans les
   quiz de chapitre/catégorie/mix personnalisé (un chapitre ou une catégorie
@@ -292,9 +293,9 @@ components/                  LanguageToggle, Formula (KaTeX serveur), PayoffChar
 components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/StaticQuizRunner.tsx = backend local/localStorage
 components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
-content/catalog/             catégories, chapitres, 110 notions (M01-M13), matrice de couverture
+content/catalog/             catégories, chapitres, 112 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   944 templates de questions à variantes (108 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   968 templates de questions à variantes (110 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN

@@ -39,6 +39,8 @@ import { m04Fra } from "@/content/lessons/m04-fra";
 import { m04SwapFixeVariable } from "@/content/lessons/m04-swap-fixe-variable";
 import { m04PricingSwap } from "@/content/lessons/m04-pricing-swap";
 import { m04ClearingCsa } from "@/content/lessons/m04-clearing-csa";
+import { m04ExpositionCva } from "@/content/lessons/m04-exposition-cva";
+import { m04ConstructionCourbeZeroCoupon } from "@/content/lessons/m04-construction-courbe-zero-coupon";
 import { m04MonoMultiCourbe } from "@/content/lessons/m04-mono-multi-courbe";
 import { m04Dv01Swap } from "@/content/lessons/m04-dv01-swap";
 import { m04SwapInflation } from "@/content/lessons/m04-swap-inflation";
@@ -147,6 +149,8 @@ import { templates as m04FraTemplates } from "@/content/question-templates/m04-f
 import { templates as m04SwapFixeVariableTemplates } from "@/content/question-templates/m04-swap-fixe-variable";
 import { templates as m04PricingSwapTemplates } from "@/content/question-templates/m04-pricing-swap";
 import { templates as m04ClearingCsaTemplates } from "@/content/question-templates/m04-clearing-csa";
+import { templates as m04ExpositionCvaTemplates } from "@/content/question-templates/m04-exposition-cva";
+import { templates as m04ConstructionCourbeZeroCouponTemplates } from "@/content/question-templates/m04-construction-courbe-zero-coupon";
 import { templates as m04MonoMultiCourbeTemplates } from "@/content/question-templates/m04-mono-multi-courbe";
 import { templates as m04Dv01SwapTemplates } from "@/content/question-templates/m04-dv01-swap";
 import { templates as m04SwapInflationTemplates } from "@/content/question-templates/m04-swap-inflation";
@@ -257,6 +261,8 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m04-swap-fixe-variable": m04SwapFixeVariable,
   "m04-pricing-swap": m04PricingSwap,
   "m04-clearing-csa": m04ClearingCsa,
+  "m04-exposition-cva": m04ExpositionCva,
+  "m04-construction-courbe-zero-coupon": m04ConstructionCourbeZeroCoupon,
   "m04-mono-multi-courbe": m04MonoMultiCourbe,
   "m04-dv01-swap": m04Dv01Swap,
   "m04-swap-inflation": m04SwapInflation,
@@ -368,6 +374,8 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m04-swap-fixe-variable": m04SwapFixeVariableTemplates,
   "m04-pricing-swap": m04PricingSwapTemplates,
   "m04-clearing-csa": m04ClearingCsaTemplates,
+  "m04-exposition-cva": m04ExpositionCvaTemplates,
+  "m04-construction-courbe-zero-coupon": m04ConstructionCourbeZeroCouponTemplates,
   "m04-mono-multi-courbe": m04MonoMultiCourbeTemplates,
   "m04-dv01-swap": m04Dv01SwapTemplates,
   "m04-swap-inflation": m04SwapInflationTemplates,
