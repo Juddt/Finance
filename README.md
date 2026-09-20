@@ -72,14 +72,14 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   bilingue par segment `/fr`, `/en` (`proxy.ts` + `app/[locale]`), dictionnaires
   d'interface FR/EN (`i18n/`).
 - **Catalogue complet** : les 13 modules du document (M01–M13) sont
-  entièrement transcrits en 8 catégories / 19 chapitres / **112 notions**
+  entièrement transcrits en 8 catégories / 19 chapitres / **115 notions**
   (`content/catalog/`), avec titre + objectif bilingues et référence à la
   ligne source du cadrage (`sourceRef`, ex. `M02-4`) pour chaque notion. Une
   matrice de couverture (`getCoverageMatrix()`) est générée directement depuis
   le catalogue — aucune notion demandée n'a été supprimée ; celles non
   rédigées sont marquées `upcoming` (« À venir ») et ne comptent pas comme
   disponibles dans les statistiques.
-- **110 notions publiées de bout en bout** (`content/lessons/`, liste exacte
+- **113 notions publiées de bout en bout** (`content/lessons/`, liste exacte
   des IDs dans `lib/content-registry.ts`), couvrant treize modules désormais
   complets (ou quasi-complets) : M01 Banques/marchés/fondamentaux (13/13, avec
   indicateurs macro, anticipations de taux directeurs, actions/dividendes,
@@ -97,10 +97,13 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
   confirmation, voir section « Ce qui reste à valider »), M09
   Corrélation/dispersion/paniers (5/5), M10 Options barrières & digitales
   (9/9), M11 Produits structurés & autocalls (5/5), M12 Machine learning
-  appliqué à la finance (7/7), M13 Compléments (19/19 — mathématiques
+  appliqué à la finance (7/7), M13 Compléments (22/22 — mathématiques
   financières avec valorisation actions DCF/comparables, gestion de
-  portefeuille, risques, trading/microstructure, réglementation avec sources
-  officielles datées, programmation, entretiens). Les catégories **Taux et
+  portefeuille, risques (avec backtesting de VaR après VaR/ES/stress),
+  trading/microstructure (ouvrant sur la vie d'une transaction puis
+  l'attribution de P&L et les limites de risque après ordres/levier/marge),
+  réglementation avec sources officielles datées, programmation, entretiens).
+  Les catégories **Taux et
   crédit** (M03+M04), **Fondamentaux → chapitre M01**, **Produits dérivés**
   (M02+M05+M09+M10+M11), **Machine learning** (M12) et **M13 (tous ses
   chapitres)** sont publiées à 100% ; **Modèles quantitatifs** (M06+M07+M08)
@@ -116,7 +119,7 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 - **Banque de questions à variantes réelles** (`lib/question-templates.ts`,
   `content/question-templates/`, PRNG seedé dans `lib/prng.ts`, fabriques
   mutualisées dans `lib/question-template-kit.ts` pour les familles
-  qualitatives) : 968 templates (en cours d'enrichissement vers ≥ 12
+  qualitatives) : 1004 templates (en cours d'enrichissement vers ≥ 12
   familles réellement distinctes par notion — compréhension, comparaison,
   raisonnement conditionnel, calcul, erreur fréquente, mises en situation —
   plutôt qu'une simple variation de chiffres) génèrent des exercices avec
@@ -196,8 +199,8 @@ renommé ou déployé ailleurs, ajuster `NEXT_PUBLIC_BASE_PATH` dans
 
 ## Ce qui n'est PAS fait (volontairement, pour ce scaffold)
 
-- **2 des 112 notions du catalogue n'ont pas de cours rédigé** (module M08,
-  intitulés laissés « À venir » faute de confirmation) : 110 sont publiées
+- **2 des 115 notions du catalogue n'ont pas de cours rédigé** (module M08,
+  intitulés laissés « À venir » faute de confirmation) : 113 sont publiées
   (voir ci-dessus). Le catalogue affiche « À venir » pour les
   autres et elles ne comptent pas dans la couverture publiée, ni dans les
   quiz de chapitre/catégorie/mix personnalisé (un chapitre ou une catégorie
@@ -293,9 +296,9 @@ components/                  LanguageToggle, Formula (KaTeX serveur), PayoffChar
 components/QuizRunner.tsx     backend serveur (fetch /api/**) ; components/StaticQuizRunner.tsx = backend local/localStorage
 components/QuizSlot.tsx       point d'entrée swappable entre les deux (voir scripts/build-static.mjs)
 components/QuizSessionPage.tsx, CustomQuizBuilder.tsx, RevisionsList.tsx, ProgressBoard.tsx  pages quiz/révisions/progression
-content/catalog/             catégories, chapitres, 112 notions (M01-M13), matrice de couverture
+content/catalog/             catégories, chapitres, 115 notions (M01-M13), matrice de couverture
 content/lessons/              contenu bilingue des 56 cours publiés (prérequis, vocabulaire, explication alternative)
-content/question-templates/   968 templates de questions à variantes (110 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
+content/question-templates/   1004 templates de questions à variantes (113 notions, enrichissement en cours vers ≥12/notion), serveur uniquement — sauf build GitHub Pages
 lib/                         srs.ts, grading.ts, prng.ts, question-templates.ts, adaptive-quiz.ts, session-spec.ts,
                               store.ts, session.ts, content-registry(-client).ts, quiz-engine-client.ts
 i18n/                        config locales + dictionnaires d'interface FR/EN

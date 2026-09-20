@@ -99,10 +99,13 @@ import { m13MarkowitzFrontiere } from "@/content/lessons/m13-markowitz-frontiere
 import { m13CapmSml } from "@/content/lessons/m13-capm-sml";
 import { m13AllocationAttribution } from "@/content/lessons/m13-allocation-attribution";
 import { m13VarEsStress } from "@/content/lessons/m13-var-es-stress";
+import { m13BacktestingVar } from "@/content/lessons/m13-backtesting-var";
 import { m13DrawdownUlcer } from "@/content/lessons/m13-drawdown-ulcer";
 import { m13RatiosRisqueAjuste } from "@/content/lessons/m13-ratios-risque-ajuste";
 import { m13TypologieRisques } from "@/content/lessons/m13-typologie-risques";
+import { m13CycleVieTransaction } from "@/content/lessons/m13-cycle-vie-transaction";
 import { m13OrdresLevierMarge } from "@/content/lessons/m13-ordres-levier-marge";
+import { m13PnlAttributionLimites } from "@/content/lessons/m13-pnl-attribution-limites";
 import { m13MarketMakingMomentum } from "@/content/lessons/m13-market-making-momentum";
 import { m13BacktestingBiais } from "@/content/lessons/m13-backtesting-biais";
 import { m13Bale } from "@/content/lessons/m13-bale";
@@ -209,10 +212,13 @@ import { templates as m13MarkowitzFrontiereTemplates } from "@/content/question-
 import { templates as m13CapmSmlTemplates } from "@/content/question-templates/m13-capm-sml";
 import { templates as m13AllocationAttributionTemplates } from "@/content/question-templates/m13-allocation-attribution";
 import { templates as m13VarEsStressTemplates } from "@/content/question-templates/m13-var-es-stress";
+import { templates as m13BacktestingVarTemplates } from "@/content/question-templates/m13-backtesting-var";
 import { templates as m13DrawdownUlcerTemplates } from "@/content/question-templates/m13-drawdown-ulcer";
 import { templates as m13RatiosRisqueAjusteTemplates } from "@/content/question-templates/m13-ratios-risque-ajuste";
 import { templates as m13TypologieRisquesTemplates } from "@/content/question-templates/m13-typologie-risques";
+import { templates as m13CycleVieTransactionTemplates } from "@/content/question-templates/m13-cycle-vie-transaction";
 import { templates as m13OrdresLevierMargeTemplates } from "@/content/question-templates/m13-ordres-levier-marge";
+import { templates as m13PnlAttributionLimitesTemplates } from "@/content/question-templates/m13-pnl-attribution-limites";
 import { templates as m13MarketMakingMomentumTemplates } from "@/content/question-templates/m13-market-making-momentum";
 import { templates as m13BacktestingBiaisTemplates } from "@/content/question-templates/m13-backtesting-biais";
 import { templates as m13BaleTemplates } from "@/content/question-templates/m13-bale";
@@ -326,10 +332,13 @@ export const lessonsByConceptId: Record<string, LessonContent> = {
   "m13-capm-sml": m13CapmSml,
   "m13-allocation-attribution": m13AllocationAttribution,
   "m13-var-es-stress": m13VarEsStress,
+  "m13-backtesting-var": m13BacktestingVar,
   "m13-drawdown-ulcer": m13DrawdownUlcer,
   "m13-ratios-risque-ajuste": m13RatiosRisqueAjuste,
   "m13-typologie-risques": m13TypologieRisques,
+  "m13-cycle-vie-transaction": m13CycleVieTransaction,
   "m13-ordres-levier-marge": m13OrdresLevierMarge,
+  "m13-pnl-attribution-limites": m13PnlAttributionLimites,
   "m13-market-making-momentum": m13MarketMakingMomentum,
   "m13-backtesting-biais": m13BacktestingBiais,
   "m13-bale": m13Bale,
@@ -439,10 +448,13 @@ export const templatesByConceptId: Record<string, QuestionTemplate[]> = {
   "m13-capm-sml": m13CapmSmlTemplates,
   "m13-allocation-attribution": m13AllocationAttributionTemplates,
   "m13-var-es-stress": m13VarEsStressTemplates,
+  "m13-backtesting-var": m13BacktestingVarTemplates,
   "m13-drawdown-ulcer": m13DrawdownUlcerTemplates,
   "m13-ratios-risque-ajuste": m13RatiosRisqueAjusteTemplates,
   "m13-typologie-risques": m13TypologieRisquesTemplates,
+  "m13-cycle-vie-transaction": m13CycleVieTransactionTemplates,
   "m13-ordres-levier-marge": m13OrdresLevierMargeTemplates,
+  "m13-pnl-attribution-limites": m13PnlAttributionLimitesTemplates,
   "m13-market-making-momentum": m13MarketMakingMomentumTemplates,
   "m13-backtesting-biais": m13BacktestingBiaisTemplates,
   "m13-bale": m13BaleTemplates,

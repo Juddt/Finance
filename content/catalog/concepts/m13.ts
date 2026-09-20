@@ -117,9 +117,22 @@ export const m13: ConceptDef[] = [
     },
   },
   {
-    id: "m13-drawdown-ulcer",
+    id: "m13-backtesting-var",
     chapterId: "risques",
     sourceRef: "M13-risques-b",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "published",
+    title: { fr: "Backtesting de la VaR : exceptions et zones de Bâle", en: "VaR backtesting: exceptions & Basel zones" },
+    objective: {
+      fr: "Backtester une VaR en comptant ses exceptions (breaches) et interpréter les zones verte/jaune/rouge de Bâle.",
+      en: "Backtest a VaR by counting its exceptions (breaches) and interpret the Basel green/yellow/red zones.",
+    },
+  },
+  {
+    id: "m13-drawdown-ulcer",
+    chapterId: "risques",
+    sourceRef: "M13-risques-c",
     level: "advanced",
     estimatedMinutes: 6,
     status: "published",
@@ -132,7 +145,7 @@ export const m13: ConceptDef[] = [
   {
     id: "m13-ratios-risque-ajuste",
     chapterId: "risques",
-    sourceRef: "M13-risques-c",
+    sourceRef: "M13-risques-d",
     level: "advanced",
     estimatedMinutes: 7,
     status: "published",
@@ -145,7 +158,7 @@ export const m13: ConceptDef[] = [
   {
     id: "m13-typologie-risques",
     chapterId: "risques",
-    sourceRef: "M13-risques-d",
+    sourceRef: "M13-risques-e",
     level: "essential",
     estimatedMinutes: 5,
     status: "published",
@@ -158,9 +171,22 @@ export const m13: ConceptDef[] = [
 
   // Trading et microstructure -> chapitre trading-microstructure
   {
-    id: "m13-ordres-levier-marge",
+    id: "m13-cycle-vie-transaction",
     chapterId: "trading-microstructure",
     sourceRef: "M13-trading-a",
+    level: "essential",
+    estimatedMinutes: 6,
+    status: "published",
+    title: { fr: "Vie d'une transaction : de la cotation au règlement", en: "A transaction's life: from quote to settlement" },
+    objective: {
+      fr: "Suivre les étapes d'une transaction (cotation, exécution, confirmation, compensation, règlement, collatéral) et leurs besoins de trésorerie.",
+      en: "Follow a transaction's steps (quote, execution, confirmation, clearing, settlement, collateral) and their cash needs.",
+    },
+  },
+  {
+    id: "m13-ordres-levier-marge",
+    chapterId: "trading-microstructure",
+    sourceRef: "M13-trading-b",
     level: "essential",
     estimatedMinutes: 6,
     status: "published",
@@ -171,9 +197,22 @@ export const m13: ConceptDef[] = [
     },
   },
   {
+    id: "m13-pnl-attribution-limites",
+    chapterId: "trading-microstructure",
+    sourceRef: "M13-trading-c",
+    level: "advanced",
+    estimatedMinutes: 7,
+    status: "published",
+    title: { fr: "Attribution du P&L et limites de risque", en: "P&L attribution & risk limits" },
+    objective: {
+      fr: "Attribuer le P&L d'un portefeuille aux facteurs de marché, au financement et aux coûts, isoler le résultat inexpliqué et situer les limites de risque.",
+      en: "Attribute a portfolio's P&L to market factors, funding and costs, isolate unexplained P&L and situate risk limits.",
+    },
+  },
+  {
     id: "m13-market-making-momentum",
     chapterId: "trading-microstructure",
-    sourceRef: "M13-trading-b",
+    sourceRef: "M13-trading-d",
     level: "advanced",
     estimatedMinutes: 7,
     status: "published",
@@ -186,7 +225,7 @@ export const m13: ConceptDef[] = [
   {
     id: "m13-backtesting-biais",
     chapterId: "trading-microstructure",
-    sourceRef: "M13-trading-c",
+    sourceRef: "M13-trading-e",
     level: "advanced",
     estimatedMinutes: 7,
     status: "published",
