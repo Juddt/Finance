@@ -27,8 +27,8 @@ export const m03SensibiliteCourbe: LessonContent = {
     en: "This breakdown is essential to building a genuinely robust hedge: a hedge that only matches the global DV01 can look perfect when put on, while still leaving significant residual risk if the curve deforms (steepening or flattening) rather than shifting as a block. A professional rates desk almost always reasons in key rate duration, never in global DV01 alone, as soon as a position spans several maturities.",
   },
   example: {
-    fr: "Un portefeuille est long une obligation 2 ans (DV01 = +2 000) et court une obligation 10 ans (DV01 = −2 000) : le DV01 global net est nul, la position semble couverte contre le risque de taux. Mais si la courbe pentifie (le taux 10 ans monte alors que le taux 2 ans reste stable), la position court en 10 ans gagne de la valeur, tandis que la position longue en 2 ans ne compense rien — le portefeuille subit une perte nette, alors que son DV01 global affichait zéro.",
-    en: "A portfolio is long a 2-year bond (DV01 = +2,000) and short a 10-year bond (DV01 = −2,000): the net global DV01 is zero, the position seems hedged against rate risk. But if the curve steepens (the 10-year rate rises while the 2-year rate stays flat), the short 10-year position gains value, while the long 2-year position offsets nothing — the portfolio suffers a net loss, even though its global DV01 showed zero.",
+    fr: "Un portefeuille est long une obligation 2 ans (DV01 = +2 000) et court une obligation 10 ans (DV01 = −2 000) : le DV01 global net est nul, la position semble couverte contre le risque de taux. Si la courbe pentifie (le taux 10 ans monte de 10 points de base alors que le taux 2 ans reste stable), le calcul donne ΔP≈−[2000×0+(−2000)×10]=+20 000 € : la position court en 10 ans gagne de la valeur (elle profite de la baisse du prix de l'obligation 10 ans), et comme la position longue en 2 ans n'est pas affectée (son taux n'a pas bougé), le portefeuille réalise un GAIN net de 20 000 €, alors que son DV01 global affichait zéro. À l'inverse, un APLATISSEMENT (taux 2 ans +10pb, taux 10 ans stable) donnerait ΔP≈−[2000×10+(−2000)×0]=−20 000 €, soit une PERTE nette pour la même position — la preuve que le DV01 global nul ne dit rien sur le sens du risque en cas de déformation non parallèle.",
+    en: "A portfolio is long a 2-year bond (DV01 = +2,000) and short a 10-year bond (DV01 = −2,000): the net global DV01 is zero, the position seems hedged against rate risk. If the curve steepens (the 10-year rate rises by 10 basis points while the 2-year rate stays flat), the calculation gives ΔP≈−[2000×0+(−2000)×10]=+$20,000: the short 10-year position gains value (it benefits from the 10-year bond's price decline), and since the long 2-year position is unaffected (its rate didn't move), the portfolio realizes a net GAIN of $20,000, even though its global DV01 showed zero. Conversely, a FLATTENING (2-year rate +10bp, 10-year rate flat) would give ΔP≈−[2000×10+(−2000)×0]=−$20,000, a net LOSS for the same position — proof that a zero global DV01 says nothing about the direction of risk when the curve deforms non-parallelly.",
   },
   alternativeExplanation: {
     fr: "Imaginez la courbe des taux comme une corde tendue entre plusieurs points fixes (les maturités clés). Le DV01 global ne dit que si la corde monte ou descend \"en moyenne\". La key rate duration dit précisément quel point de la corde bouge, et de combien : c'est ce qui permet de savoir si la corde se déplace en bloc, ou si elle se tord en un point précis, information invisible avec la seule moyenne.",
@@ -43,11 +43,36 @@ export const m03SensibiliteCourbe: LessonContent = {
     ],
     assumptions: { fr: "Suppose une décomposition linéaire additive des effets par maturité (ignore les interactions croisées de second ordre). Le DV01 global (somme des DV01_i) ne redonne l'information complète que si tous les Δr_i sont identiques (déplacement parallèle) ; sinon, seule la somme pondérée par les Δr_i effectifs compte.", en: "Assumes a linear additive decomposition of per-maturity effects (ignores second-order cross interactions). The global DV01 (sum of DV01_i) only recovers the full information if all Δr_i are identical (parallel shift); otherwise, only the sum weighted by the actual Δr_i matters." },
     units: { fr: "DV01_i en devise par point de base ; Δr_i en points de base.", en: "DV01_i in currency per basis point; Δr_i in basis points." },
-    example: { fr: "DV01_2y=+2000, DV01_10y=−2000 (DV01 global=0). Pentification : Δr_2y=0, Δr_10y=+10pb → ΔP≈−(−2000)×10=+20000... mais le signe et l'ampleur dépendent du sens exact de la position.", en: "DV01_2y=+2000, DV01_10y=−2000 (global DV01=0). Steepening: Δr_2y=0, Δr_10y=+10bp → ΔP depends on the exact position direction and sign convention." },
+    example: { fr: "DV01_2y=+2000, DV01_10y=−2000 (DV01 global=0). Pentification : Δr_2y=0, Δr_10y=+10pb → ΔP≈−[2000×0+(−2000)×10]=+20 000 € (gain net).", en: "DV01_2y=+2000, DV01_10y=−2000 (global DV01=0). Steepening: Δr_2y=0, Δr_10y=+10bp → ΔP≈−[2000×0+(−2000)×10]=+$20,000 (net gain)." },
+  },
+  chart: {
+    kind: "line",
+    xLabel: { fr: "Maturité (années)", en: "Maturity (years)" },
+    yLabel: { fr: "Taux (%)", en: "Rate (%)" },
+    series: [
+      {
+        label: { fr: "Courbe initiale", en: "Initial curve" },
+        points: [
+          { x: 2, y: 3.0 },
+          { x: 5, y: 3.3 },
+          { x: 10, y: 3.6 },
+          { x: 30, y: 3.8 },
+        ],
+      },
+      {
+        label: { fr: "Courbe après pentification", en: "Curve after steepening" },
+        points: [
+          { x: 2, y: 3.0 },
+          { x: 5, y: 3.35 },
+          { x: 10, y: 3.7 },
+          { x: 30, y: 4.0 },
+        ],
+      },
+    ],
   },
   calculation: {
-    fr: "1) Décomposer le portefeuille en positions par maturité clé et calculer le DV01 de chacune séparément (key rate duration). 2) Pour un scénario donné, spécifier la variation de taux anticipée à CHAQUE maturité clé (pas une seule variation globale). 3) Sommer les contributions DV01_i × Δr_i de chaque maturité pour obtenir la variation de valeur totale.",
-    en: "1) Break the portfolio down into positions by key maturity and compute each one's DV01 separately (key rate duration). 2) For a given scenario, specify the anticipated rate change at EACH key maturity (not a single global change). 3) Sum the DV01_i × Δr_i contributions of each maturity to get the total value change.",
+    fr: "1) Décomposer le portefeuille en positions par maturité clé et calculer le DV01 de chacune séparément (key rate duration) : ici DV01_2y=+2000, DV01_10y=−2000. 2) Pour un scénario donné, spécifier la variation de taux anticipée à CHAQUE maturité clé (pas une seule variation globale) : pentification → Δr_2y=0, Δr_10y=+10pb. 3) Sommer les contributions DV01_i × Δr_i de chaque maturité pour obtenir la variation de valeur totale : ΔP≈−[2000×0+(−2000)×10]=+20 000 €, un gain net malgré un DV01 global nul.",
+    en: "1) Break the portfolio down into positions by key maturity and compute each one's DV01 separately (key rate duration): here DV01_2y=+2000, DV01_10y=−2000. 2) For a given scenario, specify the anticipated rate change at EACH key maturity (not a single global change): steepening → Δr_2y=0, Δr_10y=+10bp. 3) Sum the DV01_i × Δr_i contributions of each maturity to get the total value change: ΔP≈−[2000×0+(−2000)×10]=+$20,000, a net gain despite a zero global DV01.",
   },
   interpretation: {
     fr: "Un DV01 global proche de zéro ne garantit une couverture robuste que si l'on croit que la courbe ne peut se déplacer que de façon parallèle. Dès que l'on admet la possibilité d'une pentification ou d'un aplatissement, seule une couverture qui égalise le DV01 maturité par maturité (et pas seulement en somme) protège réellement contre une déformation de la courbe.",
@@ -72,5 +97,13 @@ export const m03SensibiliteCourbe: LessonContent = {
   advancedDemonstration: {
     fr: "Un trader qui parie sur une pentification de la courbe (steepener trade) construit typiquement une position longue en maturité courte et courte en maturité longue, dimensionnée pour un DV01 global proche de zéro : le pari n'est pas sur le niveau des taux, mais spécifiquement sur la FORME de la courbe. Si la courbe pentifie effectivement (taux longs montent plus que les taux courts, ou baissent moins), la position gagne, indépendamment du sens du mouvement parallèle global des taux — une stratégie qui n'aurait aucun sens sans décomposer le risque en key rate duration.",
     en: "A trader betting on a curve steepening (a steepener trade) typically builds a position long the short maturity and short the long maturity, sized for a global DV01 near zero: the bet isn't on the level of rates, but specifically on the SHAPE of the curve. If the curve does steepen (long rates rise more than short rates, or fall less), the position gains, regardless of the direction of the overall parallel rate move — a strategy that would make no sense without decomposing risk into key rate duration.",
+  },
+  businessApplication: {
+    fr: "Un desk taux calcule systématiquement la key rate duration de chaque position, pas seulement le DV01 global, avant de valider une couverture auprès du risk management : c'est ce qui permet de distinguer un livre réellement neutre au risque de taux d'un livre qui porte un pari caché sur la forme de la courbe, invisible dans un rapport de risque qui n'afficherait que le DV01 agrégé.",
+    en: "A rates desk systematically computes each position's key rate duration, not just the global DV01, before validating a hedge with risk management: this is what distinguishes a book genuinely neutral to rate risk from one carrying a hidden bet on the curve's shape, invisible in a risk report showing only the aggregated DV01.",
+  },
+  interviewQuestion: {
+    question: "A portfolio shows a global DV01 of exactly zero. Does that mean it's hedged against rate risk? Explain with an example.",
+    answer: "Not necessarily — a zero global DV01 only protects against a parallel shift of the yield curve, where every maturity moves by the same amount. If the portfolio's DV01 is concentrated at different maturities — say, long the 2-year and short the 10-year, each with a $2,000 DV01 — the position is exposed to how the curve's SHAPE changes, not just its level. If the curve steepens with only the 10-year rate rising 10 basis points, the short 10-year leg gains about $20,000 while the 2-year leg is untouched, for a net gain; if instead the curve flattens with only the 2-year rate rising 10bp, the same position loses about $20,000. So the zero global DV01 tells you nothing about non-parallel moves — you need key rate duration, the DV01 broken down maturity by maturity, to actually assess curve risk.",
   },
 };

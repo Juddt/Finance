@@ -25,8 +25,8 @@ export const m09CorrelationRealisee: LessonContent = {
     en: "Realized correlation is the foundation of any diversified portfolio management (see modern portfolio theory) and any multi-asset derivative (baskets, Worst-Of/Best-Of, see M09-4): it determines whether combining several assets actually reduces risk, or not.",
   },
   example: {
-    fr: "Sur 4 jours, les rendements de l'actif A sont 1%, −0,5%, 0,8%, −0,3% et ceux de l'actif B sont 0,9%, −0,4%, 0,6%, −0,2% : les deux actifs bougent presque toujours dans le même sens et avec une amplitude comparable, donnant une corrélation réalisée proche de +0,95 — typique de deux actions du même secteur.",
-    en: "Over 4 days, asset A's returns are 1%, −0.5%, 0.8%, −0.3% and asset B's are 0.9%, −0.4%, 0.6%, −0.2%: the two assets almost always move in the same direction with comparable magnitude, giving a realized correlation close to +0.95 — typical of two stocks in the same sector.",
+    fr: "Sur 4 jours, les rendements de l'actif A sont 1%, −0,5%, 0,8%, −0,3% (moyenne 0,25%) et ceux de l'actif B sont 0,9%, −0,4%, 0,6%, −0,2% (moyenne 0,225%). Écarts à la moyenne A : +0,75%, −0,75%, +0,55%, −0,55% ; écarts à la moyenne B : +0,675%, −0,625%, +0,375%, −0,425%. Covariance = moyenne des produits d'écarts ≈ 0,0000472 ; écart-type A ≈ 0,759% ; écart-type B ≈ 0,624%. ρ = Cov/(σ_A×σ_B) ≈ 0,0000472/(0,00759×0,00624) ≈ +0,996 : les deux actifs bougent presque parfaitement ensemble, typique de deux actions du même secteur.",
+    en: "Over 4 days, asset A's returns are 1%, −0.5%, 0.8%, −0.3% (mean 0.25%) and asset B's are 0.9%, −0.4%, 0.6%, −0.2% (mean 0.225%). Deviations from mean A: +0.75%, −0.75%, +0.55%, −0.55%; deviations from mean B: +0.675%, −0.625%, +0.375%, −0.425%. Covariance = mean of deviation products ≈ 0.0000472; standard deviation A ≈ 0.759%; standard deviation B ≈ 0.624%. ρ = Cov/(σ_A×σ_B) ≈ 0.0000472/(0.00759×0.00624) ≈ +0.996: the two assets move almost perfectly together, typical of two stocks in the same sector.",
   },
   alternativeExplanation: {
     fr: "Imaginez deux danseurs sur une piste : une corrélation de +1 signifie qu'ils exécutent exactement les mêmes pas en même temps ; une corrélation de −1 signifie que l'un recule exactement quand l'autre avance ; une corrélation de 0 signifie que leurs mouvements n'ont aucun rapport entre eux, chacun dansant \"à sa façon\" indépendamment de l'autre.",
@@ -40,11 +40,23 @@ export const m09CorrelationRealisee: LessonContent = {
     ],
     assumptions: { fr: "Rendements mesurés sur la même fréquence et la même période pour les deux actifs.", en: "Returns measured at the same frequency and over the same period for both assets." },
     units: { fr: "Sans dimension, toujours entre −1 et +1.", en: "Dimensionless, always between −1 and +1." },
-    example: { fr: "Voir l'exemple ci-dessus pour une illustration qualitative d'une forte corrélation positive.", en: "See the example above for a qualitative illustration of strong positive correlation." },
+    example: { fr: "Rendements A: 1%, −0,5%, 0,8%, −0,3% ; rendements B: 0,9%, −0,4%, 0,6%, −0,2%. ρ≈+0,996 (voir le détail du calcul dans l'exemple ci-dessus et le calcul détaillé).", en: "Returns A: 1%, −0.5%, 0.8%, −0.3%; returns B: 0.9%, −0.4%, 0.6%, −0.2%. ρ≈+0.996 (see the calculation detail in the example above and the detailed calculation)." },
+  },
+  chart: {
+    kind: "scatter",
+    xLabel: { fr: "Rendement de l'actif A", en: "Asset A's return" },
+    yLabel: { fr: "Rendement de l'actif B", en: "Asset B's return" },
+    trendLine: true,
+    points: [
+      { x: 1, y: 0.9 },
+      { x: -0.5, y: -0.4 },
+      { x: 0.8, y: 0.6 },
+      { x: -0.3, y: -0.2 },
+    ],
   },
   calculation: {
-    fr: "1) Calculer les rendements logarithmiques des deux actifs sur des périodes identiques. 2) Calculer la covariance de ces deux séries de rendements. 3) Calculer l'écart-type (volatilité) de chaque série séparément. 4) Diviser la covariance par le produit des deux écarts-types.",
-    en: "1) Compute both assets' log returns over identical periods. 2) Compute the covariance of these two return series. 3) Compute each series's standard deviation (volatility) separately. 4) Divide the covariance by the product of the two standard deviations.",
+    fr: "1) Calculer les rendements logarithmiques des deux actifs sur des périodes identiques : A=1%,−0,5%,0,8%,−0,3% ; B=0,9%,−0,4%,0,6%,−0,2%. 2) Calculer la covariance de ces deux séries de rendements : moyenne des produits d'écarts aux moyennes respectives ≈0,0000472. 3) Calculer l'écart-type (volatilité) de chaque série séparément : σ_A≈0,759%, σ_B≈0,624%. 4) Diviser la covariance par le produit des deux écarts-types : ρ=0,0000472/(0,00759×0,00624)≈+0,996.",
+    en: "1) Compute both assets' log returns over identical periods: A=1%,−0.5%,0.8%,−0.3%; B=0.9%,−0.4%,0.6%,−0.2%. 2) Compute the covariance of these two return series: mean of deviation products from their respective means ≈0.0000472. 3) Compute each series's standard deviation (volatility) separately: σ_A≈0.759%, σ_B≈0.624%. 4) Divide the covariance by the product of the two standard deviations: ρ=0.0000472/(0.00759×0.00624)≈+0.996.",
   },
   interpretation: {
     fr: "La corrélation réalisée n'est pas stable dans le temps : elle a tendance à augmenter fortement lors des phases de stress de marché (\"tout baisse ensemble\" lors d'un krach), ce qui réduit précisément le bénéfice de diversification au moment où on en aurait le plus besoin.",
@@ -69,5 +81,13 @@ export const m09CorrelationRealisee: LessonContent = {
   advancedDemonstration: {
     fr: "Pour un portefeuille de N actifs, la matrice de corrélation complète (N×N, symétrique, diagonale de 1) est nécessaire pour calculer précisément la variance du portefeuille — voir la théorie moderne du portefeuille (catégorie Gestion de portefeuille) pour la formule complète Var(portefeuille) = w'Σw, où Σ est la matrice de covariance. En pratique, cette matrice de corrélation historique est souvent instable statistiquement (bruit d'estimation important avec un nombre limité d'observations face à un grand nombre d'actifs), ce qui motive des techniques de régularisation (shrinkage) pour obtenir une estimation plus robuste.",
     en: "For a portfolio of N assets, the full correlation matrix (N×N, symmetric, diagonal of 1) is needed to precisely compute the portfolio's variance — see modern portfolio theory (Portfolio Management category) for the full formula Var(portfolio) = w'Σw, where Σ is the covariance matrix. In practice, this historical correlation matrix is often statistically unstable (significant estimation noise with a limited number of observations against a large number of assets), which motivates regularization techniques (shrinkage) to get a more robust estimate.",
+  },
+  businessApplication: {
+    fr: "Un desk de trading de dérivés multi-actifs recalcule quotidiennement les corrélations réalisées de ses paniers sous-jacents pour vérifier que ses positions de corrélation (produits Worst-Of, dispersion) restent conformes à ses limites de risque ; un gérant de portefeuille surveille de son côté la corrélation réalisée entre ses lignes pour détecter une érosion silencieuse de la diversification, en particulier en période de tension de marché.",
+    en: "A multi-asset derivatives desk recomputes its underlying baskets' realized correlations daily to check its correlation positions (Worst-Of products, dispersion) remain within risk limits; a portfolio manager separately monitors realized correlation between holdings to detect a silent erosion of diversification, particularly during periods of market stress.",
+  },
+  interviewQuestion: {
+    question: "You have five years of daily returns for two stocks. Give me a quick, practical way to check whether they're actually diversifying a portfolio, without building a full covariance matrix model.",
+    answer: "I'd compute the realized correlation directly from the return series: log returns for both stocks over the same dates, their covariance, divide by the product of their standard deviations. A coefficient near +1 means they move together and offer little diversification benefit; near 0 or negative means they genuinely diversify. I'd also check stability over time by computing it on rolling windows, since realized correlation tends to spike toward +1 during market stress — exactly when diversification is needed most — so a single full-sample number can be misleading on its own.",
   },
 };

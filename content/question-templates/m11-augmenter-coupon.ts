@@ -10,7 +10,7 @@ const leversIdentificationTemplate: QuestionTemplate = {
     const lever = pick(rng, ["barriere", "worst-of"] as const);
     return {
       prompt: lever === "barriere"
-        ? { fr: "Un émetteur propose un coupon plus élevé en abaissant la barrière de capital de 70% à 50%. Quel est l'effet direct sur le risque de l'investisseur ?", en: "An issuer offers a higher coupon by lowering the capital barrier from 70% to 50%. What is the direct effect on the investor's risk?" }
+        ? { fr: "Un émetteur propose un coupon plus élevé en rapprochant la barrière de capital du spot, de 50% à 70%. Quel est l'effet direct sur le risque de l'investisseur ?", en: "An issuer offers a higher coupon by moving the capital barrier closer to spot, from 50% to 70%. What is the direct effect on the investor's risk?" }
         : { fr: "Un émetteur propose un coupon plus élevé en utilisant un panier worst-of de deux actions faiblement corrélées au lieu d'une seule. Quel est l'effet direct sur le risque de l'investisseur ?", en: "An issuer offers a higher coupon by using a worst-of basket of two weakly correlated stocks instead of one. What is the direct effect on the investor's risk?" },
       choices: buildChoices([
         { id: "more-risk", label: { fr: "Le risque de perte en capital augmente", en: "Capital loss risk increases" } },
@@ -19,7 +19,7 @@ const leversIdentificationTemplate: QuestionTemplate = {
       hint: { fr: "Un coupon plus élevé n'est jamais gratuit : il compense toujours un risque plus grand.", en: "A higher coupon is never free: it always compensates for greater risk." },
       correctChoiceIds: ["more-risk"],
       explanation: lever === "barriere"
-        ? { fr: "Abaisser la barrière de capital rend le put down-and-in implicite plus cher à vendre (plus facile à activer), ce qui finance le coupon plus élevé — mais augmente directement le risque de perte en capital.", en: "Lowering the capital barrier makes the implicit down-and-in put more expensive to sell (easier to trigger), which funds the higher coupon — but directly increases capital loss risk." }
+        ? { fr: "Rapprocher la barrière de capital du spot rend le put down-and-in implicite plus cher à vendre (plus facile à activer, puisqu'un plus petit mouvement suffit à la franchir), ce qui finance le coupon plus élevé — mais augmente directement le risque de perte en capital. À l'inverse, une barrière plus profonde (plus loin du spot) offre plus de protection et finance un coupon plus faible.", en: "Moving the capital barrier closer to spot makes the implicit down-and-in put more expensive to sell (easier to trigger, since a smaller move suffices to breach it), which funds the higher coupon — but directly increases capital loss risk. Conversely, a deeper barrier (further from spot) offers more protection and funds a lower coupon." }
         : { fr: "Un panier worst-of augmente la probabilité qu'au moins un actif franchisse la barrière (dispersion, M09-1), rendant l'option vendue plus chère — ce qui finance le coupon plus élevé, au prix d'un risque accru.", en: "A worst-of basket increases the probability that at least one asset breaches the barrier (dispersion, M09-1), making the sold option more expensive — which funds the higher coupon, at the cost of increased risk." },
       commonMistake: {
         fr: "Croire qu'un levier augmentant le coupon peut être neutre en risque pour l'investisseur.",
