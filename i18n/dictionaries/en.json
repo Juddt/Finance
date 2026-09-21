@@ -92,6 +92,7 @@
     "explanation": "Explanation",
     "calculation": "Calculation",
     "commonMistake": "Common mistake",
+    "otherAnswersLabel": "Why the other answers are wrong",
     "hint": "Hint",
     "showHint": "Show hint",
     "showSolution": "Show solution",

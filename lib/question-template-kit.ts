@@ -20,6 +20,15 @@ interface SharedOpts {
   calculation?: Bi;
 }
 
+/**
+ * QCM standard (voir demande "uniformise tous les quiz") : exactement 4 choix, une seule
+ * bonne réponse, une explication par proposition fausse (distractorRationale, une clé par
+ * choix qui n'est pas correctId). Non imposé au type (choices reste un tableau, pas un
+ * tuple ; distractorRationale reste optionnel) pour que les fichiers pas encore migrés
+ * continuent de compiler pendant la conversion progressive — c'est
+ * content/question-templates.test.ts qui fait respecter ces règles à l'exécution, pour
+ * tout template kind === "mcq".
+ */
 export function mcqTemplate(
   opts: SharedOpts & {
     prompt: Bi;
@@ -27,6 +36,7 @@ export function mcqTemplate(
     correctId: string;
     explanation: Bi;
     commonMistake: Bi;
+    distractorRationale?: Record<string, Bi>;
   }
 ): QuestionTemplate {
   return {
@@ -43,10 +53,16 @@ export function mcqTemplate(
       calculation: opts.calculation,
       explanation: opts.explanation,
       commonMistake: opts.commonMistake,
+      distractorRationale: opts.distractorRationale,
     }),
   };
 }
 
+/**
+ * @deprecated Vrai/Faux supprimé du standard quiz (voir demande "uniformise tous les
+ * quiz") : migrer vers mcqTemplate (4 choix). Conservé uniquement le temps de convertir
+ * les fichiers content/question-templates/*.ts qui l'utilisent encore.
+ */
 export function trueFalseTemplate(
   opts: SharedOpts & {
     statement: Bi;
@@ -76,6 +92,11 @@ export function trueFalseTemplate(
   };
 }
 
+/**
+ * @deprecated Texte à trous supprimé du standard quiz (voir demande "uniformise tous les
+ * quiz") : migrer vers mcqTemplate (4 choix). Non utilisé actuellement — tous les
+ * fill_blank existants sont écrits à la main, pas via ce helper.
+ */
 export function fillBlankTemplate(
   opts: SharedOpts & {
     prompt: Bi;

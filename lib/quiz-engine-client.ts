@@ -21,7 +21,7 @@ import {
   type GeneratedQuestion,
   type GeneratedQuestionView,
 } from "./question-templates";
-import type { SubmittedAnswer } from "./question-types";
+import { localizeRationale, type SubmittedAnswer } from "./question-types";
 import { resolveConceptIdsForSpec, sessionLengthToNumber, type SessionSpec } from "./session-spec";
 import { deriveConceptStatus, scheduleReview, type ConceptStatus, type ReviewState } from "./srs";
 
@@ -36,6 +36,8 @@ interface CachedAttempt {
   explanation: string;
   calculation?: string;
   commonMistake: string;
+  correctChoiceIds?: string[];
+  distractorRationale?: Record<string, string>;
 }
 
 /** Miroir localStorage de ConceptQuizScoreRecord (lib/store.ts) : note du dernier quiz complété d'une notion. */
@@ -239,6 +241,8 @@ export interface LocalAttemptResult {
   explanation: string;
   calculation?: string;
   commonMistake: string;
+  correctChoiceIds?: string[];
+  distractorRationale?: Record<string, string>;
   conceptStatus: ConceptStatus;
   nextDueAt: string | null;
   requeueAtSessionEnd: boolean;
@@ -271,6 +275,8 @@ export function submitLocalAttempt(input: LocalAttemptInput): LocalAttemptResult
       explanation: solution.explanation[session.locale],
       calculation: solution.calculation?.[session.locale],
       commonMistake: solution.commonMistake[session.locale],
+      correctChoiceIds: solution.correctChoiceIds,
+      distractorRationale: localizeRationale(solution.distractorRationale, session.locale),
     };
     data.attemptCache[input.instanceId] = cached;
   }
@@ -324,6 +330,8 @@ export function submitLocalAttempt(input: LocalAttemptInput): LocalAttemptResult
     explanation: cached.explanation,
     calculation: cached.calculation,
     commonMistake: cached.commonMistake,
+    correctChoiceIds: cached.correctChoiceIds,
+    distractorRationale: cached.distractorRationale,
     conceptStatus: status,
     nextDueAt,
     requeueAtSessionEnd,

@@ -7,7 +7,7 @@ import { gradeAnswer } from "./grading";
 import { pickNextTemplate, resolveTargetDifficulty, detectDifficultyShift, type SessionAnswerRecord, type DifficultyShift } from "./adaptive-quiz";
 import { mulberry32, randomSeed } from "./prng";
 import { instantiateTemplate, toGeneratedQuestionView, toSolution, type GeneratedQuestion, type GeneratedQuestionView, type Difficulty } from "./question-templates";
-import type { SubmittedAnswer } from "./question-types";
+import { localizeRationale, type SubmittedAnswer } from "./question-types";
 import { resolveConceptIdsForSpec, sessionLengthToNumber, type SessionSpec } from "./session-spec";
 import { deriveConceptStatus, scheduleReview, type ConceptStatus, type ReviewState } from "./srs";
 
@@ -412,6 +412,8 @@ export interface AttemptResult {
   explanation: string;
   calculation?: string;
   commonMistake: string;
+  correctChoiceIds?: string[];
+  distractorRationale?: Record<string, string>;
   conceptStatus: ConceptStatus;
   nextDueAt: string | null;
   requeueAtSessionEnd: boolean;
@@ -522,6 +524,8 @@ export async function submitAttempt(input: AttemptInput): Promise<AttemptResult>
       explanation: solution.explanation[session.locale],
       calculation: solution.calculation?.[session.locale],
       commonMistake: solution.commonMistake[session.locale],
+      correctChoiceIds: solution.correctChoiceIds,
+      distractorRationale: localizeRationale(solution.distractorRationale, session.locale),
       conceptStatus: status,
       nextDueAt,
       requeueAtSessionEnd,

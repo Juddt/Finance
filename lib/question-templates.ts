@@ -1,5 +1,5 @@
 import type { Bi } from "@/content/catalog/types";
-import type { Rng } from "./prng";
+import { shuffle, type Rng } from "./prng";
 import type { ChartSpec, ChoiceOption, QuestionKind, QuestionSolution } from "./question-types";
 
 export type Difficulty = "easy" | "medium" | "hard";
@@ -26,6 +26,7 @@ export interface GeneratedQuestion {
   explanation: Bi;
   calculation?: Bi;
   commonMistake: Bi;
+  distractorRationale?: Record<string, Bi>;
 }
 
 export type GeneratedQuestionBody = Omit<GeneratedQuestion, "instanceId" | "templateId" | "conceptId" | "kind" | "difficulty">;
@@ -40,13 +41,20 @@ export interface QuestionTemplate {
 }
 
 export function instantiateTemplate(template: QuestionTemplate, rng: Rng, instanceId: string): GeneratedQuestion {
+  const body = template.generate(rng);
   return {
     instanceId,
     templateId: template.id,
     conceptId: template.conceptId,
     kind: template.kind,
     difficulty: template.difficulty,
-    ...template.generate(rng),
+    ...body,
+    // Mélange la position de la bonne réponse à chaque tirage — centralisé ici plutôt que
+    // dans chaque template pour garantir qu'aucune question n'affiche la correction toujours
+    // au même endroit (voir demande "mélange la position de la bonne réponse"). L'ordre reste
+    // ensuite stable pour toute la durée de la question (l'instance générée est réutilisée
+    // telle quelle jusqu'à la correction, jamais régénérée).
+    choices: body.choices ? shuffle(rng, body.choices) : body.choices,
   };
 }
 
@@ -94,10 +102,11 @@ export function toSolution(q: GeneratedQuestion): QuestionSolution {
     explanation: q.explanation,
     calculation: q.calculation,
     commonMistake: q.commonMistake,
+    distractorRationale: q.distractorRationale,
   };
 }
 
 /** Construit des choix MCQ à IDs stables ("a", "b", "c"...) — jamais par position (voir doc section 4). */
-export function buildChoices(labels: { id: string; label: Bi }[]): ChoiceOption[] {
-  return labels;
+export function buildChoices(labels: readonly { id: string; label: Bi }[]): ChoiceOption[] {
+  return [...labels];
 }

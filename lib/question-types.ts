@@ -45,6 +45,8 @@ export interface QuestionSolution {
   explanation: Bi;
   calculation?: Bi;
   commonMistake: Bi;
+  /** QCM à 4 choix : pourquoi chaque proposition fausse est fausse (clé = id du choix, jamais celui de correctChoiceIds). */
+  distractorRationale?: Record<string, Bi>;
 }
 
 export type SubmittedAnswer =
@@ -63,6 +65,12 @@ export interface QuestionView {
   chart?: ChartSpec;
   isScenario?: boolean;
   hint?: string;
+}
+
+/** Traduit un Record<id, Bi> (ex: distractorRationale) dans une langue — utilisé côté serveur et statique avant d'envoyer la réponse au client. */
+export function localizeRationale(rationale: Record<string, Bi> | undefined, locale: "fr" | "en"): Record<string, string> | undefined {
+  if (!rationale) return undefined;
+  return Object.fromEntries(Object.entries(rationale).map(([id, bi]) => [id, bi[locale]]));
 }
 
 export function toQuestionView(q: QuestionPublic, locale: "fr" | "en"): QuestionView {

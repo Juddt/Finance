@@ -92,6 +92,7 @@
     "explanation": "Explication",
     "calculation": "Calcul",
     "commonMistake": "Erreur fréquente",
+    "otherAnswersLabel": "Pourquoi les autres réponses sont fausses",
     "hint": "Indice",
     "showHint": "Voir l'indice",
     "showSolution": "Voir la solution",

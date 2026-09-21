@@ -19,6 +19,10 @@ export interface AttemptResponse {
   explanation: string;
   calculation?: string;
   commonMistake: string;
+  /** Révélé uniquement après correction : id(s) du/des bon(s) choix, pour surligner la bonne réponse même si l'utilisateur s'est trompé. */
+  correctChoiceIds?: string[];
+  /** QCM à 4 choix : pourquoi chaque proposition fausse est fausse (clé = id du choix). */
+  distractorRationale?: Record<string, string>;
   conceptStatus: ConceptStatus;
   nextDueAt: string | null;
   requeueAtSessionEnd: boolean;

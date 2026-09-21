@@ -49,3 +49,22 @@ export function shuffle<T>(rng: Rng, items: readonly T[]): T[] {
   }
   return result;
 }
+
+/**
+ * Garantit des valeurs numériques distinctes après arrondi, en décalant tout doublon d'un
+ * pas fixe. Plusieurs formules de distracteurs (bon signe inversé, mauvaise unité...) peuvent
+ * occasionnellement produire la même valeur arrondie selon les paramètres tirés — voir demande
+ * "les 4 valeurs doivent rester distinctes après arrondi". Le premier élément (la bonne
+ * réponse) n'est jamais décalé ; seuls les suivants le sont si besoin, dans l'ordre.
+ */
+export function distinctRounded(values: readonly number[], decimals: number, step: number): number[] {
+  const factor = 10 ** decimals;
+  const round = (v: number) => Math.round(v * factor) / factor;
+  const seen = new Set<number>();
+  return values.map((raw) => {
+    let candidate = round(raw);
+    while (seen.has(candidate)) candidate = round(candidate + step);
+    seen.add(candidate);
+    return candidate;
+  });
+}

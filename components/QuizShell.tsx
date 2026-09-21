@@ -22,6 +22,7 @@ export interface QuizDict {
   explanation: string;
   calculation: string;
   commonMistake: string;
+  otherAnswersLabel: string;
   hint: string;
   showHint: string;
   showSolution: string;
@@ -268,8 +269,12 @@ export function QuizShell({
         <fieldset className="mb-5 space-y-2" disabled={Boolean(result)}>
           {question.choices.map((choice, i) => {
             const isSelected = selected === choice.id;
-            const showAsWrong = Boolean(result) && isSelected && !result!.isCorrect;
-            const showAsRight = Boolean(result) && isSelected && result!.isCorrect;
+            // Après correction, la vraie bonne réponse est surlignée même si l'utilisateur
+            // s'est trompé (result.correctChoiceIds), pas seulement son choix (voir demande
+            // "explique pourquoi la bonne réponse est correcte").
+            const isActuallyCorrect = Boolean(result?.correctChoiceIds?.includes(choice.id));
+            const showAsWrong = Boolean(result) && isSelected && !isActuallyCorrect;
+            const showAsRight = Boolean(result) && isActuallyCorrect;
             return (
               <label
                 key={choice.id}
@@ -378,10 +383,26 @@ export function QuizShell({
               {result.calculation}
             </p>
           )}
-          <p className="text-sm text-text-dim">
-            <span className="font-semibold text-text">{dict.commonMistake}: </span>
-            {result.commonMistake}
-          </p>
+          {result.distractorRationale && question.choices ? (
+            <div className="text-sm text-text-dim">
+              <p className="font-semibold text-text">{dict.otherAnswersLabel}</p>
+              <ul className="mt-1 space-y-1">
+                {question.choices
+                  .filter((choice) => !result!.correctChoiceIds?.includes(choice.id))
+                  .map((choice) => (
+                    <li key={choice.id}>
+                      <span className="font-medium text-text">{choice.label}</span>
+                      {result!.distractorRationale?.[choice.id] ? ` — ${result!.distractorRationale[choice.id]}` : ""}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="text-sm text-text-dim">
+              <span className="font-semibold text-text">{dict.commonMistake}: </span>
+              {result.commonMistake}
+            </p>
+          )}
           <Link
             href={`/${locale}/lessons/${question.conceptId}`}
             className="inline-block font-mono text-xs font-medium text-accent-bright hover:underline"
